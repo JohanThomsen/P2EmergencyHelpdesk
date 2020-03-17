@@ -6,21 +6,16 @@ let port = 3000;
 let hostName = '127.0.0.1';
 let publicResources = './node/PublicResources/';
 
-let fire = {
-  location,
-  typeFire,
-  time,
-  automaticAlarm,
-  active,
-  id
-}
-
 let server = http.createServer((request, response) => {
     if (request.method == 'GET') {
       switch (request.url) {
         case '/': 
           fileResponse('index.html', response);
           break; 
+
+        default:
+          fileResponse(request.url, response);
+          break;
       } 
     }
 
@@ -30,10 +25,26 @@ let server = http.createServer((request, response) => {
           let dataString = data.toString();
           let jsonData = JSON.parse(dataString);
           console.log(jsonData);
-        })
+          resolve(jsonData);
+        });
       })
+        .then((jsonData) => {
+          fs.readFile('./Node/Data/currentFires.json',(error, data) => {
+            let firesArray = JSON.parse(data);
+            firesArray.entries.push(jsonData);
+            fs.writeFile('./Node/Data/currentFires.json', JSON.stringify(firesArray), (error) => {
+              if (error) {
+                throw error;
+              }
+            });
+          });
+
+        });
+      };
     }
-});
+  );
+
+
 
 server.listen(port, hostName, () =>{
     console.log('server running');
