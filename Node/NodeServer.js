@@ -14,13 +14,7 @@ let server = http.createServer((request, response) => {
         break; 
 
       case '/fires':
-        fs.readFile('./Node/Data/currentFires.json', (error, data) => {
-          response.statusCode = 200;
-          response.setHeader('Content-Type', 'application/json');
-          response.write(data);
-          response.end('\n');
-          console.log(data);
-        });
+        SendJson('./Node/Data/currentFires.json', response);
         break;
 
       default:
@@ -30,27 +24,61 @@ let server = http.createServer((request, response) => {
   }
 
   if (request.method == 'POST') {
-    new Promise((resolve, reject) => {
-      request.on('data', (data) => {
-        resolve(BinaryToJson(data));
-      });
-    })
-      .then((jsonData) => {
+    switch(request.url){
+      case'/fireAlert':
+        new Promise((resolve, reject) => {
+          request.on('data', (data) => {
+            resolve(BinaryToJson(data));
+          });
+        })
+        .then((jsonData) => {
           UpdateFile(jsonData);
-      });
+        });
+        break;
+    }
   };
 });
-
 
 server.listen(port, hostName, () =>{
   console.log('server running');
 });
+
+function SendJson(path, response){
+  fs.readFile(path, (error, data) => {
+    response.statusCode = 200;
+    response.setHeader('Content-Type', 'application/json');
+    response.write(data);
+    response.end('\n');
+    console.log(data);
+  })
+}
 
 function BinaryToJson(data) {
   let dataString = data.toString();
   return (JSON.parse(dataString));
 }
 
+function CheckFire(jsonData, path) {
+  if (jsonData.active == true) {
+    if (EntryExist != true) {
+      AddFire();     
+    }
+    return;
+  } else if(ActiveFire == false) {
+      if (EntryExist == true) {
+        DeleteFire();     
+      }
+      return;
+  }
+}
+
+function EntryExist(array, searchKey, valueKey) {
+  array.forEach((element)=>{
+    if (element[valueKey] == searchKey) {
+      return(true);
+    }
+  })  
+}
 
 function UpdateFile(jsonData) {
   fs.readFile('./Node/Data/currentFires.json', (error, data) => {
