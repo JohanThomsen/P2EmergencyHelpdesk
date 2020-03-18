@@ -7,3 +7,9 @@ async function postFire(location, typeFire, time, automaticAlarm, active, id) {
     id: id})})
 console.log('Message');
 }
+
+async function getFire() {
+    let response = await fetch("http://127.0.0.1:3000/fires");
+    let data = await response.json();
+    console.log(data);
+}

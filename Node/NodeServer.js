@@ -7,41 +7,52 @@ let hostName = '127.0.0.1';
 let publicResources = './node/PublicResources/';
 
 let server = http.createServer((request, response) => {
-    if (request.method == 'GET') {
-      switch (request.url) {
-        case '/': 
-          fileResponse('index.html', response);
-          break; 
+  if (request.method == 'GET') {
+    switch (request.url) {
+      case '/': 
+        fileResponse('index.html', response);
+        break; 
 
-        default:
-          fileResponse(request.url, response);
-          break;
-      } 
-    }
-
-    if (request.method == 'POST') {
-      new Promise((resolve, reject) => {
-        request.on('data', (data) => {
-          let dataString = data.toString();
-          let jsonData = JSON.parse(dataString);
-          console.log(jsonData);
-          resolve(jsonData);
+      case '/fires':
+        fs.readFile('./Node/Data/currentFires.json', (error, data) => {
+          response.statusCode = 200;
+          response.setHeader('Content-Type', 'application/json');
+          response.write(data);
+          response.end('\n');
+          console.log(data);
         });
-      })
-        .then((jsonData) => {
-            UpdateFile(jsonData);
-        });
-    };
-  });
+        break;
 
+      default:
+        fileResponse(request.url, response);
+        break;
+    } 
+  }
 
-
-server.listen(port, hostName, () =>{
-    console.log('server running');
+  if (request.method == 'POST') {
+    new Promise((resolve, reject) => {
+      request.on('data', (data) => {
+        resolve(BinaryToJson(data));
+      });
+    })
+      .then((jsonData) => {
+          UpdateFile(jsonData);
+      });
+  };
 });
 
 
-function UpdateFile(jsonData){
+server.listen(port, hostName, () =>{
+  console.log('server running');
+});
+
+function BinaryToJson(data) {
+  let dataString = data.toString();
+  return (JSON.parse(dataString));
+}
+
+
+function UpdateFile(jsonData) {
   fs.readFile('./Node/Data/currentFires.json', (error, data) => {
     let firesArray = JSON.parse(data);
     firesArray.entries.push(jsonData);
