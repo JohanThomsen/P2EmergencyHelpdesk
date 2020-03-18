@@ -1,1 +1,16 @@
-#mapArea { height: 60%; }
+#mapArea {
+    height: 500px;
+    width: 50%;
+    float: left;
+    border: 2px solid black;
+}
+#opPlan{
+    height: 500px;
+    margin-left: 50%; 
+    border: 2px solid black;
+    background: lightgrey;
+}
+
+#paragraph{
+
+}
