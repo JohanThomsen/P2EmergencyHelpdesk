@@ -29,20 +29,10 @@ let server = http.createServer((request, response) => {
         });
       })
         .then((jsonData) => {
-          fs.readFile('./Node/Data/currentFires.json',(error, data) => {
-            let firesArray = JSON.parse(data);
-            firesArray.entries.push(jsonData);
-            fs.writeFile('./Node/Data/currentFires.json', JSON.stringify(firesArray), (error) => {
-              if (error) {
-                throw error;
-              }
-            });
-          });
-
+            UpdateFile(jsonData);
         });
-      };
-    }
-  );
+    };
+  });
 
 
 
@@ -51,7 +41,17 @@ server.listen(port, hostName, () =>{
 });
 
 
-
+function UpdateFile(jsonData){
+  fs.readFile('./Node/Data/currentFires.json', (error, data) => {
+    let firesArray = JSON.parse(data);
+    firesArray.entries.push(jsonData);
+    fs.writeFile('./Node/Data/currentFires.json', JSON.stringify(firesArray), (error) => {
+      if (error) {
+        throw error;
+      }
+    });
+  });
+}
 
 /*
 * Server fil ting
