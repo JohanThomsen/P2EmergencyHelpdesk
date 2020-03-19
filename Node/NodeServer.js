@@ -2,11 +2,14 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-let port = 3000;
-let hostName = '127.0.0.1';
-let publicResources = './node/PublicResources/';
+//server setup variables
+const port = 3000;
+const hostName = '127.0.0.1';
+const publicResources = './node/PublicResources/';
 
+//HTTP server
 let server = http.createServer((request, response) => {
+  //Cases for GET request 
   if (request.method == 'GET') {
     switch (request.url) {
       case '/': 
@@ -23,6 +26,7 @@ let server = http.createServer((request, response) => {
     } 
   }
 
+  //Cases for POST request 
   if (request.method == 'POST') {
     switch(request.url){
       case'/fireAlert':
@@ -32,17 +36,19 @@ let server = http.createServer((request, response) => {
           });
         })
         .then((jsonData) => {
-          UpdateFile(jsonData);
+          UpdateFile(jsonData, './Node/Data/currentFires.json');
         });
         break;
     }
   };
 });
 
+//server listen for requests 
 server.listen(port, hostName, () =>{
   console.log('server running');
 });
 
+//GET response with JSON data
 function SendJson(path, response){
   fs.readFile(path, (error, data) => {
     response.statusCode = 200;
@@ -53,11 +59,13 @@ function SendJson(path, response){
   })
 }
 
+//convert binary message to JSON data
 function BinaryToJson(data) {
   let dataString = data.toString();
   return (JSON.parse(dataString));
 }
 
+//update list of fires with new information
 function CheckFire(jsonData, path) {
   if (jsonData.active == true) {
     if (EntryExist != true) {
@@ -72,6 +80,7 @@ function CheckFire(jsonData, path) {
   }
 }
 
+//check if an entry exists in an array. 
 function EntryExist(array, searchKey, valueKey) {
   array.forEach((element)=>{
     if (element[valueKey] == searchKey) {
@@ -80,11 +89,12 @@ function EntryExist(array, searchKey, valueKey) {
   })  
 }
 
-function UpdateFile(jsonData) {
-  fs.readFile('./Node/Data/currentFires.json', (error, data) => {
+//update JSON file 
+function UpdateFile(jsonData, path) {
+  fs.readFile(path, (error, data) => {
     let firesArray = JSON.parse(data);
     firesArray.entries.push(jsonData);
-    fs.writeFile('./Node/Data/currentFires.json', JSON.stringify(firesArray), (error) => {
+    fs.writeFile(path, JSON.stringify(firesArray), (error) => {
       if (error) {
         throw error;
       }
