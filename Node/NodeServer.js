@@ -17,7 +17,7 @@ let server = http.createServer((request, response) => {
         break; 
 
       case '/fires':
-        SendJson('./Node/Data/currentFires.json', response);
+        SendJson('./Node/Data/currentFires.geojson', response);
         break;
 
       default:
@@ -36,9 +36,7 @@ let server = http.createServer((request, response) => {
           });
         })
         .then((jsonData) => {
-          console.log('myes')
-          CheckFire(jsonData, './Node/Data/currentFires.json');
-          console.log('success');
+          CheckFire(jsonData, './Node/Data/currentFires.geojson');
         });
         break;
     }
@@ -47,7 +45,6 @@ let server = http.createServer((request, response) => {
 
 //server listen for requests 
 server.listen(port, hostName, () =>{
-  console.log('server running');
 });
 
 //GET response with JSON data
@@ -57,7 +54,6 @@ function SendJson(path, response){
     response.setHeader('Content-Type', 'application/json');
     response.write(data);
     response.end('\n');
-    console.log(data);
   })
 }
 
@@ -71,7 +67,7 @@ function BinaryToJson(data) {
 function CheckFire(jsonData, path) {
   let test123 = fs.readFileSync(path);
   let json = JSON.parse(test123);  
-  let entryValue = EntryExist(json.entries, 'location', jsonData.location);
+  let entryValue = EntryExist(json.features, jsonData.location, 'location');
   if (jsonData.active == true) {
     if (entryValue.returnValue != true) {
       UpdateFile(jsonData, path);     
@@ -89,21 +85,20 @@ function EntryExist(array, searchKey, valueKey) {
   let returnValue = false;
   let indexValue;
   array.forEach((element, index)=>{
-    if (element[valueKey] == searchKey) {
+    if (JSON.stringify(element[valueKey]) == JSON.stringify(searchKey)){
       returnValue = true;
       indexValue = index;
     }
   })  
-  console.log('hello')
   return {returnValue, indexValue};
 }
 
 //update JSON file 
 function UpdateFile(jsonData, path) {
   fs.readFile(path, (error, data) => {
-    let firesArray = JSON.parse(data);
-    firesArray.entries.push(jsonData);
-    fs.writeFile(path, JSON.stringify(firesArray), (error) => {
+    let firesObject = JSON.parse(data);
+    firesObject.features.push({ "type": "Feature", "properties": {"typeFire": jsonData.typeFire, "time": jsonData.time, "automaticAlarm": jsonData.automaticAlarm, "active": jsonData.active}, "geometry": {"type": "Point", "coordinates": jsonData.location}}) ;
+    fs.writeFile(path, JSON.stringify(firesObject), (error) => {
       if (error) {
         throw error;
       }
@@ -115,7 +110,7 @@ function UpdateFile(jsonData, path) {
 function DeleteEntry(path, index){
   fs.readFile(path, (error, data) => {
     let firesArray = JSON.parse(data);
-    firesArray.entries.splice(index, 1);
+    firesArray.features.splice(index, 1);
     fs.writeFile(path, JSON.stringify(firesArray), (error) => {
       if (error) {
         throw error;
@@ -138,13 +133,12 @@ function securePath(userPath) {
   userPath = publicResources + userPath;
 
   let p = path.join(rootFileSystem, path.normalize(userPath));
-  //console.log("The path is:"+p);
   return p;
 }
 
 function fileResponse(filename, res) {
   const sPath = securePath(filename);
-  console.log("Reading:" + sPath);
+  
   fs.readFile(sPath, (err, data) => {
     if (err) {
       console.error(err);
@@ -164,7 +158,6 @@ function fileResponse(filename, res) {
 //better alternative: use require('mmmagic') library
 function guessMimeType(fileName) {
     const fileExtension = fileName.split('.').pop().toLowerCase();
-    console.log(fileExtension);
     const ext2Mime = { //Aught to check with IANA spec
       "txt": "text/txt",
       "html": "text/html",
