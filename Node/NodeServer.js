@@ -36,7 +36,9 @@ let server = http.createServer((request, response) => {
           });
         })
         .then((jsonData) => {
-          UpdateFile(jsonData, './Node/Data/currentFires.json');
+          console.log('myes')
+          CheckFire(jsonData, './Node/Data/currentFires.json');
+          console.log('success');
         });
         break;
     }
@@ -67,26 +69,33 @@ function BinaryToJson(data) {
 
 //update list of fires with new information
 function CheckFire(jsonData, path) {
+  let test123 = fs.readFileSync(path);
+  let json = JSON.parse(test123);  
+  let entryValue = EntryExist(json.entries, 'location', jsonData.location);
   if (jsonData.active == true) {
-    if (EntryExist != true) {
-      AddFire();     
+    if (entryValue.returnValue != true) {
+      UpdateFile(jsonData, path);     
     }
     return;
-  } else if(ActiveFire == false) {
-      if (EntryExist == true) {
-        DeleteFire();     
-      }
+  } else if(entryValue.returnValue == true) {
+      //if it is not active, but exists in the file, it is deleted  
+      DeleteEntry(path, entryValue.indexValue);
       return;
   }
 }
 
 //check if an entry exists in an array. 
 function EntryExist(array, searchKey, valueKey) {
-  array.forEach((element)=>{
+  let returnValue = false;
+  let indexValue;
+  array.forEach((element, index)=>{
     if (element[valueKey] == searchKey) {
-      return(true);
+      returnValue = true;
+      indexValue = index;
     }
   })  
+  console.log('hello')
+  return {returnValue, indexValue};
 }
 
 //update JSON file 
@@ -94,6 +103,19 @@ function UpdateFile(jsonData, path) {
   fs.readFile(path, (error, data) => {
     let firesArray = JSON.parse(data);
     firesArray.entries.push(jsonData);
+    fs.writeFile(path, JSON.stringify(firesArray), (error) => {
+      if (error) {
+        throw error;
+      }
+    });
+  });
+}
+
+//delete object in array
+function DeleteEntry(path, index){
+  fs.readFile(path, (error, data) => {
+    let firesArray = JSON.parse(data);
+    firesArray.entries.splice(index, 1);
     fs.writeFile(path, JSON.stringify(firesArray), (error) => {
       if (error) {
         throw error;
