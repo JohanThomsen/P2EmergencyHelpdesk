@@ -65,9 +65,9 @@ function BinaryToJson(data) {
 
 //update list of fires with new information
 function CheckFire(jsonData, path) {
-  let test123 = fs.readFileSync(path);
-  let json = JSON.parse(test123);  
-  let entryValue = EntryExist(json.features, jsonData.location, 'location');
+  let file = fs.readFileSync(path);
+  let json = JSON.parse(file);  
+  let entryValue = EntryExist(json.features, jsonData.location, 'geometry');
   if (jsonData.active == true) {
     if (entryValue.returnValue != true) {
       UpdateFile(jsonData, path);     
@@ -86,7 +86,7 @@ function EntryExist(array, searchKey, valueKey) {
   let returnValue = false;
   let indexValue;
   array.forEach((element, index)=>{
-    if (JSON.stringify(element[valueKey]) == JSON.stringify(searchKey)){
+    if (JSON.stringify(element[valueKey].coordinates) == JSON.stringify(searchKey)){
       returnValue = true;
       indexValue = index;
     }
