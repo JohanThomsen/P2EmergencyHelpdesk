@@ -12,8 +12,11 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 let marker = L.marker([57, 9.9]).addTo(primaryMap);
 
 function print(){
-    let paragraph = document.getElementById("tempPlanContent");
-    paragraph.innerHTML = "operative plan data";
+    let operative  = document.getElementById("tempPlanContent");
+    operative.innerHTML = "Operative plan data";
+    let structure = document.getElementById("tempBuilding");
+    structure.innerHTML = "Structure plan data";
 }
+
 
 marker.on('mousedown', print);

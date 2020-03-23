@@ -74,6 +74,7 @@ function CheckFire(jsonData, path) {
     }
     return;
   } else if(entryValue.returnValue == true) {
+    console.log(entryValue.returnValue); 
       //if it is not active, but exists in the file, it is deleted  
       DeleteEntry(path, entryValue.indexValue);
       return;
