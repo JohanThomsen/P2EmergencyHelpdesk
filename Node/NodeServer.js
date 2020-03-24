@@ -67,7 +67,7 @@ function BinaryToJson(data) {
 function CheckFire(jsonData, path) {
   let file = fs.readFileSync(path);
   let json = JSON.parse(file);  
-  let entryValue = EntryExist(json.features, jsonData.location, 'geometry');
+  let entryValue = EntryExist(json.features, jsonData.location, 'geometry', 'coordinates');
   if (jsonData.active == true) {
     if (entryValue.returnValue != true) {
       UpdateFile(jsonData, path);     
@@ -82,25 +82,19 @@ function CheckFire(jsonData, path) {
 }
 
 //check if an entry exists in an array. 
-function EntryExist(array, searchKey, valueKey) {
+function EntryExist(array, searchKey, valueKey1, valueKey2) {
   let returnValue = false;
   let indexValue;
   array.forEach((element, index)=>{
-    if (JSON.stringify(element[valueKey].coordinates) == JSON.stringify(searchKey)){
+    if (JSON.stringify(valueKey2 ? element[valueKey1][valueKey2] : element[valueKey1]) == JSON.stringify(searchKey)){
       returnValue = true;
       indexValue = index;
     }
+    console.log(valueKey2 ? element[valueKey1][valueKey2] : element[valueKey1]); 
   })  
   return {returnValue, indexValue};
 }
 
-
-function test(key){
- array = key.split("."); 
- array.forEach(element =>{
-   let nogetarray = nogetarray[element]
- })
-}
 
 
 //update JSON file 
