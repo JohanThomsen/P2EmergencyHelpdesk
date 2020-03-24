@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const binarySearch = require('./Node/PublicResources/binarySearch.js');
 
 //server setup variables
 const port = 3000;
@@ -21,6 +22,11 @@ let server = http.createServer((request, response) => {
         break;
 
       case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
+        let file = fs.readFileSync('./Node/dataManagement/dataBase.json');
+        let json = JSON.parse(file);
+        let binary = binarySearch(json.data, SplitData(request.url.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/)));
+        console.log(binary);
+        console.log(SplitData(request.url.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/)));
         console.log(request.url);
         break;
 
@@ -52,6 +58,14 @@ let server = http.createServer((request, response) => {
 server.listen(port, hostName, () =>{
 });
 
+function SplitData(data) {
+  let coordinates = data[0].split('_');
+  console.log(coordinates);
+  let result = coordinates.map((element) => {
+    return Number(element.replace(';', '.'));
+  })
+  return(result);
+}
 //GET response with JSON data
 function SendJson(path, response){
   fs.readFile(path, (error, data) => {

@@ -2,7 +2,7 @@ let array2 = [2,4,6,8,11,22,33,44,55,66,69,77,88,99,111,222,333,420,444,555,666,
 let foundValue = binarySearch(array2,93);
 console.log(foundValue);
 let opPlanArray;
-
+module.exports.binarySearch = 
 function binarySearch(array, target){
     let startIndex = 0;
     let endIndex = array.length - 1;
