@@ -1,4 +1,4 @@
-let primaryMap = L.map("mapArea").setView([57, 9.9], 13);
+let primaryMap = L.map("mapArea").setView([55, 9], 13);
 const scale = 13;
 
 //test variables
@@ -23,7 +23,7 @@ function print(){
 function placeMarker(x_coordinate, y_coordinate){
     let accident = L.marker([x_coordinate, y_coordinate]).addTo(primaryMap);
     accident.on('mousedown', print);
-    //primaryMap = L.map("mapArea").setView([x_coordinate, y_coordinate], scale);
+    primaryMap.setView([x_coordinate, y_coordinate], scale);
 }
 
 placeMarker(x_coordinate, y_coordinate);
