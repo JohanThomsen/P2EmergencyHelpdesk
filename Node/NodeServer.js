@@ -20,11 +20,16 @@ let server = http.createServer((request, response) => {
         SendJson('./Node/Data/currentFires.geojson', response);
         break;
 
+      case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
+        console.log(request.url);
+        break;
+
       default:
         fileResponse(request.url, response);
         break;
     } 
   }
+
 
   //Cases for POST request 
   if (request.method == 'POST') {
@@ -86,16 +91,14 @@ function EntryExist(array, searchKey, valueKey1, valueKey2) {
   let returnValue = false;
   let indexValue;
   array.forEach((element, index)=>{
+    //check how many parameters are used
     if (JSON.stringify(valueKey2 ? element[valueKey1][valueKey2] : element[valueKey1]) == JSON.stringify(searchKey)){
       returnValue = true;
       indexValue = index;
     }
-    console.log(valueKey2 ? element[valueKey1][valueKey2] : element[valueKey1]); 
   })  
   return {returnValue, indexValue};
 }
-
-
 
 //update JSON file 
 function UpdateFile(jsonData, path) {
