@@ -94,6 +94,15 @@ function EntryExist(array, searchKey, valueKey) {
   return {returnValue, indexValue};
 }
 
+
+function test(key){
+ array = key.split("."); 
+ array.forEach(element =>{
+   let nogetarray = nogetarray[element]
+ })
+}
+
+
 //update JSON file 
 function UpdateFile(jsonData, path) {
   fs.readFile(path, (error, data) => {
