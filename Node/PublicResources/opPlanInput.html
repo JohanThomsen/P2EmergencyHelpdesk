@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<form id = "opPlanForm" method = "POST" action = "http://127.0.0.1:3000/addOpPlan">
+    <label for = "ncoordinate"> Coordinates (N/E) </label>
+    <input type = "number" id = "ncoordinate" name = "ncoordinate">
+    <input type = "number" id = "ecoordinate" name = ecoordinate>
+    <br>
+    <label for = "address"> Address </label>
+    <input type = "text" id = "address" name = "address">
+    <br>
+    <label for = "buildingDefinition"> Building Definition </label>
+    <input type = "text" id = "buildingDefinition" name = "buildingDefinition">
+    <input type = "text" id = "usage" name = "usage">
+    <input type = "text" id = "height" name = "height">
+    <input type = "text" id = "specialConsiderations" name = "specialConsiderations">
+    <br>
+    <label for = "fireEquipment"> Fire Equipment</label>
+    <input type = "text" id = "fireEquipment" name = "fireEquipment">
+    <input type = "text" id = "fireLift" name = "fireLift">
+    <input type = "text" id = "escapeStairs" name = "escapeStairs">
+    <input type = "text" id = "risers" name = "risers">
+    <input type = "text" id = "sprinkler" name = "sprinkler">
+    <input type = "text" id = "smokeDetector" name = "smokeDetector">
+    <input type = "text" id = "markers" name = "markers">
+    <input type = "text" id = "automaticFireDetector" name = "automaticFireDetector">
+    <input type = "text" id = "internalALert" name = "internalALert">
+    <br>
+    <label for = "considerations"> Considerations </label>
+    <input type="text" id = "considerations" name = "considerations">
+    <br>
+    <label for "fullOpPlan"> Full operative plan</label>
+    <input type = "file" id = "fullOpPlan" name = "fullOpPlan" accept = "pdf">
+
+    <button type = "submit"> Add Operative Plan</button>
+
+</form>
+</body>
+</html>
