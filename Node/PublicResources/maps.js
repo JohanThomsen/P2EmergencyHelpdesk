@@ -23,7 +23,7 @@ function print(){
 function placeMarker(x_coordinate, y_coordinate){
     let accident = L.marker([x_coordinate, y_coordinate]).addTo(primaryMap);
     accident.on('mousedown', print);
-    //primaryMap = L.map("mapArea").setView([x_coordinate, y_coordinate], scale);
+    primaryMap.setView([x_coordinate, y_coordinate], scale);
 }
 
 fetch("/fires")
