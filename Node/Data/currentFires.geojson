@@ -1,1 +1,70 @@
-{"type":"FeatureCollection","name":"currentFires","features":[{"type":"Feature","properties":{"typeFire":"typeFire","time":"time","automaticAlarm":"automaticAlarm","active":true},"geometry":{"type":"Point","coordinates":[9.92,57]}},{"type":"Feature","properties":{"typeFire":"typeFire","time":"time","automaticAlarm":"automaticAlarm","active":true},"geometry":{"type":"Point","coordinates":[9.91,57]}},{"type":"Feature","properties":{"typeFire":"typeFire","time":"time","automaticAlarm":"automaticAlarm","active":true},"geometry":{"type":"Point","coordinates":[10,57]}},{"type":"Feature","properties":{"typeFire":"typeFire","time":"time","automaticAlarm":"automaticAlarm","active":true},"geometry":{"type":"Point","coordinates":[9.9,57]}}]}
+{
+    "type": "FeatureCollection",
+    "name": "currentFires",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "typeFire",
+                "time": "time",
+                "automaticAlarm": "automaticAlarm",
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.92,
+                    57
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "typeFire",
+                "time": "time",
+                "automaticAlarm": "automaticAlarm",
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.91,
+                    57
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "typeFire",
+                "time": "time",
+                "automaticAlarm": "automaticAlarm",
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    10,
+                    57
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "typeFire",
+                "time": "time",
+                "automaticAlarm": "automaticAlarm",
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.9,
+                    57
+                ]
+            }
+        }
+    ]
+}

@@ -26,12 +26,27 @@ function placeMarker(x_coordinate, y_coordinate){
     primaryMap.setView([x_coordinate, y_coordinate], scale);
 }
 
+//Notes for selv, create <p> for each attribute, with style height changing depending on
+//number of attributes
+function displayProperties(feature, layer){
+    layer.on('mousedown', (e) => {
+        let item = document.getElementById("tempPlanContent")
+        let typefire = feature.properties.typeFire;
+        let time = feature.properties.time;
+        let automaticAlarm = feature.properties.automaticAlarm;
+        item.innerHTML = `${typefire}<br><br> ${time}<br><br> ${automaticAlarm}`;
+    })
+}
+
 fetch("/fires")
     .then((response) => {
         return response.json();
     })
     .then((data) => {
-        let geojsonLayer = new L.geoJSON(data);       
+        let geojsonLayer = new L.geoJSON(data, {
+            onEachFeature: displayProperties
+        });
+
         geojsonLayer.addTo(primaryMap);
     });
 
