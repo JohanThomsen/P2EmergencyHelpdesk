@@ -9,6 +9,24 @@
     overflow: hidden;
 }
 
+.headerBar{
+    overflow: hidden;
+    background-color: rgb(42, 42, 43);
+    color: azure;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.main{
+    margin-top: 80px;
+    margin-left: unset;
+}
+
+h1{
+    text-align: center;
+}
+
 #strucPlan{
 
 }
@@ -20,10 +38,6 @@
     margin-top: 1%;
     float: left;
     border: 1px solid black;
-}
-
-#tempPlanContent{
-
 }
 
 #operative{
