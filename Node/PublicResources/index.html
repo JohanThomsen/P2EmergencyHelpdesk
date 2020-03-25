@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>GIS</title>
+        <meta charset="UTF-8">
         <script defer src="maps.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
@@ -12,13 +13,14 @@
                 crossorigin=""></script>
     </head>
     <body>
+        <h1>Operative plan overview</h1>
         <div id="mapArea"></div>
-        <div id="opPlan">
+        <div id="opPlan" class="textbox">
             <p id="tempPlanContent">
                 Standart plan
             </p>
         </div>
-        <div id="strucPlan">
+        <div id="strucPlan" class="textbox">
             <p id="tempBuilding">
                 Standart plan
             </p>
