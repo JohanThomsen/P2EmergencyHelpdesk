@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const binarySearch = require('./Node/PublicResources/binarySearch.js');
+const search = require('./dataManagement/mergeEksampel.js');
 
 //server setup variables
 const port = 3000;
@@ -22,12 +22,7 @@ let server = http.createServer((request, response) => {
         break;
 
       case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
-        let file = fs.readFileSync('./Node/dataManagement/dataBase.json');
-        let json = JSON.parse(file);
-        let binary = binarySearch(json.data, SplitData(request.url.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/)));
-        console.log(binary);
-        console.log(SplitData(request.url.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/)));
-        console.log(request.url);
+          sendOperativePlan('./Node/dataManagement/dataBase.json', request.url);
         break;
 
       default:
@@ -35,7 +30,6 @@ let server = http.createServer((request, response) => {
         break;
     } 
   }
-
 
   //Cases for POST request 
   if (request.method == 'POST') {
@@ -119,7 +113,7 @@ function UpdateFile(jsonData, path) {
   fs.readFile(path, (error, data) => {
     let firesObject = JSON.parse(data);
     firesObject.features.push({ "type": "Feature", "properties": {"typeFire": jsonData.typeFire, "time": jsonData.time, "automaticAlarm": jsonData.automaticAlarm, "active": jsonData.active}, "geometry": {"type": "Point", "coordinates": jsonData.location}}) ;
-    fs.writeFile(path, JSON.stringify(firesObject), (error) => {
+    fs.writeFile(path, JSON.stringify(firesObject, null, 4), (error) => {
       if (error) {
         throw error;
       }
@@ -132,12 +126,24 @@ function DeleteEntry(path, index){
   fs.readFile(path, (error, data) => {
     let firesArray = JSON.parse(data);
     firesArray.features.splice(index, 1);
-    fs.writeFile(path, JSON.stringify(firesArray), (error) => {
+    fs.writeFile(path, JSON.stringify(firesArray, null, 4), (error) => {
       if (error) {
         throw error;
       }
     });
   });
+}
+
+function sendOperativePlan(path, requestUrl) {
+  let file = fs.readFileSync(path);
+  let opArray = JSON.parse(file).data;
+  let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
+  let opArraySorted = search.mergeSort(opArray);
+  let operativePlan = search.binarySearch(opArraySorted, coordinates[0], coordinates[1]);
+  response.statusCode = 200;
+  response.setHeader('Content-Type', 'application/json');
+  response.write(JSON.stringify(operativePlan, null, 4));
+  response.end('\n');
 }
 
 /*
