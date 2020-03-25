@@ -1,6 +1,6 @@
-let primaryMap = L.map("mapArea").setView([55, 9], 13);
+let primaryMap = L.map("mapArea").setView([57,9.9], 13);
 const scale = 13;
-
+let hostURL = "127.0.0.1:3000";
 //test variables
 const x_coordinate = 57.01, y_coordinate = 9.91;
 
@@ -25,5 +25,13 @@ function placeMarker(x_coordinate, y_coordinate){
     accident.on('mousedown', print);
     primaryMap.setView([x_coordinate, y_coordinate], scale);
 }
+
+let geoJsonData = fetch("/fires")
+    .then((response) => {
+        return response.json();
+    });
+let geojsonLayer = new L.GeoJSON.AJAX(geoJsonData);       
+geojsonLayer.addTo(primaryMap);
+
 
 placeMarker(x_coordinate, y_coordinate);
