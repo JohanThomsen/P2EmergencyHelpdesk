@@ -47,10 +47,34 @@ let server = http.createServer((request, response) => {
     }
   };
 });
+NearbyLocation('./Node/dataManagement/dataBase.json', 3, [56.4321567, 8.1234567]);
 
 //server listen for requests 
 server.listen(port, hostName, () =>{
 });
+
+//( a || b ) && !( a && b )
+function NearbyLocation(path, index, coordinates) {
+  let file = fs.readFileSync(path);
+  let opArray = JSON.parse(file).data;
+  let opArraySorted = search.mergeSort(opArray);
+  let fireCoords = coordinates;
+
+  }
+  if (fireCoords[0] > opArraySorted[index + 1].coordinates[0]-1) {
+    if (fireCoords[1] < opArraySorted[index + 1].coordinates[1]-1 || fireCoords[1] > opArraySorted[index + 1].coordinates[1]+1) {
+      console.log('nearby1');
+      NearbyLocation(path, index+1, coordinates);
+    }
+  }
+  if (fireCoords[0] > opArraySorted[index - 1].coordinates[0]+1) {
+    if (fireCoords[1] > opArraySorted[index - 1].coordinates[1]-1 || fireCoords[1] < opArraySorted[index - 1].coordinates[1]+1) {
+      console.log('nearby2');
+      NearbyLocation(path, index+1, coordinates);
+    }
+  }
+  return(null);
+}
 
 function SplitData(data) {
   let coordinates = data[0].split('_');
