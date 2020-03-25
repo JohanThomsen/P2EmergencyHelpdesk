@@ -26,12 +26,15 @@ function placeMarker(x_coordinate, y_coordinate){
     //primaryMap = L.map("mapArea").setView([x_coordinate, y_coordinate], scale);
 }
 
-let geoJsonData = fetch("/fires")
+fetch("/fires")
     .then((response) => {
         return response.json();
+    })
+    .then((data) => {
+        let geojsonLayer = new L.geoJSON(data);       
+        geojsonLayer.addTo(primaryMap);
     });
-let geojsonLayer = new L.GeoJSON.AJAX(geoJsonData);       
-geojsonLayer.addTo(primaryMap);
+
 
 
 placeMarker(x_coordinate, y_coordinate);
