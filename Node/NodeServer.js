@@ -59,16 +59,20 @@ function NearbyLocation(path, index, coordinates) {
   let opArray = JSON.parse(file).data;
   let opArraySorted = search.mergeSort(opArray);
   let fireCoords = coordinates;
-
-  }
-  if (fireCoords[0] > opArraySorted[index + 1].coordinates[0]-1) {
-    if (fireCoords[1] < opArraySorted[index + 1].coordinates[1]-1 || fireCoords[1] > opArraySorted[index + 1].coordinates[1]+1) {
+  let nextX = opArraySorted[index + 1].coordinates[0];
+  let prevX = opArraySorted[index - 1].coordinates[0];
+  let nextY = opArraySorted[index + 1].coordinates[1];
+  let prevY = opArraySorted[index - 1].coordinates[1];
+  
+  if (fireCoords[0] > nextX -1) {
+    if (fireCoords[1] < nextY + 1 && fireCoords[1] > nextY - 1) {
       console.log('nearby1');
       NearbyLocation(path, index+1, coordinates);
     }
   }
-  if (fireCoords[0] > opArraySorted[index - 1].coordinates[0]+1) {
-    if (fireCoords[1] > opArraySorted[index - 1].coordinates[1]-1 || fireCoords[1] < opArraySorted[index - 1].coordinates[1]+1) {
+
+  if (fireCoords[0] < prevX +1) {
+    if (fireCoords[1] < prevY + 1 && fireCoords[1] > prevY - 1) {
       console.log('nearby2');
       NearbyLocation(path, index+1, coordinates);
     }
