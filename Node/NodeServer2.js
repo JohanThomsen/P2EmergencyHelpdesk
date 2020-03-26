@@ -1,9 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-let opPlanObject = {
-    opPlans: []
-  }
+const querystring = require('querystring');
 
 //server setup variables
 const port = 3000;
@@ -43,11 +41,8 @@ let server = http.createServer((request, response) => {
         });
         break;
       case '/addOpPlan':
-        console.log(request);
-        let post = processPost(request, res);
-        res.writeHead(301,
-          {location: 'http://127.0.0.1:5500/opPlanInput.html'
-        });
+        console.log('Adding plan');
+        let post = processPost(request);
         break;
     }
   };
@@ -204,21 +199,22 @@ function guessMimeType(fileName) {
       });
   
       req.on("end", () => {
-        let post = querystring.parse(body);
+        let post = body;
         console.log("Finishing POST")
         console.log(post);
+        post = JSON.parse(post);
   
-        fs.readFile('dataBase.json', 'utf8',(err, data) => {
+        fs.readFile('Node/dataBase.json', 'utf8',(err, data) => {
           if (err){
             console.log(err);
           } else {
             console.log('Updating JSON');
-            opPlanObject = JSON.parse(data);
-            console.log(opPlanObject.opPlans);
-            opPlanObject.opPlans.push(post);
-            console.log(opPlanObject.opPlans);
-            let jsonOpPlan = JSON.stringify(opPlanObject);
-            fs.writeFile('dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
+            opPlanArray = JSON.parse(data);
+            console.log(opPlanArray.data);
+            opPlanArray.data.push(post);
+            console.log(opPlanArray.data);
+            let jsonOpPlan = JSON.stringify(opPlanArray, null, 4);
+            fs.writeFile('Node/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
                 if (err){
                     console.log(err);
                 }
