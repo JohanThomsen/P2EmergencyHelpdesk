@@ -26,15 +26,25 @@ function placeMarker(x_coordinate, y_coordinate){
     primaryMap.setView([x_coordinate, y_coordinate], scale);
 }
 
-//Notes for selv, create <p> for each attribute, with style height changing depending on
-//number of attributes
 function displayProperties(feature, layer){
     layer.on('mousedown', (e) => {
-        let item = document.getElementById("tempPlanContent")
-        let typefire = feature.properties.typeFire;
+        let outerElement = document.getElementById("opPlan");
+        outerElement.innerHTML = ''; //Clears the outer element so no multiples appear with more clicks
+
+        for(property in feature.properties) {
+            let p = document.createElement("p");
+            p.innerHTML = feature.properties[property];
+
+            let padding = (outerElement.clientHeight / Object.keys(feature.properties).length) / 2;
+            console.log(padding);
+            p.style.margin = `${padding}px 0px`;
+
+            outerElement.appendChild(p);
+        }
+        /*let typefire = feature.properties.typeFire;
         let time = feature.properties.time;
         let automaticAlarm = feature.properties.automaticAlarm;
-        item.innerHTML = `${typefire}<br><br> ${time}<br><br> ${automaticAlarm}`;
+        outerElement.innerHTML = `${typefire}<br><br> ${time}<br><br> ${automaticAlarm}`; */
     })
 }
 
