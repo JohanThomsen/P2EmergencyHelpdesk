@@ -30,9 +30,9 @@ function displayProperties(feature, layer){
             p.innerHTML = feature.properties[property];
 
             let attributeCount = Object.keys(feature.properties).length;
-            let padding = (outerElement.clientHeight - (attributeCount * 18)) / attributeCount / 2; // that 18 is really scuffed, figure out a change if necessary
-            p.style.padding = `${padding}px 0px`;
-            p.style.margin = "0"
+            let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18 is really scuffed, figure out a change if necessary
+            p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`;
+            p.style.padding = "1px";
 
             outerElement.appendChild(p);
         }
