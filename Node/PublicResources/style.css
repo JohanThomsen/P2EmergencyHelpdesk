@@ -1,4 +1,5 @@
 .textbox{
+    overflow: hidden;
     height: 240px;
     margin-top: 1%;
     width: 40%;
@@ -6,7 +7,37 @@
     border: 1px solid black;    
     background: lightgrey;
     float: left;
+    
+}
+.textbox p{
+    margin-left: 2%;
+    margin-right: 2%;
+    border-bottom: 1px solid black;
+    border-left: 3px solid rgb(202, 0, 0);
+    background-color: rgb(141, 141, 141);
+}
+
+.headerBar{
     overflow: hidden;
+    background-color: rgb(42, 42, 43);
+    color: azure;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: auto;
+}
+
+.main{
+    margin-top: 80px;
+    margin-left: unset;
+}
+
+h2{
+    text-align: center;
+}
+
+span{
+    margin-left: 1%;
 }
 
 #strucPlan{
@@ -14,16 +45,13 @@
 }
 
 #mapArea {
+    overflow: hidden;
     height: 500px;
     width: 45%;
     margin-left: 5%;
     margin-top: 1%;
     float: left;
     border: 1px solid black;
-}
-
-#tempPlanContent{
-
 }
 
 #operative{
