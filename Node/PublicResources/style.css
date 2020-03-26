@@ -12,9 +12,9 @@
 .textbox p{
     margin-left: 2%;
     margin-right: 2%;
-    border-bottom: 1px solid black;
     border-left: 3px solid rgb(202, 0, 0);
     background-color: rgb(141, 141, 141);
+    text-indent: 4px;
 }
 
 .headerBar{
@@ -36,9 +36,10 @@ h2{
     text-align: center;
 }
 
-span{
+th, td {
     margin-left: 1%;
-}
+    text-align: left;
+  }
 
 #strucPlan{
 
