@@ -12,17 +12,17 @@ function sendData(){
                         specialConsideration: document.getElementById('specialConsiderations').value
             },
             firefightingEquipment:{
-                fireLift: document.getElementById('fireLift').value,
-                escapeStairs: document.getElementById('escapeStairs').value,
-                risers: document.getElementById('risers').value,
-                sprinkler: document.getElementById('sprinkler').value,
-                smokeDetectors: document.getElementById('smokeDetector').value,
-                markers: document.getElementById('markers').value,
-                automaticFireDetector: document.getElementById('automaticFireDetector').value,
-                internalAlert: document.getElementById('internalAlert').value
+                fireLift: document.getElementById('fireLift').checked,
+                escapeStairs: document.getElementById('escapeStairs').checked,
+                risers: document.getElementById('risers').checked,
+                sprinkler: document.getElementById('sprinkler').checked,
+                smokeDetectors: document.getElementById('smokeDetector').checked,
+                markers: document.getElementById('markers').checked,
+                automaticFireDetector: document.getElementById('automaticFireDetector').checked,
+                internalAlert: document.getElementById('internalAlert').checked
             },
             consideration: document.getElementById('considerations').value,
-            //fullOpPlan:
+            fullOpPlan:document.getElementById('fullOpPlan').files[0]
     }
     console.log(newOpPlan);
 }
