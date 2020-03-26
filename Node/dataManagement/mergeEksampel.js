@@ -90,7 +90,7 @@ function binarySearch(array, targetN, targetE){
 
         if (targetN === array[middleIndex].coordinates[0]) {
             if (targetE === array[middleIndex].coordinates[1]){
-                return array[middleIndex];
+                return middleIndex;
             }
         }
         if (targetN > array[middleIndex].coordinates[0]) {

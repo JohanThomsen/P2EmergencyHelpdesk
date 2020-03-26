@@ -47,37 +47,41 @@ let server = http.createServer((request, response) => {
     }
   };
 });
-NearbyLocation('./Node/dataManagement/dataBase.json', 3, [56.4321567, 8.1234567]);
 
 //server listen for requests 
 server.listen(port, hostName, () =>{
 });
 
-//( a || b ) && !( a && b )
+console.log(NearbyLocation('./Node/dataManagement/dataBase.json', 3, [56.4321567, 8.1234567]));
 function NearbyLocation(path, index, coordinates) {
   let file = fs.readFileSync(path);
   let opArray = JSON.parse(file).data;
   let opArraySorted = search.mergeSort(opArray);
-  let fireCoords = coordinates;
-  let nextX = opArraySorted[index + 1].coordinates[0];
-  let prevX = opArraySorted[index - 1].coordinates[0];
-  let nextY = opArraySorted[index + 1].coordinates[1];
-  let prevY = opArraySorted[index - 1].coordinates[1];
   
-  if (fireCoords[0] > nextX -1) {
-    if (fireCoords[1] < nextY + 1 && fireCoords[1] > nextY - 1) {
-      console.log('nearby1');
-      NearbyLocation(path, index+1, coordinates);
-    }
-  }
+  return checkNext(coordinates, index, opArraySorted);
+}
 
-  if (fireCoords[0] < prevX +1) {
-    if (fireCoords[1] < prevY + 1 && fireCoords[1] > prevY - 1) {
-      console.log('nearby2');
-      NearbyLocation(path, index+1, coordinates);
+function checkNext(start, index, opArraySorted) {
+  let nextX = opArraySorted[index + 1].coordinates[0];
+  let nextY = opArraySorted[index + 1].coordinates[1];
+  if (start[0] > nextX - 1) {
+    if (start[1] < nextY + 1 && start[1] > nextY - 1) {
+      //checkNext(start, index+1, opArraySorted);
+      console.log(nextArray);
+      return nextArray[].concat(checkNext(start, index+1, opArraySorted));
     }
   }
-  return(null);
+}
+
+function checkPrevious(start, index, opArraySorted) {
+  let prevX = opArraySorted[index - 1].coordinates[0];
+  let prevY = opArraySorted[index - 1].coordinates[1];
+  if (start[0] < prevX + 1) {
+    if (start[1] < prevY + 1 && start[1] > prevY - 1) {
+      checkPrevious(start, index-1, opArraySorted);
+      return prevArray.push(opArraySorted[index-1]);
+    }
+  }
 }
 
 function SplitData(data) {
@@ -167,16 +171,20 @@ function sendOperativePlan(path, requestUrl) {
   let opArray = JSON.parse(file).data;
   let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
   let opArraySorted = search.mergeSort(opArray);
-  let operativePlan = search.binarySearch(opArraySorted, coordinates[0], coordinates[1]);
+  let resultIndex = search.binarySearch(opArraySorted, coordinates[0], coordinates[1]);
+  let operativePlan = opArraySorted[resultIndex];
+  let result = {
+    opPlan: operativePlan,
+    nearbyWarnings: NearbyLocation(path, resultIndex, coordinates)
+  };
   response.statusCode = 200;
   response.setHeader('Content-Type', 'application/json');
-  response.write(JSON.stringify(operativePlan, null, 4));
+  response.write(JSON.stringify(result, null, 4));
   response.end('\n');
 }
 
-/*
-* Server fil ting
- */
+
+//Server fil ting
 const rootFileSystem = process.cwd();
 
 function securePath(userPath) {
