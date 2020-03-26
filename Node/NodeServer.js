@@ -22,7 +22,7 @@ let server = http.createServer((request, response) => {
         break;
 
       case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
-          sendOperativePlan('./Node/dataManagement/dataBase.json', request.url);
+          sendOperativePlan('./Node/dataManagement/dataBase.json', request.url, response);
         break;
 
       default:
@@ -52,13 +52,13 @@ let server = http.createServer((request, response) => {
 server.listen(port, hostName, () =>{
 });
 
-console.log(NearbyLocation('./Node/dataManagement/dataBase.json', 3, [56.4321567, 8.1234567]));
+
 function NearbyLocation(path, index, coordinates) {
   let file = fs.readFileSync(path);
   let opArray = JSON.parse(file).data;
   let opArraySorted = search.mergeSort(opArray);
   
-  return checkNext(coordinates, index, opArraySorted);
+  return checkNext(coordinates, index, opArraySorted).concat(checkPrevious(coordinates, index, opArraySorted));
 }
 
 function checkNext(start, index, opArraySorted) {
@@ -66,11 +66,10 @@ function checkNext(start, index, opArraySorted) {
   let nextY = opArraySorted[index + 1].coordinates[1];
   if (start[0] > nextX - 1) {
     if (start[1] < nextY + 1 && start[1] > nextY - 1) {
-      //checkNext(start, index+1, opArraySorted);
-      console.log(nextArray);
-      return nextArray[].concat(checkNext(start, index+1, opArraySorted));
+      return nextArray = [opArraySorted[index + 1]].concat(checkNext(start, index+1, opArraySorted));
     }
   }
+  return []; 
 }
 
 function checkPrevious(start, index, opArraySorted) {
@@ -78,10 +77,10 @@ function checkPrevious(start, index, opArraySorted) {
   let prevY = opArraySorted[index - 1].coordinates[1];
   if (start[0] < prevX + 1) {
     if (start[1] < prevY + 1 && start[1] > prevY - 1) {
-      checkPrevious(start, index-1, opArraySorted);
-      return prevArray.push(opArraySorted[index-1]);
+      return nextArray = [opArraySorted[index - 1]].concat(checkPrevious(start, index - 1, opArraySorted));
     }
   }
+  return []; 
 }
 
 function SplitData(data) {
@@ -166,7 +165,7 @@ function DeleteEntry(path, index){
   });
 }
 
-function sendOperativePlan(path, requestUrl) {
+function sendOperativePlan(path, requestUrl, response) {
   let file = fs.readFileSync(path);
   let opArray = JSON.parse(file).data;
   let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
