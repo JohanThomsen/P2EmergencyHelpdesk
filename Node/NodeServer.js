@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const search = require('./dataManagement/mergeEksampel.js');
 
 //server setup variables
 const port = 3000;
@@ -18,6 +19,10 @@ let server = http.createServer((request, response) => {
 
       case '/fires':
         SendJson('./Node/Data/currentFires.geojson', response);
+        break;
+
+      case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
+          sendOperativePlan('./Node/dataManagement/dataBase.json', request.url, response);
         break;
 
       default:
@@ -47,6 +52,45 @@ let server = http.createServer((request, response) => {
 server.listen(port, hostName, () =>{
 });
 
+
+function NearbyLocation(path, index, coordinates) {
+  let file = fs.readFileSync(path);
+  let opArray = JSON.parse(file).data;
+  let opArraySorted = search.mergeSort(opArray);
+  
+  return checkNext(coordinates, index, opArraySorted).concat(checkPrevious(coordinates, index, opArraySorted));
+}
+
+function checkNext(start, index, opArraySorted) {
+  let nextX = opArraySorted[index + 1].coordinates[0];
+  let nextY = opArraySorted[index + 1].coordinates[1];
+  if (start[0] > nextX - 0.005) {
+    if (start[1] < nextY + 0.005 && start[1] > nextY - 0.005) {
+      return nextArray = [opArraySorted[index + 1]].concat(checkNext(start, index+1, opArraySorted));
+    }
+  }
+  return []; 
+}
+
+function checkPrevious(start, index, opArraySorted) {
+  let prevX = opArraySorted[index - 1].coordinates[0];
+  let prevY = opArraySorted[index - 1].coordinates[1];
+  if (start[0] < prevX + 0.005) {
+    if (start[1] < prevY + 0.005 && start[1] > prevY - 0.005) {
+      return nextArray = [opArraySorted[index - 1]].concat(checkPrevious(start, index - 1, opArraySorted));
+    }
+  }
+  return []; 
+}
+
+function SplitData(data) {
+  let coordinates = data[0].split('_');
+  console.log(coordinates);
+  let result = coordinates.map((element) => {
+    return Number(element.replace(';', '.'));
+  })
+  return(result);
+}
 //GET response with JSON data
 function SendJson(path, response){
   fs.readFile(path, (error, data) => {
@@ -65,9 +109,9 @@ function BinaryToJson(data) {
 
 //update list of fires with new information
 function CheckFire(jsonData, path) {
-  let test123 = fs.readFileSync(path);
-  let json = JSON.parse(test123);  
-  let entryValue = EntryExist(json.features, jsonData.location, 'location');
+  let file = fs.readFileSync(path);
+  let json = JSON.parse(file);  
+  let entryValue = EntryExist(json.features, jsonData.location, 'geometry', 'coordinates');
   if (jsonData.active == true) {
     if (entryValue.returnValue != true) {
       UpdateFile(jsonData, path);     
@@ -82,11 +126,12 @@ function CheckFire(jsonData, path) {
 }
 
 //check if an entry exists in an array. 
-function EntryExist(array, searchKey, valueKey) {
+function EntryExist(array, searchKey, valueKey1, valueKey2) {
   let returnValue = false;
   let indexValue;
   array.forEach((element, index)=>{
-    if (JSON.stringify(element[valueKey]) == JSON.stringify(searchKey)){
+    //check how many parameters are used
+    if (JSON.stringify(valueKey2 ? element[valueKey1][valueKey2] : element[valueKey1]) == JSON.stringify(searchKey)){
       returnValue = true;
       indexValue = index;
     }
@@ -99,7 +144,7 @@ function UpdateFile(jsonData, path) {
   fs.readFile(path, (error, data) => {
     let firesObject = JSON.parse(data);
     firesObject.features.push({ "type": "Feature", "properties": {"typeFire": jsonData.typeFire, "time": jsonData.time, "automaticAlarm": jsonData.automaticAlarm, "active": jsonData.active}, "geometry": {"type": "Point", "coordinates": jsonData.location}}) ;
-    fs.writeFile(path, JSON.stringify(firesObject), (error) => {
+    fs.writeFile(path, JSON.stringify(firesObject, null, 4), (error) => {
       if (error) {
         throw error;
       }
@@ -112,7 +157,7 @@ function DeleteEntry(path, index){
   fs.readFile(path, (error, data) => {
     let firesArray = JSON.parse(data);
     firesArray.features.splice(index, 1);
-    fs.writeFile(path, JSON.stringify(firesArray), (error) => {
+    fs.writeFile(path, JSON.stringify(firesArray, null, 4), (error) => {
       if (error) {
         throw error;
       }
@@ -120,9 +165,25 @@ function DeleteEntry(path, index){
   });
 }
 
-/*
-* Server fil ting
- */
+function sendOperativePlan(path, requestUrl, response) {
+  let file = fs.readFileSync(path);
+  let opArray = JSON.parse(file).data;
+  let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
+  let opArraySorted = search.mergeSort(opArray);
+  let resultIndex = search.binarySearch(opArraySorted, coordinates[0], coordinates[1]);
+  let operativePlan = opArraySorted[resultIndex];
+  let result = {
+    opPlan: operativePlan,
+    nearbyWarnings: NearbyLocation(path, resultIndex, coordinates)
+  };
+  response.statusCode = 200;
+  response.setHeader('Content-Type', 'application/json');
+  response.write(JSON.stringify(result, null, 4));
+  response.end('\n');
+}
+
+
+//Server fil ting
 const rootFileSystem = process.cwd();
 
 function securePath(userPath) {
