@@ -64,8 +64,8 @@ function NearbyLocation(path, index, coordinates) {
 function checkNext(start, index, opArraySorted) {
   let nextX = opArraySorted[index + 1].coordinates[0];
   let nextY = opArraySorted[index + 1].coordinates[1];
-  if (start[0] > nextX - 1) {
-    if (start[1] < nextY + 1 && start[1] > nextY - 1) {
+  if (start[0] > nextX - 0.005) {
+    if (start[1] < nextY + 0.005 && start[1] > nextY - 0.005) {
       return nextArray = [opArraySorted[index + 1]].concat(checkNext(start, index+1, opArraySorted));
     }
   }
@@ -75,8 +75,8 @@ function checkNext(start, index, opArraySorted) {
 function checkPrevious(start, index, opArraySorted) {
   let prevX = opArraySorted[index - 1].coordinates[0];
   let prevY = opArraySorted[index - 1].coordinates[1];
-  if (start[0] < prevX + 1) {
-    if (start[1] < prevY + 1 && start[1] > prevY - 1) {
+  if (start[0] < prevX + 0.005) {
+    if (start[1] < prevY + 0.005 && start[1] > prevY - 0.005) {
       return nextArray = [opArraySorted[index - 1]].concat(checkPrevious(start, index - 1, opArraySorted));
     }
   }
