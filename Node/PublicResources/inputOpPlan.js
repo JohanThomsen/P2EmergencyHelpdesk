@@ -23,7 +23,7 @@ function sendData(){
                 internalAlert:          document.getElementById('internalAlert').checked
             },
             consideration: document.getElementById('considerations').value,
-           // fullOpPlan:document.getElementById('fullOpPlan').files[0].name
+            fullOpPlan:document.getElementById('fullOpPlan').files[0].name
     }
     console.log(newOpPlan);
     handleFormData(newOpPlan);

@@ -50,10 +50,14 @@
         <input type="text"       id = "considerations"       name = "considerations">
         <br>
         <label for "fullOpPlan"> Full operative plan</label>
-        <input type = "file" id = "fullOpPlan"               name = "fullOpPlan" accept = ".pdf">
+        
 
         <input type = "button" name = "submit" value = "addOpPlan" onclick="sendData()">
+    </form>
 
+    <form action = "127.0.0.1/3000/fileupload" method = "post" enctype = "multipart/form-data" id = "uploadFile">
+        <input type = "file"     id = "fullOpPlan"           name = "fullOpPlan" accept = ".pdf">
+        <input type = "submit"   id = "submitButton">
 
     </form>
 </body>

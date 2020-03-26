@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const querystring = require('querystring');
+const formidable = require('formidable');
 
 //server setup variables
 const port = 3000;
@@ -44,6 +44,19 @@ let server = http.createServer((request, response) => {
         console.log('Adding plan');
         let post = processPost(request);
         break;
+      case '/fileupload':
+        let form = new formidable.IncomingForm();
+        form.parse(request, (err, fields, files) => {
+          let oldPath = files.filetoupload.path;
+          console.log(oldPath);
+          let newPath = 'E:/P2Kode/Node/Data' + files.filetoupload.name;
+          fs.rename(oldPath, newPath, (err) => {
+            if (err) throw err;
+          });
+          response.write('file uploaded');
+          response.end();
+        
+        });
     }
   };
 });

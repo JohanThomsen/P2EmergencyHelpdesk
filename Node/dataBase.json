@@ -294,16 +294,6 @@
             "fullOpPlan": "alt"
         },
         {
-            "{\"opPlanId\":{},\"coordinates\":[\"55\",\"9\"],\"address\":\"Toldstrupsgade\",\"buildingDefinition\":{\"Usage\":\"meget høj\",\"height\":\"-1\",\"specialConsideration\":\"for ældre\"},\"firefightingEquipment\":{\"fireLift\":false,\"escapeStairs\":false,\"risers\":true,\"sprinkler\":false,\"smokeDetectors\":true,\"markers\":false,\"automaticFireDetector\":false,\"internalAlert\":false},\"consideration\":\"lot of gas\"}": ""
-        },
-        {
-            "{\"opPlanId\":{},\"coordinates\":[\"55\",\"22\"],\"address\":\"Toldstrupsgade\",\"buildingDefinition\":{\"Usage\":\"meget høj\",\"height\":\"-1\",\"specialConsideration\":\"for ældre\"},\"firefightingEquipment\":{\"fireLift\":false,\"escapeStairs\":false,\"risers\":true,\"sprinkler\":false,\"smokeDetectors\":true,\"markers\":false,\"automaticFireDetector\":false,\"internalAlert\":false},\"consideration\":\"lot of gas\"}": ""
-        },
-        {
-            "{\"opPlanId\":{},\"coordinates\":[\"4\",\"5\"],\"address\":\"Toldstrupsgade\",\"buildingDefinition\":{\"Usage\":\"meget høj\",\"height\":\"-1\",\"specialConsideration\":\"for ældre\"},\"firefightingEquipment\":{\"fireLift\":false,\"escapeStairs\":true,\"risers\":false,\"sprinkler\":false,\"smokeDetectors\":true,\"markers\":false,\"automaticFireDetector\":false,\"internalAlert\":false},\"consideration\":\"lot of gas\"}": ""
-        },
-        "{\"opPlanId\":{},\"coordinates\":[\"-4\",\"5\"],\"address\":\"Toldstrupsgade 18, 3. lejl. 12\",\"buildingDefinition\":{\"Usage\":\"meget høj\",\"height\":\"-1\",\"specialConsideration\":\"for ældre\"},\"firefightingEquipment\":{\"fireLift\":false,\"escapeStairs\":false,\"risers\":false,\"sprinkler\":true,\"smokeDetectors\":false,\"markers\":false,\"automaticFireDetector\":true,\"internalAlert\":false},\"consideration\":\"lot of gas\"}",
-        {
             "opPlanId": {},
             "coordinates": [
                 "14",
