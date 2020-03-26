@@ -34,10 +34,12 @@ function displayProperties(feature, layer){
         for(property in feature.properties) {
             let p = document.createElement("p");
             p.innerHTML = feature.properties[property];
-
-            let padding = (outerElement.clientHeight / Object.keys(feature.properties).length) / 2;
+            let attributeCount = Object.keys(feature.properties).length;
+            let padding = (outerElement.clientHeight - (attributeCount * 18)) / attributeCount / 2; // that 18 is really scuffed, figure out a change if necessary
             console.log(padding);
-            p.style.margin = `${padding}px 0px`;
+            p.style.padding = `${padding}px 0px`;
+            p.style.margin = "0"
+
 
             outerElement.appendChild(p);
         }
