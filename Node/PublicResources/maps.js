@@ -57,7 +57,6 @@ fetch("/fires")
         geojsonLayer.addTo(primaryMap);
     });
 
-
 function fetchPlan(feature, layer){
     layer.on('mousedown', (e) => {
 
@@ -87,13 +86,11 @@ function displayPlan(data){
         p.innerHTML = data[property];
         let attributeCount = Object.keys(data).length;
         let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
-            p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
-            p.style.padding = "1px";
+        p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
+        p.style.padding = "1px";
 
         outerElement.appendChild(p);
     }
         
 }
-
-
 //placeMarker(x_coordinate, y_coordinate);
