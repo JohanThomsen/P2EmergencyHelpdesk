@@ -13,13 +13,9 @@
     margin-right: 2%;
     border-left: 3px solid rgb(202, 0, 0);
     background-color: rgb(141, 141, 141);
-<<<<<<< HEAD
-    text-indent: 4px;
-=======
     text-indent: 1%;
     float: left;
     width: 96%;
->>>>>>> 178f400a3a6c6b1abba907ae19870298fd9e15d4
 }
 
 .headerBar{
@@ -45,10 +41,6 @@ th, td {
     margin-left: 1%;
     text-align: left;
   }
-
-#strucPlan{
-
-}
 
 #mapArea {
     overflow: hidden;

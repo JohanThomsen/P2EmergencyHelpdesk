@@ -60,12 +60,13 @@ fetch("/fires")
 function fetchPlan(feature, layer){
     layer.on('mousedown', (e) => {
 
-        let tempCoordY = feature.geometry.coordinates[0];
-        let tempCoordX = feature.geometry.coordinates[1];
-        let switchedCoord = [tempCoordX, tempCoordY];
-        let stringedCoord = switchedCoord.toString();
-        let str = stringedCoord.replace(",", "_");
-        stringedCoord = str.replace(".", ";");
+        let tempCoordX = feature.geometry.coordinates[0];
+        let tempCoordY = feature.geometry.coordinates[1];
+        //let switchedCoord = [tempCoordY, tempCoordX];
+        //let stringedCoord = switchedCoord.toString();
+        let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
+        stringedCoord = stringedCoord.replace(".", ";");
+        console.log(stringedCoord);
 
         fetch(`/operativePlans=${stringedCoord}`)
             .then((response) => {
