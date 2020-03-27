@@ -39,7 +39,7 @@ function displayProperties(feature, layer){
             console.log(padding);
             p.style.padding = `${padding}px 0px`;
             p.style.margin = "0"
-
+            
 
             outerElement.appendChild(p);
         }
@@ -56,12 +56,50 @@ fetch("/fires")
     })
     .then((data) => {
         let geojsonLayer = new L.geoJSON(data, {
-            onEachFeature: displayProperties
+            onEachFeature: displayProperties,
+            onEachFeature: fetchPlan
         });
 
         geojsonLayer.addTo(primaryMap);
     });
 
+
+function fetchPlan(feature, layer){
+    layer.on('mousedown', (e) => {
+
+        let tempCoordY = feature.geometry.coordinates[0];
+        let tempCoordX = feature.geometry.coordinates[1];
+        let switchedCoord = [tempCoordX, tempCoordY];
+        let stringedCoord = switchedCoord.toString();
+        let str = stringedCoord.replace(",", "_");
+        stringedCoord = str.replace(".", ";");
+
+        fetch(`/operativePlans=${stringedCoord}`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                displayPlan(data);
+            });
+    });
+}
+
+function displayPlan(data){
+    let outerElement = document.getElementById("strucPlan");
+    outerElement.innerHTML = ''; //Clears the outer element so no multiples appear with more clicks
+
+    for(property in data){
+        let p = document.createElement("p");
+        p.innerHTML = data[property];
+        let attributeCount = Object.keys(data).length;
+        let padding = (outerElement.clientHeight - (attributeCount * 18)) / attributeCount / 2; // that 18 is really scuffed, figure out a change if necessary
+        p.style.padding = `${padding}px 0px`;
+        p.style.margin = "0"
+
+        outerElement.appendChild(p);
+    }
+        
+}
 
 
 placeMarker(x_coordinate, y_coordinate);
