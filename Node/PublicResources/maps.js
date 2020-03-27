@@ -47,9 +47,9 @@ fetch("/fires")
         return response.json();
     })
     .then((data) => {
-        let geojsonLayer = L.layerGroup().addTo(primaryMap);
-        geojsonLayer.clearLayers();
-        geojsonLayer = new L.geoJSON(data, {
+        // let geojsonLayer = L.layerGroup().addTo(primaryMap);
+        // geojsonLayer.clearLayers();
+        let geojsonLayer = new L.geoJSON(data, {
             onEachFeature: displayProperties,
             onEachFeature: fetchPlan
         });
@@ -86,9 +86,9 @@ function displayPlan(data){
         let p = document.createElement("p");
         p.innerHTML = data[property];
         let attributeCount = Object.keys(data).length;
-        let padding = (outerElement.clientHeight - (attributeCount * 18)) / attributeCount / 2; // that 18 is really scuffed, figure out a change if necessary
-        p.style.padding = `${padding}px 0px`;
-        p.style.margin = "0"
+        let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
+            p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
+            p.style.padding = "1px";
 
         outerElement.appendChild(p);
     }
@@ -96,4 +96,4 @@ function displayPlan(data){
 }
 
 
-placeMarker(x_coordinate, y_coordinate);
+//placeMarker(x_coordinate, y_coordinate);
