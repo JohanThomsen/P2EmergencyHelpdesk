@@ -57,7 +57,6 @@ fetch("/fires")
         geojsonLayer.addTo(primaryMap);
     });
 
-
 function fetchPlan(feature, layer){
     layer.on('mousedown', (e) => {
 
@@ -94,6 +93,4 @@ function displayPlan(data){
     }
         
 }
-
-
 //placeMarker(x_coordinate, y_coordinate);

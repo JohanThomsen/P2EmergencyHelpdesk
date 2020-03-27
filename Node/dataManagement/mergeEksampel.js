@@ -17,25 +17,28 @@ let newOpPlanOrg = {
 },
 "fullOpPlan": "alt"
 }
-getOperativeData()
-.then(()=>{
-    opPlanArray.data = mergeSort(opPlanArray.data);
-    //let updatedJSON = JSON.stringify(opPlanArray);
-    binaryInput(newOpPlanOrg, opPlanArray.data, newOpPlanOrg.coordinates[0], newOpPlanOrg.coordinates[1]);
-    let foundValue = binarySearch(opPlanArray.data, newOpPlanOrg.coordinates[0], newOpPlanOrg.coordinates[1]);
-    console.log(foundValue);
-    //console.log(opPlanArray);
-})
-.catch((Error) => {
-    console.log(`Error: ${Error}`);
-});
+
+module.exports = {mergeSort,binarySearch};
+
+// getOperativeData()
+// .then(()=>{
+//     opPlanArray.data = mergeSort(opPlanArray.data);
+//     //let updatedJSON = JSON.stringify(opPlanArray);
+//     binaryInput(newOpPlanOrg, opPlanArray.data, newOpPlanOrg.coordinates[0], newOpPlanOrg.coordinates[1]);
+//     let foundValue = binarySearch(opPlanArray.data, newOpPlanOrg.coordinates[0], newOpPlanOrg.coordinates[1]);
+//     console.log(foundValue);
+//     //console.log(opPlanArray);
+// })
+// .catch((Error) => {
+//     console.log(`Error: ${Error}`);
+// });
 
 
-async function getOperativeData(){
-    let opResult = await fetch(`dataBase.json`);
-    opPlanArray = await opResult.json();
-    console.log(opPlanArray);
-}
+// async function getOperativeData(){
+//     let opResult = await fetch(`dataBase.json`);
+//     opPlanArray = await opResult.json();
+//     console.log(opPlanArray);
+// }
 
 
 function mergeSort (unsortedArray) {
@@ -77,6 +80,7 @@ function merge (left, right) {
             .concat(right.slice(rightIndex));
   }
 
+
 function binarySearch(array, targetN, targetE){
     let startIndex = 0;
     let endIndex = array.length - 1;
@@ -86,7 +90,7 @@ function binarySearch(array, targetN, targetE){
 
         if (targetN === array[middleIndex].coordinates[0]) {
             if (targetE === array[middleIndex].coordinates[1]){
-                return array[middleIndex];
+                return middleIndex;
             }
         }
         if (targetN > array[middleIndex].coordinates[0]) {

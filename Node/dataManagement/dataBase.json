@@ -18,7 +18,7 @@
             "fullOpPlan": "alt"
         },
 
-        {   "coordinates": [56.3214567, 9.2345678],
+        {   "coordinates": [56.3214567, 8],
             "address": "Skolevej 69",
             "buildingDefinition": "School",
             "typeOfIncident":{
@@ -72,7 +72,7 @@
             "fullOpPlan": "alt"
         },
 
-        {   "coordinates": [56.6543217, 11.1234567], 
+        {   "coordinates": [56.6543217, 8], 
             "address": "Catroad 420",
             "buildingDefinition": "Internat",
             "typeOfIncident":{
