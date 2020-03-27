@@ -23,18 +23,19 @@ function displayProperties(feature, layer){
     layer.on('mousedown', (e) => {
         let outerElement = document.getElementById("opPlan");
         outerElement.innerHTML = ''; //Clears the outer element so no multiples appear with more clicks
-
+        console.log(feature.geometry.coordinates);
         // Creates a paragraf for each attribute, with padding depending on the amount of attributes
         for(property in feature.properties) {
             let p = document.createElement("p");
             p.innerHTML = feature.properties[property];
 
             let attributeCount = Object.keys(feature.properties).length;
-            let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18 is really scuffed, figure out a change if necessary
-            p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`;
+            let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
+            p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
             p.style.padding = "1px";
 
             outerElement.appendChild(p);
+
         }
     })
 }
@@ -46,13 +47,14 @@ fetch("/fires")
         return response.json();
     })
     .then((data) => {
-        let geojsonLayer = new L.geoJSON(data, {
+        let geojsonLayer = L.layerGroup().addTo(primaryMap);
+        geojsonLayer.clearLayers();
+        geojsonLayer = new L.geoJSON(data, {
             onEachFeature: displayProperties
         });
 
         geojsonLayer.addTo(primaryMap);
     });
-
 
 //Uses the manual place marker function to place a marker, geojson makes this outdated
 //placeMarker(x_coordinate, y_coordinate);
