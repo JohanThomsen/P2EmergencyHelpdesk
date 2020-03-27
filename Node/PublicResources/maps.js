@@ -51,7 +51,8 @@ fetch("/fires")
         // geojsonLayer.clearLayers();
         let geojsonLayer = new L.geoJSON(data, {
             onEachFeature: displayProperties,
-            onEachFeature: fetchPlan
+            onEachFeature: fetchPlan,
+            onEachFeature: markerView
         });
 
         geojsonLayer.addTo(primaryMap);
@@ -59,15 +60,13 @@ fetch("/fires")
 
 function fetchPlan(feature, layer){
     layer.on('mousedown', (e) => {
-
         let tempCoordX = feature.geometry.coordinates[0];
         let tempCoordY = feature.geometry.coordinates[1];
-        //let switchedCoord = [tempCoordY, tempCoordX];
-        //let stringedCoord = switchedCoord.toString();
         let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
-        stringedCoord = stringedCoord.replace(".", ";");
+        stringedCoord = stringedCoord.replace(/[.]/g,";");
         console.log(stringedCoord);
 
+        //404 error ATM
         fetch(`/operativePlans=${stringedCoord}`)
             .then((response) => {
                 return response.json();
@@ -91,7 +90,14 @@ function displayPlan(data){
         p.style.padding = "1px";
 
         outerElement.appendChild(p);
-    }
-        
+    }       
+}
+
+function markerView(feature, layer){
+    layer.on('mousedown', (e) => {
+        let coordX = feature.geometry.coordinates[0];
+        let coordY = feature.geometry.coordinates[1];
+        primaryMap.setView([coordY,coordX], scale+3);
+    })
 }
 //placeMarker(x_coordinate, y_coordinate);
