@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const formidable = require('formidable');
+const search = require('./dataManagement/mergeEksampel.js');
 
 //server setup variables
 const port = 3000;
@@ -223,8 +224,10 @@ function guessMimeType(fileName) {
           } else {
             console.log('Updating JSON');
             opPlanArray = JSON.parse(data);
+            opPlanArray.data = search.mergeSort(opPlanArray.data);
             console.log(opPlanArray.data);
-            opPlanArray.data.push(post);
+            //opPlanArray.data.push(post);
+            opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
             console.log(opPlanArray.data);
             let jsonOpPlan = JSON.stringify(opPlanArray, null, 4);
             fs.writeFile('Node/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {

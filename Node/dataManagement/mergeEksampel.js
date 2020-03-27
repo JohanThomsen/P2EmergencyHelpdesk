@@ -17,7 +17,10 @@ let newOpPlanOrg = {
 },
 "fullOpPlan": "alt"
 }
-getOperativeData()
+
+module.exports = {mergeSort, binarySearch, binaryInput};
+
+/*getOperativeData()
 .then(()=>{
     opPlanArray.data = mergeSort(opPlanArray.data);
     //let updatedJSON = JSON.stringify(opPlanArray);
@@ -35,7 +38,7 @@ async function getOperativeData(){
     let opResult = await fetch(`dataBase.json`);
     opPlanArray = await opResult.json();
     console.log(opPlanArray);
-}
+}*/
 
 
 function mergeSort (unsortedArray) {
@@ -157,7 +160,8 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
         break;
         }
     }
-    oldOpPlanArray[index] = newOpPlan
+    oldOpPlanArray[index] = newOpPlan;
+    return oldOpPlanArray;
     //console.log(opPlanArray);
 }
 
