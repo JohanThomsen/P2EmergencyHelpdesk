@@ -53,6 +53,31 @@ fetch("/fires")
         geojsonLayer.addTo(primaryMap);
     });
 
+//**for validating polygon check tests**/
+
+async function GetPlaces() {
+    let response = await fetch('http://127.0.0.1:3000/buildings');
+    let myJson = await response.json();
+
+    myJson.features.forEach(element => {
+        L.geoJSON(element).addTo(primaryMap);
+    });
+
+    console.log(myJson);
+}
+
+GetPlaces()
+
+function onMapClick(e) {
+    //alert("You clicked the map at " + e.latlng);
+    var marker = L.marker(e.latlng).addTo(primaryMap)//.bindPopup("e.latlng, toString").openPopup();
+    console.log(e.latlng)
+    //marker.bindPopup(e.latlng,toString).openPopup();
+}
+
+primaryMap.on('click', onMapClick);
+
+
 
 //Uses the manual place marker function to place a marker, geojson makes this outdated
 //placeMarker(x_coordinate, y_coordinate);

@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const search = require('./dataManagement/mergeEksampel.js');
-const checkPolygon = require('./checkPolygon.js');
+//const checkPolygon = require('./checkPolygon.js');
 
 //server setup variables
 const port = 3000;
@@ -25,6 +25,16 @@ let server = http.createServer((request, response) => {
       case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
           sendOperativePlan('./Node/dataManagement/dataBase.json', request.url, response);
         break;
+
+      case ('/buildings'):
+        fs.readFile('./Node/test.geojson', (err, data) => {
+          console.log(JSON.parse(data));
+          response.statusCode = 200;
+          response.setHeader('Content-Type', 'application/json');
+          response.write(data);
+          response.end('\n');
+        });
+        break; 
 
       default:
         fileResponse(request.url, response);
@@ -53,7 +63,7 @@ let server = http.createServer((request, response) => {
 server.listen(port, hostName, () =>{
 });
 
-checkPolygon.checkPolygon([[1.5, 7.2], [1.8, 4.2], [3.5, 2.2]], 5);
+//checkPolygon.checkPolygon([[1.5, 7.2], [1.8, 4.2], [3.5, 2.2]], 5);
 
 function NearbyLocation(path, index, coordinates) {
   let file = fs.readFileSync(path);
