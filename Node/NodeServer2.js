@@ -224,7 +224,7 @@ function guessMimeType(fileName) {
           } else {
             console.log('Updating JSON');
             opPlanArray = JSON.parse(data);
-            opPlanArray.data = search.mergeSort(opPlanArray.data);
+            //opPlanArray.data = search.mergeSort(opPlanArray.data);
             console.log(opPlanArray.data);
             //opPlanArray.data.push(post);
             opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
