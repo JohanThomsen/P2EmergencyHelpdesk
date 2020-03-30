@@ -20,6 +20,7 @@ function placeMarker(x_coordinate, y_coordinate){
 }
 */
 function displayProperties(feature, layer){
+    console.log("displayProp");
     layer.on('mousedown', (e) => {
         let outerElement = document.getElementById("opPlan");
         outerElement.innerHTML = ''; //Clears the outer element so no multiples appear with more clicks
@@ -50,20 +51,18 @@ fetch("/fires")
         // let geojsonLayer = L.layerGroup().addTo(primaryMap);
         // geojsonLayer.clearLayers();
         let geojsonLayer = new L.geoJSON(data, {
-            onEachFeature: displayProperties,
-            onEachFeature: fetchPlan,
-            onEachFeature: markerView
+            onEachFeature: markerFeatures //zooms on marker
         });
 
         geojsonLayer.addTo(primaryMap);
     });
 
 function fetchPlan(feature, layer){
-    layer.on('mousedown', (e) => {
+    
         let tempCoordX = feature.geometry.coordinates[0];
         let tempCoordY = feature.geometry.coordinates[1];
         let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
-        stringedCoord = stringedCoord.replace(/[.]/g,";");
+        stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
         console.log(stringedCoord);
 
         //404 error ATM
@@ -74,7 +73,6 @@ function fetchPlan(feature, layer){
             .then((data) => {
                 displayPlan(data);
             });
-    });
 }
 
 function displayPlan(data){
@@ -94,10 +92,16 @@ function displayPlan(data){
 }
 
 function markerView(feature, layer){
-    layer.on('mousedown', (e) => {
         let coordX = feature.geometry.coordinates[0];
         let coordY = feature.geometry.coordinates[1];
         primaryMap.setView([coordY,coordX], scale+3);
-    })
+}
+
+function markerFeatures(feature, layer){
+    layer.on("mousedown", (e) => {
+        displayProperties(feature, layer);
+        markerView(feature, layer);
+        fetchPlan(feature, layer);
+    });
 }
 //placeMarker(x_coordinate, y_coordinate);
