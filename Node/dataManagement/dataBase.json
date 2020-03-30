@@ -1,255 +1,180 @@
 {
-    "data":[
-        {   "coordinates": [56.2134567, 10.1234567],
-            "address": "Industrivej 45",
-            "buildingDefinition": "Factory",
-            "typeOfIncident":{
-                "A": "Textile fire",
-                "B": "Fluid fire",
-                "C": "Gas fire",
-                "D": "Metal fire",
-                "E": "Electrical fire",
-                "F": "Oil fire"
+    "data": [
+        {
+            "coordinates": [
+                0,
+                0
+            ],
+            "address": "Fyldeplads 0, 9200",
+            "buildingDefinition": "first point",
+            "usage": "Johans ghetto løsning",
+            "height": "69",
+            "specialConsideration": "has to be here",
+            "fireFightingEquipment": {
+                "risers": true,
+                "sprinkler": true,
+                "internalAlert": true,
+                "markers": true,
+                "automaticFiredetector": true,
+                "escapeStairs": false,
+                "fireLift": false,
+                "smokeDetectors": false
             },
-            "consideration":{
-                "values": "Inventory to save",
-                "hazards": "Gas leak"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [56.3214567, 8],
-            "address": "Skolevej 69",
-            "buildingDefinition": "School",
-            "typeOfIncident":{
-                "A": "Textile fire",
-                "B": "Fluid fire",
-                "C": "Gas fire",
-                "D": "Metal fire",
-                "E": "Electrical fire",
-                "F": "Oil fire"
-            },
-            "consideration":{
-                "values": "Inventory to save",
-                "hazards": "Gas leak"
+            "consideration": {
+                "fireVentilation": "has none"
             },
             "fullOpPlan": "alt"
         },
 
-        {   "coordinates": [56.4321567, 8.1234567], 
-            "address": "Aalborgvej 25",
-            "buildingDefinition": "Family house",
-            "typeOfIncident":{
-                "A": "Textile fire",
-                "B": "Fluid fire",
-                "C": "Gas fire",
-                "D": "Metal fire",
-                "E": "Electrical fire",
-                "F": "Oil fire"
-            },
-            "consideration":{
-                "values": "Inventory to save",
-                "hazards": "Gas leak"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [56.5432167, 8.7654321], 
-            "address": "sjovvej 23",
-            "buildingDefinition": "Kollegie",
-            "typeOfIncident":{
-                "A": "Textile fire",
-                "B": "Fluid fire",
-                "C": "Gas fire",
-                "D": "Metal fire",
-                "E": "Electrical fire",
-                "F": "Oil fire"
-            },
-            "consideration":{
-                "values": "Inventory to save",
-                "hazards": "Gas leak"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [56.6543217, 8], 
-            "address": "Catroad 420",
-            "buildingDefinition": "Internat",
-            "typeOfIncident":{
-                "A": "Textile fire",
-                "B": "Fluid fire",
-                "C": "Gas fire",
-                "D": "Metal fire",
-                "E": "Electrical fire",
-                "F": "Oil fire"
-            },
-            "consideration":{
-                "values": "Inventory to save",
-                "hazards": "Gas leak"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [56.7654321, 13.1234567], 
-            "address": "Dagvej 45",
-            "buildingDefinition": "aquarium",
-            "typeOfIncident":{
-                "A": "Textile fire",
-                "B": "Fluid fire",
-                "C": "Gas fire",
-                "D": "Metal fire",
-                "E": "Electrical fire",
-                "F": "Oil fire"
-            },
-            "consideration":{
-                "values": "Inventory to save",
-                "hazards": "Gas leak"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [56.7654123, 6.1234567], 
-            "address": "Deathroad 666",
-            "buildingDefinition": "Bedemands forretning",
-            "typeOfIncident":{
-                "A": "Textile fire",
-                "B": "Fluid fire",
-                "C": "Gas fire",
-                "D": "Metal fire",
-                "E": "Electrical fire",
-                "F": "Oil fire"
-            },
-            "consideration":{
-                "values": "Inventory to save",
-                "hazards": "Gas leak"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [57.048250, 9.931160],
-            "address": "Rendsburggade 28",
-            "buildingDefinition": "Larsen Waterfront",
-                        "height": "42 m, 15 floors",
-                        "special consideration": "common room for 150 people on 15. floor",
-            "Firefighting equipment":{
-                "Fire lift": "A lift leading to the top is found next to the main entrance",
-                "Escape stairs": "stairs containing fire ventilation windows",
-                "risers": "equipt through out the entire building",
-                "sprinkler": "equiped in the high part of the building",
-                "smoke detectors": "Equiped through out the entire building"
-            },
-            "consideration":{
-                "fire in the PV system": "A guide to interrupt electricity from the PV system, is found in the tech room"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [57.046799, 9.932070],
-            "address": "Kjellerups Torv 1",
-            "buildingDefinition": "Nordkraft",
-                        "Usage": "offices. sports and activities. classrooms. assembly rooms",
-                        "height": "42 m, 13 floors",
-                        "special consideration": "split evacuation. first floor 1 -8, then 8 min later floor 9 - 13",
-            "Firefighting equipment":{
-                "Fire lift": "A lift leading to the top is found next to the main entrance",
-                "Escape stairs": "stairs containing fire ventilation windows. located in every corner",
-                "risers": "equipt through out the entire building",
-                "sprinkler": "equiped in the high part of the building",
-                "smoke detectors": "Equiped through out the entire building",
-                "Markers": "markings for correct placement of equipment and vehicles"
-            },
-            "consideration":{
-                "Ekstra key": "A spear key is located at the fire central"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [57.037130, 9.907610],
-            "address": "Mølleparkvej 4, 9000",
-            "buildingDefinition": "Medicinerhuset",
-                        "Usage": "bed and treatment ward",
-                        "height": "34 m and 9 floors",
-                        "special consideration": "floor 5 is an tech floor only",
-            "Firefighting equipment":{
-                "Escape stairs": "stairs containing fire ventilation windows. located in every corner",
-                "risers": "equipt by every escape stair",
-                "sprinkler": "equiped in the high part of the building",
-                "automatic firedetector": "Equiped through out the entire building"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [57.050160, 9.918900],
-            "address": "Jomfru Ane Gade",
-            "buildingDefinition": "Jomfru Ane Gade",
-                        "Usage": "Bar street",
-                        "Amount of people": "max 8475 people. 6574 inside and 1900 on the street",
-                        "special consideration": "Keybox is located in building 16",
-            "Firefighting equipment":{
-                "Automatic firedetector": "Equiped in some buildings with individual systems"
-            },
-            "consideration":{
-                "vehicle passage": "Passage with fire vehicles is between building 14 and 24 and from the beach"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [57.003690, 9.871420],
+        {
+            "coordinates": [
+                57.00369,
+                9.87142
+            ],
             "address": "Vandmanden 5, 9200",
             "buildingDefinition": "Shoppen and Bio City",
-                        "Usage": "Mall and cinema",
-                        "height": "2 floors and bacement",
-                        "special consideration": "person counter",
-            "Firefighting equipment":{
-                "risers": "equiped by the stairs",
-                "sprinkler": "equiped through out the building except the basement",
-                "internal alert": "through out the building except the basement",
-                "Markers": "markings for correct placement of equipment and vehicles",
-                "Automatic firedetector": "Equiped by Elgiganten and Bahne on ground floor. Fitness and cinemar on first floor"
+            "usage": "Mall and cinema",
+            "height": "2 floors and bacement",
+            "specialConsideration": "person counter",
+            "fireFightingEquipment": {
+                "risers": true,
+                "sprinkler": true,
+                "internalAlert": true,
+                "markers": true,
+                "AutomaticFiredetector": true,
+                "escapeStairs": false,
+                "fireLift": false,
+                "smokeDetectors": false
             },
-            "consideration":{
-                "Fire ventilation": "can be controlled by the OCC"
-            },
-            "fullOpPlan": "alt"
-        },
-
-        {   "coordinates": [0, 0],
-            "address": "Fyldeplads 0, 9200",
-            "buildingDefinition": "Shoppen and Bio City",
-                        "Usage": "Mall and cinema",
-                        "height": "2 floors and bacement",
-                        "special consideration": "person counter",
-            "Firefighting equipment":{
-                "risers": "equiped by the stairs",
-                "sprinkler": "equiped through out the building except the basement",
-                "internal alert": "through out the building except the basement",
-                "Markers": "markings for correct placement of equipment and vehicles",
-                "Automatic firedetector": "Equiped by Elgiganten and Bahne on ground floor. Fitness and cinemar on first floor"
-            },
-            "consideration":{
-                "Fire ventilation": "can be controlled by the OCC"
+            "consideration": {
+                "fireVentilation": "can be controlled by the OCC"
             },
             "fullOpPlan": "alt"
         },
-
-        {   "coordinates": [90, 90],
+        {
+            "coordinates": [
+                57.03713,
+                9.90761
+            ],
+            "address": "Mølleparkvej 4, 9000",
+            "buildingDefinition": "Medicinerhuset",
+            "usage": "bed and treatment ward",
+            "height": "34 m and 9 floors",
+            "specialConsideration": "floor 5 is an tech floor only",
+            "fireFightingEquipment": {
+                "risers": true,
+                "sprinkler": true,
+                "internalAlert": false,
+                "markers": false,
+                "automaticFiredetector": true,
+                "escapeStairs": true,
+                "fireLift": false,
+                "smokeDetectors": false
+            },
+            "consideration": {
+                "none": false
+            },
+            "fullOpPlan": "alt"
+        },
+        {
+            "coordinates": [
+                57.046799,
+                9.93207
+            ],
+            "address": "Kjellerups Torv 1",
+            "buildingDefinition": "Nordkraft",
+            "usage": "offices. sports and activities. classrooms. assembly rooms",
+            "height": "42 m, 13 floors",
+            "specialConsideration": "split evacuation. first floor 1 -8, then 8 min later floor 9 - 13",
+            "fireFightingEquipment": {
+                "risers": true,
+                "sprinkler": true,
+                "internalAlert": false,
+                "markers": true,
+                "automaticFiredetector": false,
+                "escapeStairs": true,
+                "fireLift": true,
+                "smokeDetectors": true
+            },
+            "consideration": {
+                "ekstraKey": "A spear key is located at the fire central"
+            },
+            "fullOpPlan": "alt"
+        },
+        {
+            "coordinates": [
+                57.04825,
+                9.93116
+            ],
+            "address": "Rendsburggade 28",
+            "buildingDefinition": "Larsen Waterfront",
+            "usage": "living",
+            "height": "42 m, 15 floors",
+            "specialConsideration": "common room for 150 people on 15. floor",
+            "FirefightingEquipment": {
+                "risers": true,
+                "sprinkler": true,
+                "internalAlert": false,
+                "markers": false,
+                "automaticFiredetector": false,
+                "escapeStairs": true,
+                "fireLift": true,
+                "smokeDetectors": true
+            },
+            "consideration": {
+                "firePVSystem": "A guide to interrupt electricity from the PV system, is found in the tech room"
+            },
+            "fullOpPlan": "alt"
+        },
+        {
+            "coordinates": [
+                57.05016,
+                9.9189
+            ],
+            "address": "Jomfru Ane Gade",
+            "buildingDefinition": "Jomfru Ane Gade",
+            "Usage": "Bar street",
+            "AmountPeople": "max 8475 people. 6574 inside and 1900 on the street",
+            "specialConsideration": "Keybox is located in building 16",
+            "FirefightingEquipment": {
+                "risers": false,
+                "sprinkler": false,
+                "internalAlert": false,
+                "markers": false,
+                "automaticFiredetector": true,
+                "escapeStairs": false,
+                "fireLift": false,
+                "smokeDetectors": false
+            },
+            "consideration": {
+                "vehiclePassage": "Passage with fire vehicles is between building 14 and 24 and from the beach"
+            },
+            "fullOpPlan": "alt"
+        },
+        {
+            "coordinates": [
+                90,
+                90
+            ],
             "address": "Fyldeplads 90, 9200",
-            "buildingDefinition": "Shoppen and Bio City",
-                        "Usage": "Mall and cinema",
-                        "height": "2 floors and bacement",
-                        "special consideration": "person counter",
-            "Firefighting equipment":{
-                "risers": "equiped by the stairs",
-                "sprinkler": "equiped through out the building except the basement",
-                "internal alert": "through out the building except the basement",
-                "Markers": "markings for correct placement of equipment and vehicles",
-                "Automatic firedetector": "Equiped by Elgiganten and Bahne on ground floor. Fitness and cinemar on first floor"
+            "buildingDefinition": "Ghetto",
+            "usage": "Last point",
+            "height": "69",
+            "specialConsideration": "Johans ghetto løsning",
+            "fireFightingEquipment": {
+                "risers": false,
+                "sprinkler": false,
+                "internalAlert": false,
+                "markers": false,
+                "automaticFiredetector": false,
+                "escapeStairs": false,
+                "fireLift": false,
+                "smokeDetectors": false
             },
-            "consideration":{
-                "Fire ventilation": "can be controlled by the OCC"
+            "consideration": {
+                "fireVentilation": false
             },
             "fullOpPlan": "alt"
         }
-
     ]
 }
