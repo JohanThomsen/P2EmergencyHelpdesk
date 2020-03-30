@@ -17,6 +17,24 @@ let newOpPlanOrg = {
 },
 "fullOpPlan": "alt"
 }
+<<<<<<< HEAD
+=======
+
+module.exports = {mergeSort, binarySearch, binaryInput};
+
+/*getOperativeData()
+.then(()=>{
+    opPlanArray.data = mergeSort(opPlanArray.data);
+    //let updatedJSON = JSON.stringify(opPlanArray);
+    binaryInput(newOpPlanOrg, opPlanArray.data, newOpPlanOrg.coordinates[0], newOpPlanOrg.coordinates[1]);
+    let foundValue = binarySearch(opPlanArray.data, newOpPlanOrg.coordinates[0], newOpPlanOrg.coordinates[1]);
+    console.log(foundValue);
+    //console.log(opPlanArray);
+})
+.catch((Error) => {
+    console.log(`Error: ${Error}`);
+});
+>>>>>>> DataManagementWeek2
 
 module.exports = {mergeSort,binarySearch};
 
@@ -33,12 +51,20 @@ module.exports = {mergeSort,binarySearch};
 //     console.log(`Error: ${Error}`);
 // });
 
+<<<<<<< HEAD
 
 // async function getOperativeData(){
 //     let opResult = await fetch(`dataBase.json`);
 //     opPlanArray = await opResult.json();
 //     console.log(opPlanArray);
 // }
+=======
+async function getOperativeData(){
+    let opResult = await fetch(`dataBase.json`);
+    opPlanArray = await opResult.json();
+    console.log(opPlanArray);
+}*/
+>>>>>>> DataManagementWeek2
 
 
 function mergeSort (unsortedArray) {
@@ -161,7 +187,8 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
         break;
         }
     }
-    oldOpPlanArray[index] = newOpPlan
+    oldOpPlanArray[index] = newOpPlan;
+    return oldOpPlanArray;
     //console.log(opPlanArray);
 }
 
