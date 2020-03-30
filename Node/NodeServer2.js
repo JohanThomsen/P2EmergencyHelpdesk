@@ -46,18 +46,22 @@ let server = http.createServer((request, response) => {
         let post = processPost(request);
         break;
       case '/fileupload':
+          console.log('Uploading');
         let form = new formidable.IncomingForm();
-        form.parse(request, (err, fields, files) => {
-          let oldPath = files.filetoupload.path;
-          console.log(oldPath);
-          let newPath = 'E:/P2Kode/Node/Data' + files.filetoupload.name;
-          fs.rename(oldPath, newPath, (err) => {
-            if (err) throw err;
-          });
-          response.write('file uploaded');
-          response.end();
-        
+        form.parse(request);
+
+        form.on('fileBegin', (name, file) => {
+            file.path = `C:/Git/P2/P2Projekt/Node/dataManagement/OperativePDF/${file.name}`;
         });
+
+        form.on('file', (name, file) => {
+            console.log(`Uploaded ${file.name}`);
+        });
+
+        response.writeHead(301,
+            {location: 'http://127.0.0.1:5500/opPlanInput.html'
+          });  
+
     }
   };
 });
@@ -218,19 +222,19 @@ function guessMimeType(fileName) {
         console.log(post);
         post = JSON.parse(post);
   
-        fs.readFile('Node/dataBase.json', 'utf8',(err, data) => {
+        fs.readFile('Node/dataManagement/dataBase.json', 'utf8',(err, data) => {
           if (err){
             console.log(err);
           } else {
             console.log('Updating JSON');
             opPlanArray = JSON.parse(data);
-            opPlanArray.data = search.mergeSort(opPlanArray.data);
+            //opPlanArray.data = search.mergeSort(opPlanArray.data);
             console.log(opPlanArray.data);
             //opPlanArray.data.push(post);
             opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
             console.log(opPlanArray.data);
             let jsonOpPlan = JSON.stringify(opPlanArray, null, 4);
-            fs.writeFile('Node/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
+            fs.writeFile('Node/dataManagement/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
                 if (err){
                     console.log(err);
                 }
