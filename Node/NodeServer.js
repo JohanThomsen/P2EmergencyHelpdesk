@@ -63,7 +63,7 @@ let server = http.createServer((request, response) => {
 server.listen(port, hostName, () =>{
 });
 
-console.log(checkPolygon.checkPolygon([[57.04404949813939, 9.942971265999974], [57.043877323247635, 9.94304625068883], [57.04397362455664, 9.943860370167663], [57.04414871720608, 9.943753249183619]], [57.04399405207492, 9.94314801562367]));
+console.log(checkPolygon.checkPolygon([ [ 9.9314944, 57.0462362 ], [ 9.9315033, 57.0462819 ], [ 9.9315998, 57.0467743 ], [ 9.9316016, 57.0467837 ], [ 9.9318321, 57.0467725 ], [ 9.9318377, 57.0468267 ], [ 9.9319988, 57.0468179 ], [ 9.9320002, 57.0468448 ], [ 9.933088, 57.0467891 ], [ 9.9329993, 57.0463101 ], [ 9.9329407, 57.0463116 ], [ 9.9329382, 57.046276 ], [ 9.9330566, 57.0462722 ], [ 9.9330571, 57.0462029 ], [ 9.9330097, 57.0462034 ], [ 9.9330083, 57.0461685 ], [ 9.9322898, 57.0461892 ], [ 9.9314944, 57.0462362 ] ], [57.04652291941613, 9.932281699291654]));
 
 function NearbyLocation(path, index, coordinates) {
   let file = fs.readFileSync(path);
@@ -183,10 +183,10 @@ function sendOperativePlan(path, requestUrl, response) {
   let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
   let opArraySorted = search.mergeSort(opArray);
   let resultIndex = search.binarySearch(opArraySorted, coordinates[0], coordinates[1]);
-  let operativePlan = opArraySorted[resultIndex];
+  console.log(resultIndex);
   let result = {
-    opPlan: operativePlan,
-    nearbyWarnings: NearbyLocation(path, resultIndex, coordinates)
+    opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
+    nearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
   };
   response.statusCode = 200;
   response.setHeader('Content-Type', 'application/json');
@@ -194,6 +194,31 @@ function sendOperativePlan(path, requestUrl, response) {
   response.end('\n');
 }
 
+console.log(insideBuilding([57.04652291941613, 9.932281699291654], './Node/test.geojson'));
+function insideBuilding(point, geoJsonPath) {
+  let geoJsonFile = fs.readFileSync(geoJsonPath);
+  let geoJsonObject = JSON.parse(geoJsonFile);
+  let buildingIndex;
+  geoJsonObject.features.forEach((element, index) => {
+    let diffX = Math.abs(element.geometry.coordinates[0][0][0][0] - point[0]);
+    let diffY = Math.abs(element.geometry.coordinates[0][0][0][1] - point[1]);
+    if (diffX < 0.005 && diffY < 0.005) {
+      if (checkPolygon.checkPolygon(element.geometry.coordinates[0][0], point)) {
+        buildingIndex = index;
+        return;
+      }
+      buildingIndex = -1;
+    }
+    buildingIndex = -1;
+  });
+
+  console.log(buildingIndex);
+  if (buildingIndex != -1) {
+    return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type};
+  } else {
+    return {name: '', type: ''};
+  }
+}
 
 //Server fil ting
 const rootFileSystem = process.cwd();

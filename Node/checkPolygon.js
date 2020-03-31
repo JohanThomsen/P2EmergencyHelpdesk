@@ -15,10 +15,8 @@ function checkPolygon(polygon, point) {
     let infPoint = {x: infinite, y: point[1]};
 
     let intersections = 0;
-    console.log(polygon.length)
     for (let i = 0; i <= polygon.length - 1; i++) {
         let next = i >= polygon.length - 1 ? 0 : i+1;
-        console.log(i + " >= " + (polygon.length - 1));
         if (doIntersect(polygon[i], polygon[next], startPoint, infPoint)) {
             if (orientation(polygon[i], startPoint, polygon[next]) == 0) {
                 return onSegment(polygon[i], startPoint, polygon[next]);
@@ -55,7 +53,6 @@ function orientation(p, q, r) {
 
 //Checks if line segment "p1q1" intersects with line segment "p2q2"
 function doIntersect(p1, q1, p2, q2) {
-    console.log(p1 + q1 + p2 +q2);
     let o1 = orientation(p1, q1, p2);
     let o2 = orientation(p1, q1, q2);
     let o3 = orientation(p2, q2, p1);

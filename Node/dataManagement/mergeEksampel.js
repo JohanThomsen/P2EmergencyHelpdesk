@@ -100,6 +100,7 @@ function binarySearch(array, targetN, targetE){
             endIndex = middleIndex - 1;      
         }
     }
+    return -1;
 }
 
 
