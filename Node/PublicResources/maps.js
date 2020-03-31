@@ -20,17 +20,16 @@ function placeMarker(x_coordinate, y_coordinate){
 }
 */
 function displayProperties(feature, layer){
-    console.log("displayProp");
     layer.on('mousedown', (e) => {
-        let outerElement = document.getElementById("opPlan");
-        outerElement.innerHTML = ''; //Clears the outer element so no multiples appear with more clicks
+        let outerElement = document.getElementById("strucPlan");
+        outerElement.innerHTML = '<h3>Structure plan</h3>'; //Clears the outer element so no multiples appear with more clicks
         console.log(feature.geometry.coordinates);
         // Creates a paragraf for each attribute, with padding depending on the amount of attributes
         for(property in feature.properties) {
             let p = document.createElement("p");
             p.innerHTML = feature.properties[property];
 
-            let attributeCount = Object.keys(feature.properties).length;
+            let attributeCount = Object.keys(feature.properties).length + 1;
             let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
             p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
             p.style.padding = "1px";
@@ -38,7 +37,7 @@ function displayProperties(feature, layer){
             outerElement.appendChild(p);
 
         }
-    })
+    });
 }
 
 // Gets the current fires, loads them onto the map with the display function on click
@@ -48,17 +47,15 @@ fetch("/fires")
         return response.json();
     })
     .then((data) => {
-        // let geojsonLayer = L.layerGroup().addTo(primaryMap);
-        // geojsonLayer.clearLayers();
         let geojsonLayer = new L.geoJSON(data, {
-            onEachFeature: markerFeatures //zooms on marker
+            onEachFeature: markerFeatures
         });
 
         geojsonLayer.addTo(primaryMap);
     });
 
 function fetchPlan(feature, layer){
-    
+    layer.on("mousedown", (e) => {
         let tempCoordX = feature.geometry.coordinates[0];
         let tempCoordY = feature.geometry.coordinates[1];
         let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
@@ -68,21 +65,30 @@ function fetchPlan(feature, layer){
         //404 error ATM
         fetch(`/operativePlans=${stringedCoord}`)
             .then((response) => {
-                return response.json();
+                try {
+                    JSON.parse(response);
+                    return response.json();
+                } catch (error) {
+                    let message = {opPlan: {data:"No Operative Plan Available"}};
+                    return message;
+                }
+                
             })
             .then((data) => {
                 displayPlan(data);
             });
+        });
 }
 
+// Also isnt funtional, as it still needs to be designed for the current format
 function displayPlan(data){
-    let outerElement = document.getElementById("strucPlan");
-    outerElement.innerHTML = ''; //Clears the outer element so no multiples appear with more clicks
-
+    let outerElement = document.getElementById("opPlan");
+    outerElement.innerHTML = '<h3>Operative plan</h3>'; //Clears the outer element so no multiples appear with more clicks
+    console.log(data.data);
     for(property in data){
         let p = document.createElement("p");
         p.innerHTML = data[property];
-        let attributeCount = Object.keys(data).length;
+        let attributeCount = Object.keys(data.opPlan).length;
         let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
         p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
         p.style.padding = "1px";
@@ -92,16 +98,17 @@ function displayPlan(data){
 }
 
 function markerView(feature, layer){
+    layer.on("mousedown", (e) => {
         let coordX = feature.geometry.coordinates[0];
         let coordY = feature.geometry.coordinates[1];
         primaryMap.setView([coordY,coordX], scale+3);
+    });
 }
 
 function markerFeatures(feature, layer){
-    layer.on("mousedown", (e) => {
-        displayProperties(feature, layer);
-        markerView(feature, layer);
-        fetchPlan(feature, layer);
-    });
+    displayProperties(feature, layer);
+    markerView(feature, layer);
+    fetchPlan(feature, layer);
+    
 }
 //placeMarker(x_coordinate, y_coordinate);
