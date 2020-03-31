@@ -15,10 +15,10 @@ function checkPolygon(polygon, point) {
     let infPoint = {x: infinite, y: point[1]};
 
     let intersections = 0;
-   
-    for (let i = 0; i <= polygon.length; i++) {
-        let next = i >= polygon.length ? 0 : i+1;
-
+    console.log(polygon.length)
+    for (let i = 0; i <= polygon.length - 1; i++) {
+        let next = i >= polygon.length - 1 ? 0 : i+1;
+        console.log(i + " >= " + (polygon.length - 1));
         if (doIntersect(polygon[i], polygon[next], startPoint, infPoint)) {
             if (orientation(polygon[i], startPoint, polygon[next]) == 0) {
                 return onSegment(polygon[i], startPoint, polygon[next]);
@@ -27,7 +27,7 @@ function checkPolygon(polygon, point) {
         }
     }
 
-    return (count % 2 == 1);
+    return (intersections % 2 == 1);
 }
 
 //Given 3 points on the same line (p, q, r), returns "true" if q lies between p and r (on the segment pr)
@@ -45,6 +45,7 @@ function onSegment(p, q, r) {
 //If the points are collinear (lies on the same line), the function returns 0
 //Returns 1 if clockwise, returns 2 if counter clockwise
 function orientation(p, q, r) {
+    
     let value = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y); 
     if (value == 0) { 
         return 0;
@@ -54,6 +55,7 @@ function orientation(p, q, r) {
 
 //Checks if line segment "p1q1" intersects with line segment "p2q2"
 function doIntersect(p1, q1, p2, q2) {
+    console.log(p1 + q1 + p2 +q2);
     let o1 = orientation(p1, q1, p2);
     let o2 = orientation(p1, q1, q2);
     let o3 = orientation(p2, q2, p1);

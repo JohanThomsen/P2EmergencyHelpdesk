@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const search = require('./dataManagement/mergeEksampel.js');
-//const checkPolygon = require('./checkPolygon.js');
+const checkPolygon = require('./checkPolygon.js');
 
 //server setup variables
 const port = 3000;
@@ -63,7 +63,7 @@ let server = http.createServer((request, response) => {
 server.listen(port, hostName, () =>{
 });
 
-//checkPolygon.checkPolygon([[1.5, 7.2], [1.8, 4.2], [3.5, 2.2]], 5);
+console.log(checkPolygon.checkPolygon([[57.04404949813939, 9.942971265999974], [57.043877323247635, 9.94304625068883], [57.04397362455664, 9.943860370167663], [57.04414871720608, 9.943753249183619]], [57.04399405207492, 9.94314801562367]));
 
 function NearbyLocation(path, index, coordinates) {
   let file = fs.readFileSync(path);
