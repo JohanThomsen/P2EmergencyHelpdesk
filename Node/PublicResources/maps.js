@@ -1,8 +1,9 @@
-
+// Intro blurb, Code for Operative Plan GIS site, using leaflet
+// Written as part of a 2nd semester project on AAU
 const scale = 13;
 
 // Leaflet copy-paste job, creates the map then gets the map from mapbox
-let primaryMap = L.map("mapArea").setView([57,9.9], scale);
+let primaryMap = L.map("mapArea").setView([56.4321567, 8.1234567], scale);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
@@ -12,17 +13,11 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: 'pk.eyJ1Ijoia3Jpczk3M2EiLCJhIjoiY2s3eGFtM2hiMDlnbjNmcHByNXBocWE1ZSJ9.AC0zZ0OWIjPa70_crBl-qQ'
 }).addTo(primaryMap);
 
-/*
-function placeMarker(x_coordinate, y_coordinate){
-    let accident = L.marker([x_coordinate, y_coordinate]).addTo(primaryMap);
-    accident.on('mousedown', print);
-    primaryMap.setView([x_coordinate, y_coordinate], scale);
-}
-*/
+// Gets the building properties from the marker and displays them in the box
 function displayProperties(feature, layer){
     layer.on('mousedown', (e) => {
         let outerElement = document.getElementById("strucPlan");
-        outerElement.innerHTML = '<h3>Structure plan</h3>'; //Clears the outer element so no multiples appear with more clicks
+        outerElement.innerHTML = '<h3>Structure plan</h3>'; //Clears the outer element so no multiples appear with more clicks, while mainaining the header
         console.log(feature.geometry.coordinates);
         // Creates a paragraf for each attribute, with padding depending on the amount of attributes
         for(property in feature.properties) {
@@ -54,6 +49,7 @@ fetch("/fires")
         geojsonLayer.addTo(primaryMap);
     });
 
+//Gets the operative plan data, and calls displayPlan with the appropriate response
 function fetchPlan(feature, layer){
     layer.on("mousedown", (e) => {
         let tempCoordX = feature.geometry.coordinates[0];
@@ -62,17 +58,12 @@ function fetchPlan(feature, layer){
         stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
         console.log(stringedCoord);
 
-        //404 error ATM
+        //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
         fetch(`/operativePlans=${stringedCoord}`)
             .then((response) => {
-                try {
-                    JSON.parse(response);
-                    return response.json();
-                } catch (error) {
-                    let message = {opPlan: {data:"No Operative Plan Available"}};
-                    return message;
-                }
-                
+                if (response.status == 404) {
+                    return false;
+                } else return response.json();              
             })
             .then((data) => {
                 displayPlan(data);
@@ -80,23 +71,39 @@ function fetchPlan(feature, layer){
         });
 }
 
-// Also isnt funtional, as it still needs to be designed for the current format
+// Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
     let outerElement = document.getElementById("opPlan");
-    outerElement.innerHTML = '<h3>Operative plan</h3>'; //Clears the outer element so no multiples appear with more clicks
-    console.log(data.data);
-    for(property in data){
+    outerElement.innerHTML = '<h3>Operative plan</h3>'; //Clears the outer element so no multiples appear with more clicks, while mainaining the header
+
+    if (data) { // Checks whether the data arrived, if true, writes the information, otherwise displays an error message
+        //Needs a full redesign, the properties layout does not fit the amount of data we need to display here, dropdowns are promising
+        for(property in data.opPlan){
+            let p = document.createElement("p");
+            p.innerHTML = data.opPlan[property];
+            console.log(data.opPlan);
+            let attributeCount = Object.keys(data.opPlan).length + 1;
+            console.log(attributeCount-1);
+            let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
+            p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
+            p.style.padding = "1px";
+    
+            outerElement.appendChild(p);
+        }     
+
+    } else { // Styling could be improved, otherwise this section does its job
         let p = document.createElement("p");
-        p.innerHTML = data[property];
-        let attributeCount = Object.keys(data.opPlan).length;
+        p.innerHTML = "Operative plan for this location not available";
+        let attributeCount = 4;
         let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
         p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
         p.style.padding = "1px";
-
+    
         outerElement.appendChild(p);
-    }       
+    }
 }
 
+// Zooms in on the marker when it is clicked on
 function markerView(feature, layer){
     layer.on("mousedown", (e) => {
         let coordX = feature.geometry.coordinates[0];
@@ -105,10 +112,11 @@ function markerView(feature, layer){
     });
 }
 
+// Defines all the marker features
 function markerFeatures(feature, layer){
     displayProperties(feature, layer);
     markerView(feature, layer);
     fetchPlan(feature, layer);
     
 }
-//placeMarker(x_coordinate, y_coordinate);
+
