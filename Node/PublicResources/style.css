@@ -1,12 +1,12 @@
 .textbox{
-    overflow: hidden;
-    height: 240px;
+    height: 46%;
     margin-top: 1%;
     width: 40%;
     margin-left: 2%;
     border: 1px solid black;    
     background: lightgrey;
     float: left;
+    overflow-y: scroll;
 }
 .textbox p{
     margin-left: 2%;
@@ -29,8 +29,14 @@
 }
 
 .main{
+    height: inherit;
     margin-top: 80px;
     margin-left: unset;
+    margin-bottom: auto;
+}
+
+html, body {
+    height: 100%;
 }
 
 h2, h3{
@@ -49,10 +55,11 @@ th, td {
 
 #mapArea {
     overflow: hidden;
-    height: 500px;
+    height: calc(95% - 4px); /* 4px minus er pga borders så det passer med de andre elementer */
     width: 45%;
     margin-left: 5%;
     margin-top: 1%;
+    margin-bottom: 2%;
     float: left;
     border: 1px solid black;
 }
