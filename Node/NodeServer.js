@@ -264,7 +264,7 @@ async function updateDatabase (post, res) {
             //opPlanArray.data.push(post);
             opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
             console.log(opPlanArray.data);
-            let jsonOpPlan = JSON.stringify(opPlanArray, null, 4);
+            let jsonOpPlan = JSON.stringify(opPlanArray, null, 4).replace(/\\\\/g, "/");
             fs.writeFile('Data/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
                 if (err){
                     console.log(err);
@@ -312,7 +312,7 @@ function handleOpPlan(request, response){
      * The opPlan Object is updated with its location.
      */
     form.on('fileBegin', (name, file) => {
-        file.path = `${__dirname}/dataManagement/OperativePDF/${file.name}`;
+        file.path = `${__dirname}/Data/OperativePDF/${file.name}`;
         newOpPlan.fullOpPlan = file.path;
     });
 
