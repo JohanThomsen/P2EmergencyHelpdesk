@@ -18,7 +18,8 @@ let newOpPlanOrg = {
 "fullOpPlan": "alt"
 }
 
-module.exports = {mergeSort,binarySearch};
+module.exports = {mergeSort, binarySearch, binaryInput};
+
 
 // getOperativeData()
 // .then(()=>{
@@ -162,7 +163,8 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
         break;
         }
     }
-    oldOpPlanArray[index] = newOpPlan
+    oldOpPlanArray[index] = newOpPlan;
+    return oldOpPlanArray;
     //console.log(opPlanArray);
 }
 
