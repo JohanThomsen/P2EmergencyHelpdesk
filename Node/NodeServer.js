@@ -186,15 +186,18 @@ function sendOperativePlan(path, requestUrl, response) {
   console.log(resultIndex);
   let result = {
     opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
+    BuildingMetaData: insideBuilding(coordinates, './Node/test.geojson'),
     nearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
+
   };
+  console.log(result)
   response.statusCode = 200;
   response.setHeader('Content-Type', 'application/json');
   response.write(JSON.stringify(result, null, 4));
   response.end('\n');
 }
 
-console.log(insideBuilding([57.04652291941613, 9.932281699291654], './Node/test.geojson'));
+//console.log(insideBuilding([9.932281699291654, 57.04652291941613], './Node/test.geojson'));
 function insideBuilding(point, geoJsonPath) {
   let geoJsonFile = fs.readFileSync(geoJsonPath);
   let geoJsonObject = JSON.parse(geoJsonFile);
