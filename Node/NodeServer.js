@@ -29,7 +29,6 @@ let server = http.createServer((request, response) => {
 
       case ('/buildings'):
         fs.readFile('./Node/test.geojson', (err, data) => {
-          console.log(JSON.parse(data));
           response.statusCode = 200;
           response.setHeader('Content-Type', 'application/json');
           response.write(data);
@@ -67,7 +66,7 @@ let server = http.createServer((request, response) => {
 server.listen(port, hostName, () =>{
 });
 
-console.log(checkPolygon.checkPolygon([[9.9314944, 57.0462362], [9.9315033, 57.0462819], [9.9315998, 57.0467743], [9.9316016, 57.0467837], [9.9318321, 57.0467725], [9.9318377, 57.0468267], [9.9319988, 57.0468179], [9.9320002, 57.0468448], [9.933088, 57.0467891], [9.9329993, 57.0463101], [9.9329407, 57.0463116], [9.9329382, 57.046276], [9.9330566, 57.0462722], [9.9330571, 57.0462029], [9.9330097, 57.0462034], [9.9330083, 57.0461685], [9.9322898, 57.0461892], [9.9314944, 57.0462362]], [9.932281699291654, 57.04652291941613]));
+//console.log(checkPolygon.checkPolygon([[9.9314944, 57.0462362], [9.9315033, 57.0462819], [9.9315998, 57.0467743], [9.9316016, 57.0467837], [9.9318321, 57.0467725], [9.9318377, 57.0468267], [9.9319988, 57.0468179], [9.9320002, 57.0468448], [9.933088, 57.0467891], [9.9329993, 57.0463101], [9.9329407, 57.0463116], [9.9329382, 57.046276], [9.9330566, 57.0462722], [9.9330571, 57.0462029], [9.9330097, 57.0462034], [9.9330083, 57.0461685], [9.9322898, 57.0461892], [9.9314944, 57.0462362]], [9.932281699291654, 57.04652291941613]));
 
 function NearbyLocation(path, index, coordinates) {
   let file = fs.readFileSync(path);
@@ -101,7 +100,6 @@ function checkPrevious(start, index, opArraySorted) {
 
 function SplitData(data) {
   let coordinates = data[0].split('_');
-  console.log(coordinates);
   let result = coordinates.map((element) => {
     return Number(element.replace(';', '.'));
   })
@@ -134,7 +132,6 @@ function CheckFire(jsonData, path) {
     }
     return;
   } else if(entryValue.returnValue == true) {
-    console.log(entryValue.returnValue); 
       //if it is not active, but exists in the file, it is deleted  
       DeleteEntry(path, entryValue.indexValue);
       return;
@@ -187,19 +184,18 @@ function sendOperativePlan(path, requestUrl, response) {
   let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
   let opArraySorted = search.mergeSort(opArray);
   let resultIndex = search.binarySearch(opArraySorted, coordinates[0], coordinates[1]);
-  console.log(resultIndex);
   let result = {
     opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
-    BuildingMetaData: insideBuilding(coordinates, './Node/buildings.geojson')//,
-    //nearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
-
+    BuildingMetaData: insideBuilding(coordinates, './Node/buildings.geojson'),
+    NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, [coordinates[1], coordinates[0]]) : []
   };
-  console.log(result)
   response.statusCode = 200;
   response.setHeader('Content-Type', 'application/json');
   response.write(JSON.stringify(result, null, 4));
   response.end('\n');
 }
+
+
 
 //console.log(insideBuilding([9.932281699291654, 57.04652291941613], './Node/test.geojson'));
 function insideBuilding(point, geoJsonPath) {
@@ -432,7 +428,6 @@ function handleOpPlan(request, response){
         }
     });
 
-    console.log('NewOpPlan :', newOpPlan);
     updateDatabase(newOpPlan, response);
 
     response.writeHead(301,
