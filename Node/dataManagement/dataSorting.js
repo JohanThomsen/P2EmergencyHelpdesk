@@ -61,6 +61,7 @@ function binarySearch(array, targetN, targetE){
             endIndex = middleIndex - 1;      
         }
     }
+    return -1;
 }
 
 // inputs an operative plan in the correct position in the sorted array
