@@ -113,6 +113,22 @@
                     45.22488
                 ]
             }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "BIGFIRE",
+                "time": "14:56",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.93207,
+                    57.046799
+                ]
+            }
         }
     ]
 }

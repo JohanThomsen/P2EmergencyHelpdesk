@@ -28,7 +28,7 @@ let server = http.createServer((request, response) => {
         break;
 
       case ('/buildings'):
-        fs.readFile('./Node/test.geojson', (err, data) => {
+        fs.readFile('./Node/Buildingsgeojson', (err, data) => {
           response.statusCode = 200;
           response.setHeader('Content-Type', 'application/json');
           response.write(data);
@@ -186,9 +186,10 @@ function sendOperativePlan(path, requestUrl, response) {
   let resultIndex = search.binarySearch(opArraySorted, coordinates[0], coordinates[1]);
   let result = {
     opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
-    BuildingMetaData: insideBuilding(coordinates, './Node/buildings.geojson'),
-    NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, [coordinates[1], coordinates[0]]) : []
+    BuildingMetaData: insideBuilding([9.93207, 57.046799], './Node/Buildings.geojson'),
+    NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
   };
+  console.log(result)
   response.statusCode = 200;
   response.setHeader('Content-Type', 'application/json');
   response.write(JSON.stringify(result, null, 4));
@@ -197,10 +198,11 @@ function sendOperativePlan(path, requestUrl, response) {
 
 
 
-//console.log(insideBuilding([9.932281699291654, 57.04652291941613], './Node/test.geojson'));
+console.log(insideBuilding([9.932281699291654, 57.04652291941613], './Node/Buildings.geojson'));
 function insideBuilding(point, geoJsonPath) {
   let geoJsonFile = fs.readFileSync(geoJsonPath);
   let geoJsonObject = JSON.parse(geoJsonFile);
+  let success = false; 
   let buildingIndex;
   geoJsonObject.features.forEach((element, index) => {
     let diffX = Math.abs(element.geometry.coordinates[0][0][0][0] - point[0]);
@@ -208,12 +210,18 @@ function insideBuilding(point, geoJsonPath) {
     if (diffX < 0.005 && diffY < 0.005) {
       if (checkPolygon.checkPolygon(element.geometry.coordinates[0][0], point)) {
         buildingIndex = index;
+        success =  true; 
+        console.log('am here')
         return;
       }
-      buildingIndex = -1;
+      //buildingIndex = -1;
     }
-    buildingIndex = -1;
+    //buildingIndex = -1;
   });
+
+  if (success == false) {
+      buildingIndex = -1; 
+  }
 
   console.log(buildingIndex);
   if (buildingIndex != -1) {
