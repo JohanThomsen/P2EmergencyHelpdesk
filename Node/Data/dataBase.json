@@ -48,7 +48,7 @@
                 "internalAlert": true
             },
             "consideration": "Locker 5 has a plastic depot. Care for dangerous smoke",
-            "fullOpPlan": "c:\\Git\\P2\\EmergencyHelpdesk\\Node/dataManagement/OperativePDF/Skema.pdf"
+            "fullOpPlan": "c:/Git/P2/EmergencyHelpdesk/Node/dataManagement/OperativePDF/Skema.pdf"
         },
         {
             "coordinates": [
@@ -58,7 +58,7 @@
             "address": "Vandmanden 5, 9200",
             "buildingDefinition": "Shoppen and Bio City",
             "usage": "Mall and cinema",
-            "height": "2 floors and bacement",
+            "height": "20",
             "specialConsideration": "person counter",
             "fireFightingEquipment": {
                 "risers": true,
@@ -70,10 +70,8 @@
                 "fireLift": false,
                 "smokeDetectors": false
             },
-            "consideration": {
-                "fireVentilation": "can be controlled by the OCC"
-            },
-            "fullOpPlan": "alt"
+            "consideration": "Controllabe fire ventilation",
+            "fullOpPlan": "C:/Git/P2/EmergencyHelpdesk/Node/Data/OperativePDF/42. Shoppen - Vandmanden 5, Aalborg SV.pdf"
         },
         {
             "coordinates": [
@@ -81,9 +79,9 @@
                 9.90761
             ],
             "address": "Mølleparkvej 4, 9000",
-            "buildingDefinition": "Medicinerhuset",
+            "buildingDefinition": "Hospital",
             "usage": "bed and treatment ward",
-            "height": "34 m and 9 floors",
+            "height": "34",
             "specialConsideration": "floor 5 is an tech floor only",
             "fireFightingEquipment": {
                 "risers": true,
@@ -95,10 +93,8 @@
                 "fireLift": false,
                 "smokeDetectors": false
             },
-            "consideration": {
-                "none": false
-            },
-            "fullOpPlan": "alt"
+            "consideration": "",
+            "fullOpPlan": "C:/Git/P2/EmergencyHelpdesk/Node/Data/OperativePDF/13. Sygehus Syd, Medicinerhuset - Mølleparkvej 4,  Aalborg.pdf"
         },
         {
             "coordinates": [
@@ -108,7 +104,7 @@
             "address": "Kjellerups Torv 1",
             "buildingDefinition": "Nordkraft",
             "usage": "offices. sports and activities. classrooms. assembly rooms",
-            "height": "42 m, 13 floors",
+            "height": "42",
             "specialConsideration": "split evacuation. first floor 1 -8, then 8 min later floor 9 - 13",
             "fireFightingEquipment": {
                 "risers": true,
@@ -120,10 +116,8 @@
                 "fireLift": true,
                 "smokeDetectors": true
             },
-            "consideration": {
-                "ekstraKey": "A spear key is located at the fire central"
-            },
-            "fullOpPlan": "alt"
+            "consideration": "A spare key is located at the fire central",
+            "fullOpPlan": "C:/Git/P2/EmergencyHelpdesk/Node/Data/OperativePDF/001. Nordkraft_Kjellerups Torv"
         },
         {
             "coordinates": [
@@ -133,7 +127,7 @@
             "address": "Rendsburggade 28",
             "buildingDefinition": "Larsen Waterfront",
             "usage": "living",
-            "height": "42 m, 15 floors",
+            "height": "42",
             "specialConsideration": "common room for 150 people on 15. floor",
             "FirefightingEquipment": {
                 "risers": true,
@@ -145,10 +139,8 @@
                 "fireLift": true,
                 "smokeDetectors": true
             },
-            "consideration": {
-                "firePVSystem": "A guide to interrupt electricity from the PV system, is found in the tech room"
-            },
-            "fullOpPlan": "alt"
+            "consideration": "A guide to interrupt electricity from the PV system, is found in the tech room",
+            "fullOpPlan": "C:/Git/P2/EmergencyHelpdesk/Node/Data/OperativePDF/002. Larsen Waterfront.pdf"
         },
         {
             "coordinates": [
@@ -158,8 +150,8 @@
             "address": "Jomfru Ane Gade",
             "buildingDefinition": "Jomfru Ane Gade",
             "Usage": "Bar street",
-            "AmountPeople": "max 8475 people. 6574 inside and 1900 on the street",
-            "specialConsideration": "Keybox is located in building 16",
+            "height": "15",
+            "specialConsideration": "Keybox is located in building 16 , max 8475 people. 6574 inside and 1900 on the street",
             "FirefightingEquipment": {
                 "risers": false,
                 "sprinkler": false,
@@ -170,10 +162,8 @@
                 "fireLift": false,
                 "smokeDetectors": false
             },
-            "consideration": {
-                "vehiclePassage": "Passage with fire vehicles is between building 14 and 24 and from the beach"
-            },
-            "fullOpPlan": "alt"
+            "consideration": "Passage with fire vehicles is between building 14 and 24 and from the beach",
+            "fullOpPlan": "C:/Git/P2/EmergencyHelpdesk/Node/Data/OperativePDF/035.  Jomfru Ane Gade.pdf"
         },
         {
             "coordinates": [
