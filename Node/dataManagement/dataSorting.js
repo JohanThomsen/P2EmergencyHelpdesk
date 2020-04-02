@@ -3,27 +3,6 @@ let opPlanArray;
 //lets other files access these functions
 module.exports = {mergeSort, binarySearch, binaryInput};
 
-/*getOperativeData()
-.then(()=>{
-    opPlanArray.data = mergeSort(opPlanArray.data);
-    //let updatedJSON = JSON.stringify(opPlanArray);
-    binaryInput(newOpPlanOrg, opPlanArray.data, newOpPlanOrg.coordinates[0], newOpPlanOrg.coordinates[1]);
-    let foundValue = binarySearch(opPlanArray.data, newOpPlanOrg.coordinates[0], newOpPlanOrg.coordinates[1]);
-    console.log(foundValue);
-    //console.log(opPlanArray);
-})
-.catch((Error) => {
-    console.log(`Error: ${Error}`);
-});
-
-
-async function getOperativeData(){
-    let opResult = await fetch(`dataBase.json`);
-    opPlanArray = await opResult.json();
-    console.log(opPlanArray);
-}*/
-
-
 function mergeSort (unsortedArray) {
     // No need to sort the array if the array only has one element or empty
     if (unsortedArray.length <= 1) {

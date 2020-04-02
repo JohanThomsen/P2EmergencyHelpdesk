@@ -191,7 +191,7 @@ function guessMimeType(fileName) {
  */
 async function updateDatabase (post, res) {
     console.log("In Process")
-        fs.readFile('dataManagement/dataBase.json', 'utf8',(err, data) => {
+        fs.readFile('Data/dataBase.json', 'utf8',(err, data) => {
           if (err){
             console.log(err);
           } else {
@@ -204,7 +204,7 @@ async function updateDatabase (post, res) {
             opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
             console.log(opPlanArray.data);
             let jsonOpPlan = JSON.stringify(opPlanArray, null, 4);
-            fs.writeFile('dataManagement/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
+            fs.writeFile('Data/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
                 if (err){
                     console.log(err);
                 }
