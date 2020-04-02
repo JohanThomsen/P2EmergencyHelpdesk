@@ -12,7 +12,7 @@ function checkPolygon(polygon, point) {
     }
 
     let startPoint = {x: point[0], y: point[1]};
-    let infPoint = {x: infinite, y: point[1]};
+    let infPoint = { x: point[0] + infinite, y: point[1]};
 
     let intersections = 0;
     for (let i = 0; i <= polygon.length - 1; i++) {
