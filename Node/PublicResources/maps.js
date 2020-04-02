@@ -108,7 +108,7 @@ function markerView(feature, layer){
     layer.on("mousedown", (e) => {
         let coordX = feature.geometry.coordinates[0];
         let coordY = feature.geometry.coordinates[1];
-        primaryMap.setView([coordY,coordX], scale+3);
+        primaryMap.flyTo([coordY,coordX], scale+3);
     });
 }
 
@@ -120,3 +120,20 @@ function markerFeatures(feature, layer){
     
 }
 
+let acc = document.getElementsByClassName("accordion");
+
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+    let panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
