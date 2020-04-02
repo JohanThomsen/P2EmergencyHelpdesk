@@ -6,26 +6,50 @@
                 0
             ],
             "address": "Fyldeplads 0, 9200",
-            "buildingDefinition": "first point",
-            "usage": "Johans ghetto løsning",
+            "buildingDefinition": "Ghetto",
+            "usage": "Last point",
             "height": "69",
-            "specialConsideration": "has to be here",
+            "specialConsideration": "Johans ghetto løsning",
             "fireFightingEquipment": {
-                "risers": true,
-                "sprinkler": true,
-                "internalAlert": true,
-                "markers": true,
-                "automaticFiredetector": true,
+                "risers": false,
+                "sprinkler": false,
+                "internalAlert": false,
+                "markers": false,
+                "automaticFiredetector": false,
                 "escapeStairs": false,
                 "fireLift": false,
                 "smokeDetectors": false
             },
             "consideration": {
-                "fireVentilation": "has none"
+                "fireVentilation": false
             },
             "fullOpPlan": "alt"
+        }
+        {
+            "coordinates": [
+                45.22488,
+                9.55815
+            ],
+            "address": "Bogade 23",
+            "buildingDefinition": {
+                "buildingDefinition": "Apartment Buidling",
+                "Usage": "Plastic production",
+                "height": "34",
+                "specialConsideration": "Potentially dangerous smoke"
+            },
+            "firefightingEquipment": {
+                "fireLift": false,
+                "escapeStairs": false,
+                "risers": false,
+                "sprinkler": true,
+                "smokeDetectors": false,
+                "markers": false,
+                "automaticFireDetector": true,
+                "internalAlert": true
+            },
+            "consideration": "Locker 5 has a plastic depot. Care for dangerous smoke",
+            "fullOpPlan": "c:\\Git\\P2\\EmergencyHelpdesk\\Node/dataManagement/OperativePDF/Skema.pdf"
         },
-
         {
             "coordinates": [
                 57.00369,

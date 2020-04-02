@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const formidable = require('formidable');
-const search = require('./dataManagement/mergeEksampel.js');
+const search = require('./dataManagement/dataSorting.js');
 const checkPolygon = require('./checkPolygon.js');
 
 //server setup variables
@@ -47,7 +47,7 @@ let server = http.createServer((request, response) => {
         });
         break;
         case '/addOpPlan':
-            handleOpPlan(request);
+            handleOpPlan(request, response);
         break;
     }
   };
@@ -280,7 +280,7 @@ async function updateDatabase (post, res) {
  * and the database is updated
  * afterwards it redirects back to the page.
  */
-function handleOpPlan(request){
+function handleOpPlan(request, response){
     let newOpPlan = {
       coordinates: [0, 0],
           address: '',
@@ -312,7 +312,7 @@ function handleOpPlan(request){
      * The opPlan Object is updated with its location.
      */
     form.on('fileBegin', (name, file) => {
-        file.path = `C:/Git/P2/P2Projekt/Node/dataManagement/OperativePDF/${file.name}`;
+        file.path = `${__dirname}/dataManagement/OperativePDF/${file.name}`;
         newOpPlan.fullOpPlan = file.path;
     });
 
