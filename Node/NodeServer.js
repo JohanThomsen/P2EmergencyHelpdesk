@@ -24,7 +24,7 @@ let server = http.createServer((request, response) => {
         break;
 
       case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
-          sendOperativePlan('./Node/dataManagement/dataBase.json', request.url, response);
+          sendOperativePlan('./Node/Data/dataBase.json', request.url, response);
         break;
 
       case ('/buildings'):
@@ -190,8 +190,8 @@ function sendOperativePlan(path, requestUrl, response) {
   console.log(resultIndex);
   let result = {
     opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
-    BuildingMetaData: insideBuilding(coordinates, './Node/test.geojson'),
-    nearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
+    BuildingMetaData: insideBuilding(coordinates, './Node/buildings.geojson')//,
+    //nearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
 
   };
   console.log(result)

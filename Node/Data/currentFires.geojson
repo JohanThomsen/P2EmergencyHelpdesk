@@ -66,6 +66,53 @@
                 ]
             }
         },
-        { "type": "Feature", "properties": { "osm_id": "72257404", "code": 1500, "fclass": "building", "name": "Kulturhuset Nordkraft", "type": "public" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 9.9314944, 57.0462362 ], [ 9.9315033, 57.0462819 ], [ 9.9315998, 57.0467743 ], [ 9.9316016, 57.0467837 ], [ 9.9318321, 57.0467725 ], [ 9.9318377, 57.0468267 ], [ 9.9319988, 57.0468179 ], [ 9.9320002, 57.0468448 ], [ 9.933088, 57.0467891 ], [ 9.9329993, 57.0463101 ], [ 9.9329407, 57.0463116 ], [ 9.9329382, 57.046276 ], [ 9.9330566, 57.0462722 ], [ 9.9330571, 57.0462029 ], [ 9.9330097, 57.0462034 ], [ 9.9330083, 57.0461685 ], [ 9.9322898, 57.0461892 ], [ 9.9314944, 57.0462362 ] ] ] ] } }
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "BIGFIRE",
+                "time": "14:56",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    57.05016,
+                    9.9189
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "BIGFIRE",
+                "time": "14:56",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.9189,
+                    57.05016
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "BIGFIRE",
+                "time": "14:56",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.55815,
+                    45.22488
+                ]
+            }
+        }
     ]
 }
