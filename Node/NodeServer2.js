@@ -42,153 +42,8 @@ let server = http.createServer((request, response) => {
         });
         break;
       case '/addOpPlan':
-        console.log('Adding plan');
-        break;
-      case '/fileupload':
-        let newOpPlan = {
-            coordinates: [0, 0],
-                address: '',
-                buildingDefinition:{
-                            buildingDefinition:   '',
-                            Usage:                '',
-                            height:               0,
-                            specialConsideration: ''
-                },
-                firefightingEquipment:{
-                    fireLift:               false,
-                    escapeStairs:           false,
-                    risers:                 false,
-                    sprinkler:              false,
-                    smokeDetectors:         false,
-                    markers:                false,
-                    automaticFireDetector:  false,
-                    internalAlert:          false
-                },
-                consideration: '',
-                fullOpPlan:''
-        };
-        
-        console.log('Uploading');
-        let form = new formidable.IncomingForm();
-        form.parse(request);
-
-        form.on('fileBegin', (name, file) => {
-            file.path = `C:/Git/P2/P2Projekt/Node/dataManagement/OperativePDF/${file.name}`;
-            newOpPlan.fullOpPlan = file.path;
-        });
-
-        form.on('file', (name, file) => {
-            console.log(`Uploaded ${file.name}`);
-        });
-
-        form.on('field', (name, field) => {
-            switch (name) {
-                case 'ncoordinate':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    newOpPlan.coordinates[0] = Number(field);
-                    break;
-                case 'ecoordinate':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    newOpPlan.coordinates[1] = Number(field);
-                    break;
-                case 'address':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    newOpPlan.address = field;
-                    break;  
-                case 'buildingDefinition':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    newOpPlan.buildingDefinition.buildingDefinition = field;
-                    break;          
-                case 'usage':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    newOpPlan.buildingDefinition.Usage = field;
-                    break;
-                case 'height':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    newOpPlan.buildingDefinition.height = field;
-                    break;
-                case 'specialConsiderations':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    newOpPlan.buildingDefinition.specialConsideration = field;
-                    break;
-                case 'risers':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    if (field) {
-                        newOpPlan.firefightingEquipment.risers = true;
-                    }
-                    break;
-                case 'sprinkler':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    if (field) {
-                        newOpPlan.firefightingEquipment.sprinkler = true;
-                    }
-                    break;
-                case 'internalAlert':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    if (field) {
-                        newOpPlan.firefightingEquipment.internalAlert = true;
-                    }
-                    break;
-                case 'markers':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    if (field) {
-                        newOpPlan.firefightingEquipment.markers = true;
-                    }
-                    break;
-                case 'automaticFireDetector':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    if (field) {
-                        newOpPlan.firefightingEquipment.automaticFireDetector = true;
-                    }
-                    break;
-                case 'escapeStairs':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    if (field) {
-                        newOpPlan.firefightingEquipment.escapeStairs = true;
-                    }
-                    break;
-                case 'fireLift':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    if (field) {
-                        newOpPlan.firefightingEquipment.fireLift = true;
-                    }
-                    break;
-                case 'smokeDetector':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    if (field) {
-                        newOpPlan.firefightingEquipment.smokeDetectors = true;
-                    }
-                case 'considerations':
-                    console.log('Handling: ', name);
-                    console.log(field);
-                    newOpPlan.consideration = field;
-                default:
-                    break;
-            }
-        });
-
-        console.log('NewOpPlan :', newOpPlan);
-        processPost(newOpPlan, response);
-
-        response.writeHead(301,
-            {location: 'http://127.0.0.1:5500/opPlanInput.html'
-        });
-        break;
+          handleOpPlan(request);
+          break;
 
     }
   };
@@ -272,7 +127,7 @@ function DeleteEntry(path, index){
 }
 
 /*
-* Server fil ting
+ * Server fil ting
  */
 const rootFileSystem = process.cwd();
 
@@ -328,9 +183,13 @@ function guessMimeType(fileName) {
     };
     //incomplete
     return (ext2Mime[fileExtension] || "text/plain");
-  }
+}
 
-  async function processPost (post, res) {
+/* reads and parses the database.
+ * inputs the new recieved operative plan via the binary input function in the sorted array
+ * reloads the updated database
+ */
+async function updateDatabase (post, res) {
     console.log("In Process")
         fs.readFile('dataManagement/dataBase.json', 'utf8',(err, data) => {
           if (err){
@@ -353,3 +212,131 @@ function guessMimeType(fileName) {
           }
         });
   }
+
+
+/* formidable catches the form and parses it
+ * then the opPlan object is updated with the values from the form
+ * and the database is updated
+ * afterwards it redirects back to the page.
+ */
+function handleOpPlan(request){
+    let newOpPlan = {
+      coordinates: [0, 0],
+          address: '',
+          buildingDefinition:{
+                      buildingDefinition:   '',
+                      Usage:                '',
+                      height:               0,
+                      specialConsideration: ''
+          },
+          firefightingEquipment:{
+              fireLift:               false,
+              escapeStairs:           false,
+              risers:                 false,
+              sprinkler:              false,
+              smokeDetectors:         false,
+              markers:                false,
+              automaticFireDetector:  false,
+              internalAlert:          false
+          },
+          consideration: '',
+          fullOpPlan:''
+    };
+
+    console.log('Uploading');
+    let form = new formidable.IncomingForm();
+    form.parse(request);
+
+    /* The file is placed in a specified filepath by using (__dirname) and
+     * The opPlan Object is updated with its location.
+     */
+    form.on('fileBegin', (name, file) => {
+        file.path = `C:/Git/P2/P2Projekt/Node/dataManagement/OperativePDF/${file.name}`;
+        newOpPlan.fullOpPlan = file.path;
+    });
+
+    form.on('file', (name, file) => {
+        console.log(`Uploaded ${file.name}`);
+    });
+
+    /* The opPlan object is updated using the field event
+     * Each field has a name which is used to update the matching key in the object
+     */
+    form.on('field', (name, field) => {
+        console.log('Handling: ', name);
+        console.log(field);
+        switch (name) {
+            case 'ncoordinate':
+                newOpPlan.coordinates[0] = Number(field);
+                break;
+            case 'ecoordinate':
+                newOpPlan.coordinates[1] = Number(field);
+                break;
+            case 'address':
+                newOpPlan.address = field;
+                break;  
+            case 'buildingDefinition':
+                newOpPlan.buildingDefinition.buildingDefinition = field;
+                break;          
+            case 'usage':
+                newOpPlan.buildingDefinition.Usage = field;
+                break;
+            case 'height':
+                newOpPlan.buildingDefinition.height = field;
+                break;
+            case 'specialConsiderations':
+                newOpPlan.buildingDefinition.specialConsideration = field;
+                break;
+            case 'risers':
+                if (field) {
+                    newOpPlan.firefightingEquipment.risers = true;
+                }
+                break;
+            case 'sprinkler':
+                if (field) {
+                    newOpPlan.firefightingEquipment.sprinkler = true;
+                }
+                break;
+            case 'internalAlert':
+                if (field) {
+                    newOpPlan.firefightingEquipment.internalAlert = true;
+                }
+                break;
+            case 'markers':
+                if (field) {
+                    newOpPlan.firefightingEquipment.markers = true;
+                }
+                break;
+            case 'automaticFireDetector':
+                if (field) {
+                    newOpPlan.firefightingEquipment.automaticFireDetector = true;
+                }
+                break;
+            case 'escapeStairs':
+                if (field) {
+                    newOpPlan.firefightingEquipment.escapeStairs = true;
+                }
+                break;
+            case 'fireLift':
+                if (field) {
+                    newOpPlan.firefightingEquipment.fireLift = true;
+                }
+                break;
+            case 'smokeDetector':
+                if (field) {
+                    newOpPlan.firefightingEquipment.smokeDetectors = true;
+                }
+            case 'considerations':
+                newOpPlan.consideration = field;
+            default:
+                break;
+        }
+    });
+
+    console.log('NewOpPlan :', newOpPlan);
+    updateDatabase(newOpPlan, response);
+
+    response.writeHead(301,
+        {location: 'http://127.0.0.1:5500/opPlanInput.html'
+    });
+}  
