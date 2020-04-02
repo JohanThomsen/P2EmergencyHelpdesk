@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const formidable = require('formidable');
 const search = require('./dataManagement/mergeEksampel.js');
 const checkPolygon = require('./checkPolygon.js');
 
@@ -44,6 +45,9 @@ let server = http.createServer((request, response) => {
         .then((jsonData) => {
           CheckFire(jsonData, './Node/Data/currentFires.geojson');
         });
+        break;
+        case '/addOpPlan':
+            handleOpPlan(request);
         break;
     }
   };
@@ -240,4 +244,160 @@ function guessMimeType(fileName) {
     };
     //incomplete
     return (ext2Mime[fileExtension] || "text/plain");
+}
+
+/* reads and parses the database.
+ * inputs the new recieved operative plan via the binary input function in the sorted array
+ * reloads the updated database
+ */
+async function updateDatabase (post, res) {
+    console.log("In Process")
+        fs.readFile('Data/dataBase.json', 'utf8',(err, data) => {
+          if (err){
+            console.log(err);
+          } else {
+            console.log('Updating JSON');
+            console.log('Post: ', post);
+            opPlanArray = JSON.parse(data);
+            opPlanArray.data = search.mergeSort(opPlanArray.data);
+            console.log(opPlanArray.data);
+            //opPlanArray.data.push(post);
+            opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
+            console.log(opPlanArray.data);
+            let jsonOpPlan = JSON.stringify(opPlanArray, null, 4);
+            fs.writeFile('Data/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
+                if (err){
+                    console.log(err);
+                }
+            });
+          }
+        });
   }
+
+
+/* formidable catches the form and parses it
+ * then the opPlan object is updated with the values from the form
+ * and the database is updated
+ * afterwards it redirects back to the page.
+ */
+function handleOpPlan(request){
+    let newOpPlan = {
+      coordinates: [0, 0],
+          address: '',
+          buildingDefinition:{
+                      buildingDefinition:   '',
+                      Usage:                '',
+                      height:               0,
+                      specialConsideration: ''
+          },
+          firefightingEquipment:{
+              fireLift:               false,
+              escapeStairs:           false,
+              risers:                 false,
+              sprinkler:              false,
+              smokeDetectors:         false,
+              markers:                false,
+              automaticFireDetector:  false,
+              internalAlert:          false
+          },
+          consideration: '',
+          fullOpPlan:''
+    };
+
+    console.log('Uploading');
+    let form = new formidable.IncomingForm();
+    form.parse(request);
+
+    /* The file is placed in a specified filepath by using (__dirname) and
+     * The opPlan Object is updated with its location.
+     */
+    form.on('fileBegin', (name, file) => {
+        file.path = `C:/Git/P2/P2Projekt/Node/dataManagement/OperativePDF/${file.name}`;
+        newOpPlan.fullOpPlan = file.path;
+    });
+
+    form.on('file', (name, file) => {
+        console.log(`Uploaded ${file.name}`);
+    });
+
+    /* The opPlan object is updated using the field event
+     * Each field has a name which is used to update the matching key in the object
+     */
+    form.on('field', (name, field) => {
+        console.log('Handling: ', name);
+        console.log(field);
+        switch (name) {
+            case 'ncoordinate':
+                newOpPlan.coordinates[0] = Number(field);
+                break;
+            case 'ecoordinate':
+                newOpPlan.coordinates[1] = Number(field);
+                break;
+            case 'address':
+                newOpPlan.address = field;
+                break;  
+            case 'buildingDefinition':
+                newOpPlan.buildingDefinition.buildingDefinition = field;
+                break;          
+            case 'usage':
+                newOpPlan.buildingDefinition.Usage = field;
+                break;
+            case 'height':
+                newOpPlan.buildingDefinition.height = field;
+                break;
+            case 'specialConsiderations':
+                newOpPlan.buildingDefinition.specialConsideration = field;
+                break;
+            case 'risers':
+                if (field) {
+                    newOpPlan.firefightingEquipment.risers = true;
+                }
+                break;
+            case 'sprinkler':
+                if (field) {
+                    newOpPlan.firefightingEquipment.sprinkler = true;
+                }
+                break;
+            case 'internalAlert':
+                if (field) {
+                    newOpPlan.firefightingEquipment.internalAlert = true;
+                }
+                break;
+            case 'markers':
+                if (field) {
+                    newOpPlan.firefightingEquipment.markers = true;
+                }
+                break;
+            case 'automaticFireDetector':
+                if (field) {
+                    newOpPlan.firefightingEquipment.automaticFireDetector = true;
+                }
+                break;
+            case 'escapeStairs':
+                if (field) {
+                    newOpPlan.firefightingEquipment.escapeStairs = true;
+                }
+                break;
+            case 'fireLift':
+                if (field) {
+                    newOpPlan.firefightingEquipment.fireLift = true;
+                }
+                break;
+            case 'smokeDetector':
+                if (field) {
+                    newOpPlan.firefightingEquipment.smokeDetectors = true;
+                }
+            case 'considerations':
+                newOpPlan.consideration = field;
+            default:
+                break;
+        }
+    });
+
+    console.log('NewOpPlan :', newOpPlan);
+    updateDatabase(newOpPlan, response);
+
+    response.writeHead(301,
+        {location: 'http://127.0.0.1:5500/opPlanInput.html'
+    });
+}  
