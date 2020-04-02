@@ -1,46 +1,7 @@
 let opPlanArray;
-let newOpPlanOrg = {   
-"coordinates": [56.7865567, 10],
-"address": "Nyvej 123",
-"buildingDefinition": "Factory",
-"typeOfIncident":{
-    "A": "Textile fire",
-    "B": "Fluid fire",
-    "C": "Gas fire",
-    "D": "Metal fire",
-    "E": "Electrical fire",
-    "F": "Oil fire"
-},
-"consideration":{
-    "values": "Inventory to save",
-    "hazards": "Gas leak"
-},
-"fullOpPlan": "alt"
-}
 
+//lets other files access these functions
 module.exports = {mergeSort, binarySearch, binaryInput};
-
-
-// getOperativeData()
-// .then(()=>{
-//     opPlanArray.data = mergeSort(opPlanArray.data);
-//     //let updatedJSON = JSON.stringify(opPlanArray);
-//     binaryInput(newOpPlanOrg, opPlanArray.data, newOpPlanOrg.coordinates[0], newOpPlanOrg.coordinates[1]);
-//     let foundValue = binarySearch(opPlanArray.data, newOpPlanOrg.coordinates[0], newOpPlanOrg.coordinates[1]);
-//     console.log(foundValue);
-//     //console.log(opPlanArray);
-// })
-// .catch((Error) => {
-//     console.log(`Error: ${Error}`);
-// });
-
-
-// async function getOperativeData(){
-//     let opResult = await fetch(`dataBase.json`);
-//     opPlanArray = await opResult.json();
-//     console.log(opPlanArray);
-// }
-
 
 function mergeSort (unsortedArray) {
     // No need to sort the array if the array only has one element or empty
@@ -81,7 +42,6 @@ function merge (left, right) {
             .concat(right.slice(rightIndex));
   }
 
-
 function binarySearch(array, targetN, targetE){
     let startIndex = 0;
     let endIndex = array.length - 1;
@@ -91,7 +51,7 @@ function binarySearch(array, targetN, targetE){
 
         if (targetN === array[middleIndex].coordinates[0]) {
             if (targetE === array[middleIndex].coordinates[1]){
-                return middleIndex;
+                return array[middleIndex];
             }
         }
         if (targetN > array[middleIndex].coordinates[0]) {
@@ -103,16 +63,17 @@ function binarySearch(array, targetN, targetE){
     }
 }
 
-
+// inputs an operative plan in the correct position in the sorted array
 function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
     let startIndex = 0;
     let endIndex = oldOpPlanArray.length - 1;
     let middleIndex;
-    //console.log(newOpPlan);
     let index;
 
-    //First we do a binary search on the array, but instead of returning the value, we jump down ti input with middleindex saved.
-
+    /* the array is searched using binary search
+     * when the value is found it is not returned
+     * the value is approx. the right placement for the new value
+     */
     while (startIndex <= endIndex) {
         middleIndex = Math.floor((startIndex + endIndex) / 2);
 
@@ -129,12 +90,10 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
         }
     }
 
-    //Here the new opPlan is inputted by starting with the middle index and finding the exact position for the new OpPlan
-    //And inserting it by placing itin the correct position and then shifting all values after so it fits.
-
-    /*console.log(middleIndex);
-    console.log(targetN);
-    console.log(oldOpPlanArray[middleIndex].coordinates[0]);*/
+    /* The new operative plan is inputted via the middle index
+     * from there the exact position for the plan is found and it is inputted
+     * the other values the shifts one position to give space
+     */ 
     if (targetN > oldOpPlanArray[middleIndex].coordinates[0]) {
         for (let i = middleIndex; i < oldOpPlanArray.length; i++) {
             
