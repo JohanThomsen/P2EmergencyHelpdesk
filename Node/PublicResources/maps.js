@@ -53,6 +53,5 @@ fetch("/fires")
         geojsonLayer.addTo(primaryMap);
     });
 
-
 //Uses the manual place marker function to place a marker, geojson makes this outdated
 //placeMarker(x_coordinate, y_coordinate);
