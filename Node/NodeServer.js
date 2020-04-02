@@ -190,7 +190,7 @@ function sendOperativePlan(path, requestUrl, response) {
   console.log(resultIndex);
   let result = {
     opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
-    BuildingMetaData: insideBuilding(coordinates, './Node/test.geojson')//,
+    BuildingMetaData: insideBuilding(coordinates, './Node/buildings.geojson')//,
     //nearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
 
   };
