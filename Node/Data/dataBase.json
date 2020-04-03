@@ -37,7 +37,7 @@
                 "height": "34",
                 "specialConsideration": "Potentially dangerous smoke"
             },
-            "firefightingEquipment": {
+            "fireFightingEquipment": {
                 "fireLift": false,
                 "escapeStairs": false,
                 "risers": false,
@@ -129,7 +129,7 @@
             "usage": "living",
             "height": "42",
             "specialConsideration": "common room for 150 people on 15. floor",
-            "FirefightingEquipment": {
+            "FireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
                 "internalAlert": false,
@@ -152,7 +152,7 @@
             "Usage": "Bar street",
             "height": "15",
             "specialConsideration": "Keybox is located in building 16 , max 8475 people. 6574 inside and 1900 on the street",
-            "FirefightingEquipment": {
+            "FireFightingEquipment": {
                 "risers": false,
                 "sprinkler": false,
                 "internalAlert": false,

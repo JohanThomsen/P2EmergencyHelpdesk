@@ -332,7 +332,7 @@ function handleOpPlan(request, response){
                       height:               0,
                       specialConsideration: ''
           },
-          firefightingEquipment:{
+          fireFightingEquipment:{
               fireLift:               false,
               escapeStairs:           false,
               risers:                 false,
@@ -392,42 +392,42 @@ function handleOpPlan(request, response){
                 break;
             case 'risers':
                 if (field) {
-                    newOpPlan.firefightingEquipment.risers = true;
+                    newOpPlan.fireFightingEquipment.risers = true;
                 }
                 break;
             case 'sprinkler':
                 if (field) {
-                    newOpPlan.firefightingEquipment.sprinkler = true;
+                    newOpPlan.fireFightingEquipment.sprinkler = true;
                 }
                 break;
             case 'internalAlert':
                 if (field) {
-                    newOpPlan.firefightingEquipment.internalAlert = true;
+                    newOpPlan.fireFightingEquipment.internalAlert = true;
                 }
                 break;
             case 'markers':
                 if (field) {
-                    newOpPlan.firefightingEquipment.markers = true;
+                    newOpPlan.fireFightingEquipment.markers = true;
                 }
                 break;
             case 'automaticFireDetector':
                 if (field) {
-                    newOpPlan.firefightingEquipment.automaticFireDetector = true;
+                    newOpPlan.fireFightingEquipment.automaticFireDetector = true;
                 }
                 break;
             case 'escapeStairs':
                 if (field) {
-                    newOpPlan.firefightingEquipment.escapeStairs = true;
+                    newOpPlan.fireFightingEquipment.escapeStairs = true;
                 }
                 break;
             case 'fireLift':
                 if (field) {
-                    newOpPlan.firefightingEquipment.fireLift = true;
+                    newOpPlan.fireFightingEquipment.fireLift = true;
                 }
                 break;
             case 'smokeDetector':
                 if (field) {
-                    newOpPlan.firefightingEquipment.smokeDetectors = true;
+                    newOpPlan.fireFightingEquipment.smokeDetectors = true;
                 }
             case 'considerations':
                 newOpPlan.consideration = field;
