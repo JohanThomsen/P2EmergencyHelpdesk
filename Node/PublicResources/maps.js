@@ -73,12 +73,12 @@ function fetchPlan(feature, layer){
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
     let outerElement = document.getElementById("opPlan");
+    document.getElementById("Generel").innerHTML = "";
+    document.getElementById("Equip").innerHTML ="";
+    if (document.getElementById("address")) document.getElementById("address").remove();
+    if (document.getElementById("warning")) document.getElementById("warning").remove();
 
     if (data) { // Checks whether the data arrived, if true, writes the information, otherwise displays an error message
-        //Needs a full redesign, the properties layout does not fit the amount of data we need to display here, dropdowns are promising
-        document.getElementById("Generel").innerHTML = "";
-        document.getElementById("Equip").innerHTML ="";
-
         for (property in data.opPlan){
             if (property == "address"){
                 displayAddress(data, outerElement);
@@ -87,25 +87,23 @@ function displayPlan(data){
             } else if (property.toLowerCase() == "firefightingequipment"){
                 displayEquip(data, property);
             }
-            
-
-
         }
 
     } else { // Styling could be improved, otherwise this section does its job
+        if (document.getElementById("warning")) document.getElementById("warning").remove();
         let p = document.createElement("p");
         p.innerHTML = "Operative plan for this location not available";
         let attributeCount = 4;
         let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
         p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
         p.style.padding = "1px";
-    
-        outerElement.appendChild(p);
+        p.id = "warning";
+        p.style.textAlign = "center";
+        outerElement.insertBefore(p, outerElement.childNodes[2]);
     }
 }
 
 function displayAddress(data, outerElement){
-    if (document.getElementById("address")) document.getElementById("address").remove();
     let p = document.createElement("p");
     p.innerHTML = data.opPlan.address;
     let attributeCount = Object.keys(data.opPlan).length + 1;
@@ -131,7 +129,8 @@ function displayEquip(data, property){
         document.getElementById("Equip").appendChild(p);
     }}
     let p = document.createElement("p");
-    p.innherHTML = "Consideration = " + data.opPlan.conderation;
+    p.innerHTML = "Consideration = " + data.opPlan.consideration;
+    document.getElementById("Equip").appendChild(p);
 }
 
 // From stackoverflow by Steve Hansell
