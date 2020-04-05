@@ -328,7 +328,7 @@ function handleOpPlan(request, response){
           address: '',
           buildingDefinition:{
                       buildingDefinition:   '',
-                      Usage:                '',
+                      usage:                '',
                       height:               0,
                       specialConsideration: ''
           },
@@ -368,77 +368,49 @@ function handleOpPlan(request, response){
     form.on('field', (name, field) => {
         console.log('Handling: ', name);
         console.log(field);
-        switch (name) {
-            case 'ncoordinate':
+        if (isBuildingDefinition(name)){
+            newOpPlan.buildingDefinition[name] = field;
+        } else if (isFirefightingEquipment(name)) {
+            newOpPlan.fireFightingEquipment[name] = true;
+        } else if (isCoordinate(name)) {
+            if (name  === 'ncoordinate'){
                 newOpPlan.coordinates[0] = Number(field);
-                break;
-            case 'ecoordinate':
+            }
+
+            if (name  === 'ecoordinate'){
                 newOpPlan.coordinates[1] = Number(field);
-                break;
-            case 'address':
-                newOpPlan.address = field;
-                break;  
-            case 'buildingDefinition':
-                newOpPlan.buildingDefinition.buildingDefinition = field;
-                break;          
-            case 'usage':
-                newOpPlan.buildingDefinition.Usage = field;
-                break;
-            case 'height':
-                newOpPlan.buildingDefinition.height = field;
-                break;
-            case 'specialConsiderations':
-                newOpPlan.buildingDefinition.specialConsideration = field;
-                break;
-            case 'risers':
-                if (field) {
-                    newOpPlan.fireFightingEquipment.risers = true;
-                }
-                break;
-            case 'sprinkler':
-                if (field) {
-                    newOpPlan.fireFightingEquipment.sprinkler = true;
-                }
-                break;
-            case 'internalAlert':
-                if (field) {
-                    newOpPlan.fireFightingEquipment.internalAlert = true;
-                }
-                break;
-            case 'markers':
-                if (field) {
-                    newOpPlan.fireFightingEquipment.markers = true;
-                }
-                break;
-            case 'automaticFireDetector':
-                if (field) {
-                    newOpPlan.fireFightingEquipment.automaticFireDetector = true;
-                }
-                break;
-            case 'escapeStairs':
-                if (field) {
-                    newOpPlan.fireFightingEquipment.escapeStairs = true;
-                }
-                break;
-            case 'fireLift':
-                if (field) {
-                    newOpPlan.fireFightingEquipment.fireLift = true;
-                }
-                break;
-            case 'smokeDetector':
-                if (field) {
-                    newOpPlan.fireFightingEquipment.smokeDetectors = true;
-                }
-            case 'considerations':
-                newOpPlan.consideration = field;
-            default:
-                break;
+            }
+        } else {
+            newOpPlan[name] = field
         }
     });
-
     updateDatabase(newOpPlan, response);
 
     response.writeHead(301,
         {location: 'http://127.0.0.1:5500/opPlanInput.html'
     });
 }  
+
+function isBuildingDefinition (name) {
+    if (name ===  'buildingDefinition' || name === 'usage' || name === 'height' || name === 'specialConsiderations') {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+function isCoordinate (name) {
+    if (name ===  'ncoordinate' || name === 'ecoordinate') {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+function isFirefightingEquipment (name) {
+    if (name ===  'risers' || name === 'sprinkler' || name === 'internalAlert' || name === 'markers' || name === 'automaticFireDetector' || name === 'escapeStairs' || name === 'fireLift' || name === 'smokeDetectors') {
+        return 1;
+    } else {
+        return 0;
+    }
+}

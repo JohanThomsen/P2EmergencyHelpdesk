@@ -2,28 +2,30 @@
     "data": [
         {
             "coordinates": [
-                0,
-                0
+                45,
+                9
             ],
-            "address": "Fyldeplads 0, 9200",
-            "buildingDefinition": "Ghetto",
-            "usage": "Last point",
-            "height": "69",
-            "specialConsideration": "Johans ghetto løsning",
+            "address": "Kortbjej 45",
+            "buildingDefinition": {
+                "buildingDefinition": "Apartment",
+                "usage": "Living",
+                "height": "45",
+                "specialConsideration": "",
+                "specialConsiderations": "Old"
+            },
             "fireFightingEquipment": {
-                "risers": false,
-                "sprinkler": false,
-                "internalAlert": false,
-                "markers": false,
-                "automaticFiredetector": false,
-                "escapeStairs": false,
                 "fireLift": false,
-                "smokeDetectors": false
+                "escapeStairs": false,
+                "risers": true,
+                "sprinkler": false,
+                "smokeDetectors": false,
+                "markers": false,
+                "automaticFireDetector": true,
+                "internalAlert": true
             },
-            "consideration": {
-                "fireVentilation": false
-            },
-            "fullOpPlan": "alt"
+            "consideration": "",
+            "fullOpPlan": "c:/Git/P2/P2Projekt/Node/Data/OperativePDF/E-ticket nr. 963.pdf",
+            "considerations": "Locker 5 has a plastic depot. Care for dangerous smoke"
         },
         {
             "coordinates": [
