@@ -2,40 +2,13 @@
     "data": [
         {
             "coordinates": [
-                45,
-                9
-            ],
-            "address": "Kortbjej 45",
-            "buildingDefinition": {
-                "buildingDefinition": "Apartment",
-                "usage": "Living",
-                "height": "45",
-                "specialConsideration": "",
-                "specialConsiderations": "Old"
-            },
-            "fireFightingEquipment": {
-                "fireLift": false,
-                "escapeStairs": false,
-                "risers": true,
-                "sprinkler": false,
-                "smokeDetectors": false,
-                "markers": false,
-                "automaticFireDetector": true,
-                "internalAlert": true
-            },
-            "consideration": "",
-            "fullOpPlan": "c:/Git/P2/P2Projekt/Node/Data/OperativePDF/E-ticket nr. 963.pdf",
-            "considerations": "Locker 5 has a plastic depot. Care for dangerous smoke"
-        },
-        {
-            "coordinates": [
                 45.22488,
                 9.55815
             ],
             "address": "Bogade 23",
             "buildingDefinition": {
                 "buildingDefinition": "Apartment Buidling",
-                "Usage": "Plastic production",
+                "Usage": "Plastica production",
                 "height": "34",
                 "specialConsideration": "Potentially dangerous smoke"
             },
