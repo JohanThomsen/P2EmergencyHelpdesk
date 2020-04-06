@@ -330,7 +330,7 @@ function handleOpPlan(request, response){
                       buildingDefinition:   '',
                       usage:                '',
                       height:               0,
-                      specialConsideration: ''
+                      specialConsiderations: ''
           },
           fireFightingEquipment:{
               fireLift:               false,
@@ -393,24 +393,24 @@ function handleOpPlan(request, response){
 
 function isBuildingDefinition (name) {
     if (name ===  'buildingDefinition' || name === 'usage' || name === 'height' || name === 'specialConsiderations') {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
 function isCoordinate (name) {
     if (name ===  'ncoordinate' || name === 'ecoordinate') {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
 function isFirefightingEquipment (name) {
     if (name ===  'risers' || name === 'sprinkler' || name === 'internalAlert' || name === 'markers' || name === 'automaticFireDetector' || name === 'escapeStairs' || name === 'fireLift' || name === 'smokeDetectors') {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
