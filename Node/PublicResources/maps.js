@@ -173,21 +173,23 @@ function enableAccordion(){
     let acc = document.getElementsByClassName("accordion");
 
     for (let i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active");
-
-        /* Toggle between hiding and showing the active panel */
-        let panel = this.nextElementSibling;
-        if (panel.style.display === "none") {
-        panel.style.display = "block";
-        } else {
-        panel.style.display = "none";
-        }
-    });
+    acc[i].removeEventListener("click", toggleActive);
+    acc[i].addEventListener("click", toggleActive);
     }
 }
+function toggleActive() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+    /* Toggle between hiding and showing the active panel */
+    let panel = this.nextElementSibling;
+    if (panel.style.display === "none") {
+    panel.style.display = "block";
+    } else {
+    panel.style.display = "none";
+    }
+}
+enableAccordion();
 
 async function postFire(location, typeFire, time, automaticAlarm, active, id) {
     fetch('http://127.0.0.1:3000/fireAlert', {
