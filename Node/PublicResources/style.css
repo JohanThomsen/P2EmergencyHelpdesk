@@ -46,6 +46,7 @@
     border: none;
     outline: none;
     transition: 0.2s;
+    font-family: 'Roboto';font-size: 22px;
 }
 
 /* Add a background color to the button if it is hovered on */
@@ -66,6 +67,7 @@
 
 .panel p{
     margin: 2px 18px;
+    font-family: 'Roboto';
 }
 
 html, body {

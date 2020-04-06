@@ -107,9 +107,17 @@ function displayPlan(data){
                     p.innerHTML = element.capitalize() + " = " + data.NearbyWarnings[property][element];
                     document.getElementById(data.NearbyWarnings[property].address).appendChild(p);
                 }
-            }
+            } 
         }
         enableAccordion();
+
+        let a = document.createElement("a");
+        a.href = data.opPlan.fullOpPlan;
+        a.download = "Full operative plan";
+        a.innerHTML = "Operative plan:";
+        opPlan.insertBefore(a, opPlan.childNodes[0]);
+
+
 
     } else { // Styling could be improved, otherwise this section does its job
         if (document.getElementById("warning")) document.getElementById("warning").remove();
