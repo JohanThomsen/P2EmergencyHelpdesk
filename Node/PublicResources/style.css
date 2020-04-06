@@ -1,8 +1,8 @@
 .textbox{
     height: 42%;
     margin-top: 1%;
-    width: 40%;
-    margin-left: 2%;
+    width: 45%;
+    margin-left: 1%;
     border: 1px solid black;    
     background: #ccc;
     float: left;
@@ -86,7 +86,7 @@ th, td {
 
 #mapArea {
     overflow: hidden;
-    height: calc(86% + 2px); /* 4px minus er pga borders så det passer med de andre elementer */
+    height: 86%; /* 4px minus er pga borders så det passer med de andre elementer */
     width: 45%;
     margin-left: 5%;
     margin-top: 80px;
@@ -96,8 +96,9 @@ th, td {
     z-index: 0;
 }
 
-#strucPlan{
+#opPlan{
     margin-top: 80px;
+    height: 86%;
 }
 
 /* #operative{
