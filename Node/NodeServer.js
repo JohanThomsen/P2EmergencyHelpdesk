@@ -20,7 +20,7 @@ let server = http.createServer((request, response) => {
             break; 
 
             case '/fires':
-                SendJson('./Node/Data/currentFires.geojson', response);
+                fileResponse('currentFires.geojson', response);
             break;
 
             case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
@@ -105,15 +105,7 @@ function SplitData(data) {
     })
     return(result);
 }
-//GET response with JSON data
-function SendJson(path, response){
-    fs.readFile(path, (error, data) => {
-        response.statusCode = 200;
-        response.setHeader('Content-Type', 'application/json');
-        response.write(data);
-        response.end('\n');
-    })
-}
+
 
 //convert binary message to JSON data
 function BinaryToJson(data) {
@@ -242,22 +234,11 @@ function insideBuilding(point, geoJsonPath) {
 }
 
 //Server fil ting
-const rootFileSystem = process.cwd();
-
-function securePath(userPath) {
-    if (userPath.indexOf('\0') !== -1) {
-        return undefined;
-    }
-    userPath = publicResources + userPath;
-
-    let p = path.join(rootFileSystem, path.normalize(userPath));
-    return p;
-}
 
 function fileResponse(filename, res) {
-    const sPath = securePath(filename);
+    const path = publicResources + filename;
     
-    fs.readFile(sPath, (err, data) => {
+    fs.readFile(path, (err, data) => {
         if (err) {
             console.error(err);
             res.statusCode = 404;
