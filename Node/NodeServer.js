@@ -55,6 +55,7 @@ let server = http.createServer((request, response) => {
                 CheckFire(jsonData, './Node/Data/currentFires.geojson');
             });
         break;
+
         case '/addOpPlan':
             handleOpPlan(request, response);
         break;
@@ -105,7 +106,6 @@ function SplitData(data) {
     })
     return(result);
 }
-
 
 //convert binary message to JSON data
 function BinaryToJson(data) {
@@ -188,7 +188,7 @@ function sendOperativePlan(path, requestUrl, response) {
     let resultIndex = search.binarySearch(opArraySorted, coordinates[0], coordinates[1]);
     let result = {
         opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
-        BuildingMetaData: insideBuilding([9.93207, 57.046799], './Node/Buildings.geojson'),
+        BuildingMetaData: insideBuilding(coordinates, './Node/Buildings.geojson'),
         NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
     };
     console.log(result)
@@ -213,7 +213,6 @@ function insideBuilding(point, geoJsonPath) {
             if (checkPolygon.checkPolygon(element.geometry.coordinates[0][0], point)) {
                 buildingIndex = index;
                 success =  true; 
-                console.log('am here')
                 return;
             }
         //buildingIndex = -1;
@@ -225,7 +224,6 @@ function insideBuilding(point, geoJsonPath) {
         buildingIndex = -1; 
     }
 
-    console.log(buildingIndex);
     if (buildingIndex != -1) {
         return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type};
     } else {
@@ -234,7 +232,6 @@ function insideBuilding(point, geoJsonPath) {
 }
 
 //Server fil ting
-
 function fileResponse(filename, res) {
     const path = publicResources + filename;
     
@@ -304,7 +301,6 @@ async function updateDatabase (post, res) {
         }
     });
 }
-
 
 /* formidable catches the form and parses it
  * then the opPlan object is updated with the values from the form
