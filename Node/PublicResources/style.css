@@ -40,7 +40,7 @@
     background-color: #ccc;
     color: #444;
     cursor: pointer;
-    padding: 18px;
+    padding: 1% 18px;
     width: 100%;
     text-align: left;
     border: none;
@@ -65,7 +65,7 @@
 }
 
 .panel p{
-    margin: 2px 0px;
+    margin: 2px 18px;
 }
 
 html, body {
