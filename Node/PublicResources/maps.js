@@ -72,16 +72,17 @@ function fetchPlan(feature, layer){
 
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
-    let outerElement = document.getElementById("opPlan");
+    let opPlan = document.getElementById("opPlan");
     document.getElementById("Generel").innerHTML = "";
-    document.getElementById("Equip").innerHTML ="";
+    document.getElementById("Equip").innerHTML = "";
+    document.getElementById("Nearby").innerHTML = "";
     if (document.getElementById("address")) document.getElementById("address").remove();
     if (document.getElementById("warning")) document.getElementById("warning").remove();
 
     if (data) { // Checks whether the data arrived, if true, writes the information, otherwise displays an error message
         for (property in data.opPlan){
             if (property == "address"){
-                displayAddress(data, outerElement);
+                displayAddress(data, opPlan);
             } else if (property == "buildingDefinition" || property == "usage" || property == "height" || property == "specialConsideration"){
                 displayGenerel(data, property);
             } else if (property.toLowerCase() == "firefightingequipment"){
@@ -89,27 +90,42 @@ function displayPlan(data){
             }
         }
 
+        outerAccordion = document.getElementById("Nearby");
+        for (property in data.NearbyWarnings){
+            let button = document.createElement("button");
+            button.className = "accordion";
+            button.innerHTML = data.NearbyWarnings[property].address;
+            outerAccordion.appendChild(button);
+
+            let accordion = document.createElement("div");
+            accordion.className = "panel";
+            accordion.id = data.NearbyWarnings[property].address;
+            outerAccordion.appendChild(accordion);
+            
+            for (element in data.NearbyWarnings[property]){
+                if (element == "buildingDefinition" || element ==  "usage" || element == "specialConsideration"){
+                    let p = document.createElement("p");
+                    p.innerHTML = element.capitalize() + " = " + data.NearbyWarnings[property][element];
+                    document.getElementById(data.NearbyWarnings[property].address).appendChild(p);
+                }
+            }
+        }
+        enableAccordion();
+
     } else { // Styling could be improved, otherwise this section does its job
         if (document.getElementById("warning")) document.getElementById("warning").remove();
         let p = document.createElement("p");
         p.innerHTML = "Operative plan for this location not available";
-        let attributeCount = 4;
-        let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
-        p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
-        p.style.padding = "1px";
         p.id = "warning";
         p.style.textAlign = "center";
-        outerElement.insertBefore(p, outerElement.childNodes[2]);
+        opPlan.insertBefore(p, opPlan.childNodes[2]);
     }
+
 }
 
 function displayAddress(data, outerElement){
     let p = document.createElement("p");
     p.innerHTML = data.opPlan.address;
-    let attributeCount = Object.keys(data.opPlan).length + 1;
-    let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
-    p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
-    p.style.padding = "1px";
     p.style.textAlign = "center";
     p.id = "address";
     outerElement.insertBefore(p, outerElement.childNodes[2]);
@@ -154,25 +170,25 @@ function markerFeatures(feature, layer){
     fetchPlan(feature, layer);
     
 }
+function enableAccordion(){
+    let acc = document.getElementsByClassName("accordion");
 
-let acc = document.getElementsByClassName("accordion");
+    for (let i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        this.classList.toggle("active");
 
-for (let i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
-    this.classList.toggle("active");
-
-    /* Toggle between hiding and showing the active panel */
-    let panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
+        /* Toggle between hiding and showing the active panel */
+        let panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+        panel.style.display = "none";
+        } else {
+        panel.style.display = "block";
+        }
+    });
     }
-  });
 }
-
 
 async function postFire(location, typeFire, time, automaticAlarm, active, id) {
     fetch('http://127.0.0.1:3000/fireAlert', {
