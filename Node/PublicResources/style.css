@@ -1,8 +1,8 @@
 .textbox{
     height: 42%;
     margin-top: 1%;
-    width: 40%;
-    margin-left: 2%;
+    width: 45%;
+    margin-left: 1%;
     border: 1px solid black;    
     background: #ccc;
     float: left;
@@ -45,19 +45,22 @@
     text-align: left;
     border: none;
     outline: none;
-    transition: 0.4s;
+    transition: 0.2s;
 }
 
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .accordion:hover {
+/* Add a background color to the button if it is hovered on */
+.accordion:hover {
     background-color: #eee;
-  }
+}
+
+
 
 /* Style the accordion panel. Note: hidden by default */
 .panel {
     padding: 0 18px;
-    background-color: white;
-    display: none;
+    margin-left: 0;
+    background-color: #ccc;
+    display: block;
     overflow: hidden;
 }
 
@@ -84,9 +87,13 @@ th, td {
     text-align: left;
   }
 
+button{
+
+}
+
 #mapArea {
     overflow: hidden;
-    height: calc(86% + 2px); /* 4px minus er pga borders så det passer med de andre elementer */
+    height: 86%; /* 4px minus er pga borders så det passer med de andre elementer */
     width: 45%;
     margin-left: 5%;
     margin-top: 80px;
@@ -96,8 +103,9 @@ th, td {
     z-index: 0;
 }
 
-#strucPlan{
+#opPlan{
     margin-top: 80px;
+    height: 86%;
 }
 
 /* #operative{
