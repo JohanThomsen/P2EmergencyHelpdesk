@@ -186,7 +186,7 @@ function sendOperativePlan(path, requestUrl, response) {
   let resultIndex = search.binarySearch(opArraySorted, coordinates[0], coordinates[1]);
   let result = {
     opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
-    BuildingMetaData: insideBuilding([9.93207, 57.046799], './Node/Buildings.geojson'),
+    BuildingMetaData: insideBuilding(coordinates, './Node/Buildings.geojson'),
     NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
   };
   console.log(result)
