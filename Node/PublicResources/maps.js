@@ -164,10 +164,10 @@ for (let i = 0; i < acc.length; i++) {
 
     /* Toggle between hiding and showing the active panel */
     let panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
+    if (panel.style.display === "none") {
       panel.style.display = "block";
+    } else {
+      panel.style.display = "none";
     }
   });
 }
