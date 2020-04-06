@@ -169,6 +169,7 @@ function markerFeatures(feature, layer){
     fetchPlan(feature, layer);
     
 }
+
 function enableAccordion(){
     let acc = document.getElementsByClassName("accordion");
 
@@ -177,6 +178,7 @@ function enableAccordion(){
     acc[i].addEventListener("click", toggleActive);
     }
 }
+
 function toggleActive() {
     /* Toggle between adding and removing the "active" class,
     to highlight the button that controls the panel */
@@ -189,6 +191,7 @@ function toggleActive() {
     panel.style.display = "none";
     }
 }
+
 enableAccordion();
 
 async function postFire(location, typeFire, time, automaticAlarm, active, id) {

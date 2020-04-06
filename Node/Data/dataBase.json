@@ -48,7 +48,7 @@
                 "internalAlert": true
             },
             "consideration": "Locker 5 has a plastic depot. Care for dangerous smoke",
-            "fullOpPlan": "c:/Git/P2/EmergencyHelpdesk/Node/dataManagement/OperativePDF/Skema.pdf"
+            "fullOpPlan": "/Node/dataManagement/OperativePDF/Skema.pdf"
         },
         {
             "coordinates": [
@@ -71,7 +71,7 @@
                 "smokeDetectors": false
             },
             "consideration": "Controllabe fire ventilation",
-            "fullOpPlan": "C:/Git/P2/EmergencyHelpdesk/Node/Data/OperativePDF/42. Shoppen - Vandmanden 5, Aalborg SV.pdf"
+            "fullOpPlan": "/Node/Data/OperativePDF/42. Shoppen - Vandmanden 5, Aalborg SV.pdf"
         },
         {
             "coordinates": [
@@ -94,7 +94,7 @@
                 "smokeDetectors": false
             },
             "consideration": "",
-            "fullOpPlan": "C:/Git/P2/EmergencyHelpdesk/Node/Data/OperativePDF/13. Sygehus Syd, Medicinerhuset - Mølleparkvej 4,  Aalborg.pdf"
+            "fullOpPlan": "/Node/Data/OperativePDF/13. Sygehus Syd, Medicinerhuset - Mølleparkvej 4,  Aalborg.pdf"
         },
         {
             "coordinates": [
@@ -117,7 +117,7 @@
                 "smokeDetectors": true
             },
             "consideration": "A spare key is located at the fire central",
-            "fullOpPlan": "C:/Git/P2/EmergencyHelpdesk/Node/Data/OperativePDF/001. Nordkraft_Kjellerups Torv"
+            "fullOpPlan": "/Node/Data/OperativePDF/001. Nordkraft_Kjellerups Torv"
         },
         {
             "coordinates": [
@@ -140,7 +140,7 @@
                 "smokeDetectors": true
             },
             "consideration": "A guide to interrupt electricity from the PV system, is found in the tech room",
-            "fullOpPlan": "C:/Git/P2/EmergencyHelpdesk/Node/Data/OperativePDF/002. Larsen Waterfront.pdf"
+            "fullOpPlan": "/Node/Data/OperativePDF/002. Larsen Waterfront.pdf"
         },
         {
             "coordinates": [
@@ -163,7 +163,7 @@
                 "smokeDetectors": false
             },
             "consideration": "Passage with fire vehicles is between building 14 and 24 and from the beach",
-            "fullOpPlan": "C:/Git/P2/EmergencyHelpdesk/Node/Data/OperativePDF/035.  Jomfru Ane Gade.pdf"
+            "fullOpPlan": "/Node/Data/OperativePDF/035.  Jomfru Ane Gade.pdf"
         },
         {
             "coordinates": [
