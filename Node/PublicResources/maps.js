@@ -124,6 +124,7 @@ function displayPlan(data){
 
     } else { // Styling could be improved, otherwise this section does its job
         if (document.getElementById("warning")) document.getElementById("warning").remove();
+        if (document.getElementById("pdf")) document.getElementById("pdf").remove();
         let p = document.createElement("p");
         p.innerHTML = "Operative plan for this location not available";
         p.id = "warning";
