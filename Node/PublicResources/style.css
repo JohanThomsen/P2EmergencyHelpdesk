@@ -54,8 +54,6 @@
     background-color: #eee;
 }
 
-
-
 /* Style the accordion panel. Note: hidden by default */
 .panel {
     padding: 0 18px;
@@ -110,10 +108,12 @@ button{
     height: 86%;
 }
 
-/* #operative{
-    margin-top: 5px;
+#address{
+    margin: 0;
 }
 
-#structure{
-    height: 300px;
-} */
+#pdf{
+    width: 100%;
+    display: block;
+    text-align: center;
+}

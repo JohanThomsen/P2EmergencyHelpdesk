@@ -111,11 +111,14 @@ function displayPlan(data){
         }
         enableAccordion();
 
+
         let a = document.createElement("a");
         a.href = data.opPlan.fullOpPlan;
         a.download = "Full operative plan";
-        a.innerHTML = "Operative plan:";
-        opPlan.insertBefore(a, opPlan.childNodes[0]);
+        a.innerHTML = "Full operative plan";
+        a.id = "pdf"
+        if (document.getElementById("pdf")) document.getElementById("pdf").remove();
+        opPlan.insertBefore(a, opPlan.childNodes[3]);
 
 
 
