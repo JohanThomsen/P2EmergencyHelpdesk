@@ -151,7 +151,7 @@ function displayEquip(data, property){
     for (item in data.opPlan[property]){
         if (data.opPlan[property][item] == true){
         let p = document.createElement("p");
-        p.innerHTML = item.capitalize() + " = available";
+        p.innerHTML = item.capitalize();
         document.getElementById("Equip").appendChild(p);
     }}
     let p = document.createElement("p");
