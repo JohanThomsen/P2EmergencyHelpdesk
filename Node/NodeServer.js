@@ -311,22 +311,20 @@ function handleOpPlan(request, response){
     let newOpPlan = {
         coordinates: [0, 0],
         address: '',
-            buildingDefinition:{
-                buildingDefinition:    '',
-                usage:                 '',
-                height:                0,
-                specialConsiderations: ''
-            },
-            fireFightingEquipment:{
-                fireLift:               false,
-                escapeStairs:           false,
-                risers:                 false,
-                sprinkler:              false,
-                smokeDetectors:         false,
-                markers:                false,
-                automaticFireDetector:  false,
-                internalAlert:          false
-            },
+        buildingDefinition:    '',
+        usage:                 '',
+        height:                0,
+        specialConsiderations: '',
+        fireFightingEquipment:{
+            fireLift:               false,
+            escapeStairs:           false,
+            risers:                 false,
+            sprinkler:              false,
+            smokeDetectors:         false,
+            markers:                false,
+            automaticFireDetector:  false,
+            internalAlert:          false
+        },
         consideration: '',
         fullOpPlan:    ''
     };
@@ -353,9 +351,7 @@ function handleOpPlan(request, response){
     form.on('field', (name, field) => {
         console.log('Handling: ', name);
         console.log(field);
-        if (isBuildingDefinition(name)){
-            newOpPlan.buildingDefinition[name] = field;
-        } else if (isFirefightingEquipment(name)) {
+        if (isFirefightingEquipment(name)) {
             newOpPlan.fireFightingEquipment[name] = true;
         } else if (isCoordinate(name)) {
             if (name  === 'ncoordinate'){
@@ -374,17 +370,6 @@ function handleOpPlan(request, response){
     response.writeHead(301,
         {location: 'http://127.0.0.1:5500/opPlanInput.html'
     });
-}  
-
-function isBuildingDefinition (name) {
-    if (name === 'buildingDefinition' || 
-        name === 'usage'              || 
-        name === 'height'             || 
-        name === 'specialConsiderations') {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 function isCoordinate (name) {

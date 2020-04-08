@@ -2,28 +2,28 @@
     "data": [
         {
             "coordinates": [
-                45.22488,
-                9.55815
+                0,
+                0
             ],
-            "address": "Bogade 23",
-            "buildingDefinition": {
-                "buildingDefinition": "Apartment Buidling",
-                "Usage": "Plastica production",
-                "height": "34",
-                "specialConsideration": "Potentially dangerous smoke"
-            },
+            "address": "Fyldeplads 0, 9200",
+            "buildingDefinition": "Ghetto",
+            "usage": "Last point",
+            "height": "69",
+            "specialConsideration": "Johans ghetto løsning",
             "fireFightingEquipment": {
-                "fireLift": false,
-                "escapeStairs": false,
                 "risers": false,
-                "sprinkler": true,
-                "smokeDetectors": false,
+                "sprinkler": false,
+                "internalAlert": false,
                 "markers": false,
-                "automaticFireDetector": true,
-                "internalAlert": true
+                "automaticFiredetector": false,
+                "escapeStairs": false,
+                "fireLift": false,
+                "smokeDetectors": false
             },
-            "consideration": "Locker 5 has a plastic depot. Care for dangerous smoke",
-            "fullOpPlan": "c:/Git/P2/EmergencyHelpdesk/Node/dataManagement/OperativePDF/Skema.pdf"
+            "consideration": {
+                "fireVentilation": false
+            },
+            "fullOpPlan": "alt"
         },
         {
             "coordinates": [
