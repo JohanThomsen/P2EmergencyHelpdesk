@@ -287,7 +287,7 @@ async function updateDatabase (post, res) {
             console.log('Updating JSON');
             console.log('Post: ', post);
             opPlanArray = JSON.parse(data);
-            opPlanArray.data = search.mergeSort(opPlanArray.data);
+            //opPlanArray.data = search.mergeSort(opPlanArray.data);
             console.log(opPlanArray.data);
             //opPlanArray.data.push(post);
             opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
@@ -337,8 +337,9 @@ function handleOpPlan(request, response){
      * The opPlan Object is updated with its location.
      */
     form.on('fileBegin', (name, file) => {
-        file.path = `${__dirname}/Data/OperativePDF/${file.name}`;
-        newOpPlan.fullOpPlan = file.path;
+        fileName = file.name.replace(/\s/g, '_');
+        file.path = `./Data/OperativePDF/${fileName}`;
+        newOpPlan.fullOpPlan = file.path.replace('./','/Node/');;
     });
 
     form.on('file', (name, file) => {
@@ -349,8 +350,8 @@ function handleOpPlan(request, response){
      * Each field has a name which is used to update the matching key in the object
      */
     form.on('field', (name, field) => {
-        console.log('Handling: ', name);
-        console.log(field);
+        /*console.log('Handling: ', name);
+        console.log(field);*/
         if (isFirefightingEquipment(name)) {
             newOpPlan.fireFightingEquipment[name] = true;
         } else if (isCoordinate(name)) {
