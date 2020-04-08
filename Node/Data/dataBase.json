@@ -2,42 +2,17 @@
     "data": [
         {
             "coordinates": [
-                0,
-                0
-            ],
-            "address": "Fyldeplads 0, 9200",
-            "buildingDefinition": "Ghetto",
-            "usage": "Last point",
-            "height": "69",
-            "specialConsideration": "Johans ghetto løsning",
-            "fireFightingEquipment": {
-                "risers": false,
-                "sprinkler": false,
-                "internalAlert": false,
-                "markers": false,
-                "automaticFiredetector": false,
-                "escapeStairs": false,
-                "fireLift": false,
-                "smokeDetectors": false
-            },
-            "consideration": {
-                "fireVentilation": false
-            },
-            "fullOpPlan": "alt"
-        },
-        {
-            "coordinates": [
                 45.22488,
                 9.55815
             ],
             "address": "Bogade 23",
             "buildingDefinition": {
                 "buildingDefinition": "Apartment Buidling",
-                "Usage": "Plastic production",
+                "Usage": "Plastica production",
                 "height": "34",
                 "specialConsideration": "Potentially dangerous smoke"
             },
-            "firefightingEquipment": {
+            "fireFightingEquipment": {
                 "fireLift": false,
                 "escapeStairs": false,
                 "risers": false,
@@ -129,7 +104,7 @@
             "usage": "living",
             "height": "42",
             "specialConsideration": "common room for 150 people on 15. floor",
-            "FirefightingEquipment": {
+            "FireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
                 "internalAlert": false,
@@ -152,7 +127,7 @@
             "Usage": "Bar street",
             "height": "15",
             "specialConsideration": "Keybox is located in building 16 , max 8475 people. 6574 inside and 1900 on the street",
-            "FirefightingEquipment": {
+            "FireFightingEquipment": {
                 "risers": false,
                 "sprinkler": false,
                 "internalAlert": false,
