@@ -93,7 +93,7 @@ button{
 
 #mapArea {
     overflow: hidden;
-    height: 86%; /* 4px minus er pga borders så det passer med de andre elementer */
+    height: 86%;
     width: 45%;
     margin-left: 5%;
     margin-top: 80px;

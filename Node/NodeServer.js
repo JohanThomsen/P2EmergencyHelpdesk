@@ -71,7 +71,7 @@ server.listen(port, hostName, () =>{
 
 function NearbyLocation(path, index, coordinates) {
     let file = fs.readFileSync(path);
-    let opArray = JSON.parse(file).data;
+    let opArray = JSON.parse(file).data; //dobbelt arbejde
     let opArraySorted = search.mergeSort(opArray);
     
     return checkNext(coordinates, index, opArraySorted).concat(checkPrevious(coordinates, index, opArraySorted));
@@ -191,7 +191,7 @@ function sendOperativePlan(path, requestUrl, response) {
         BuildingMetaData: insideBuilding(coordinates, './Node/Buildings.geojson'),
         NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
     };
-    console.log(result)
+    //console.log(result)
     response.statusCode = 200;
     response.setHeader('Content-Type', 'application/json');
     response.write(JSON.stringify(result, null, 4));
@@ -221,7 +221,7 @@ function insideBuilding(point, geoJsonPath) {
     });
 
     if (success == false) {
-        buildingIndex = -1; 
+        buildingIndex = -1; //dobbelt arbjede
     }
 
     if (buildingIndex != -1) {
