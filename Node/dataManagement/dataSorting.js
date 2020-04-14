@@ -103,7 +103,8 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
             /*console.log(`Middle index: ${middleIndex}`);
             console.log(`i: ${i}`);*/
             if (targetN <= oldOpPlanArray[i].coordinates[0]) {
-                for (j = oldOpPlanArray.length; j > i; j--) {
+                for (j = oldOpPlanArray.length - 1; j >=
+                     i; j--) {
                     console.log(`j: ${j}`); 
                     oldOpPlanArray[j+1] = oldOpPlanArray[j];
                 }
