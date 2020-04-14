@@ -2,25 +2,23 @@
     "data": [
         {
             "coordinates": [
-                45.22488,
-                9.55815
+                0,
+                0
             ],
-            "address": "Bogade 23",
-            "buildingDefinition": {
-                "buildingDefinition": "Apartment Buidling",
-                "Usage": "Plastica production",
-                "height": "34",
-                "specialConsideration": "Potentially dangerous smoke"
-            },
+            "address": "Fyldeplads 0, 9200",
+            "buildingDefinition": "Ghetto",
+            "usage": "Last point",
+            "height": "69",
+            "specialConsideration": "Johans ghetto løsning",
             "fireFightingEquipment": {
-                "fireLift": false,
-                "escapeStairs": false,
                 "risers": false,
-                "sprinkler": true,
-                "smokeDetectors": false,
+                "sprinkler": false,
+                "internalAlert": false,
                 "markers": false,
-                "automaticFireDetector": true,
-                "internalAlert": true
+                "automaticFiredetector": false,
+                "escapeStairs": false,
+                "fireLift": false,
+                "smokeDetectors": false
             },
             "consideration": "Locker 5 has a plastic depot. Care for dangerous smoke",
             "fullOpPlan": "Not Available"
@@ -45,8 +43,8 @@
                 "fireLift": false,
                 "smokeDetectors": false
             },
-            "consideration": "Controllabe fire ventilation",
-            "fullOpPlan": "/Node/Data/OperativePDF/42. Shoppen - Vandmanden 5, Aalborg SV.pdf"
+            "consideration": "Controllable fire ventilation",
+            "fullOpPlan": "/Node/Data/OperativePDF/42.Shoppen-Vandmanden5,AalborgSV.pdf"
         },
         {
             "coordinates": [
@@ -69,7 +67,7 @@
                 "smokeDetectors": false
             },
             "consideration": "",
-            "fullOpPlan": "/Node/Data/OperativePDF/13. Sygehus Syd, Medicinerhuset - Mølleparkvej 4,  Aalborg.pdf"
+            "fullOpPlan": "/Node/Data/OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf"
         },
         {
             "coordinates": [
@@ -80,7 +78,7 @@
             "buildingDefinition": "Nordkraft",
             "usage": "offices. sports and activities. classrooms. assembly rooms",
             "height": "42",
-            "specialConsideration": "split evacuation. first floor 1 -8, then 8 min later floor 9 - 13",
+            "specialConsideration": "split evacuation.firstfloor1-8,then8minlaterfloor9-13",
             "fireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
@@ -92,7 +90,7 @@
                 "smokeDetectors": true
             },
             "consideration": "A spare key is located at the fire central",
-            "fullOpPlan": "/Node/Data/OperativePDF/001. Nordkraft_Kjellerups Torv"
+            "fullOpPlan": "/Node/Data/OperativePDF/001.Nordkraft_KjellerupsTorv"
         },
         {
             "coordinates": [
@@ -115,7 +113,7 @@
                 "smokeDetectors": true
             },
             "consideration": "A guide to interrupt electricity from the PV system, is found in the tech room",
-            "fullOpPlan": "/Node/Data/OperativePDF/002. Larsen Waterfront.pdf"
+            "fullOpPlan": "/Node/Data/OperativePDF/002.LarsenWaterfront.pdf"
         },
         {
             "coordinates": [
@@ -138,7 +136,7 @@
                 "smokeDetectors": false
             },
             "consideration": "Passage with fire vehicles is between building 14 and 24 and from the beach",
-            "fullOpPlan": "/Node/Data/OperativePDF/035.  Jomfru Ane Gade.pdf"
+            "fullOpPlan": "/Node/Data/OperativePDF/035.JomfruAneGade.pdf"
         },
         {
             "coordinates": [

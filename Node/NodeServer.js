@@ -287,7 +287,7 @@ async function updateDatabase (post, res) {
             console.log('Updating JSON');
             console.log('Post: ', post);
             opPlanArray = JSON.parse(data);
-            opPlanArray.data = search.mergeSort(opPlanArray.data);
+            //opPlanArray.data = search.mergeSort(opPlanArray.data);
             console.log(opPlanArray.data);
             //opPlanArray.data.push(post);
             opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
@@ -311,22 +311,20 @@ function handleOpPlan(request, response){
     let newOpPlan = {
         coordinates: [0, 0],
         address: '',
-            buildingDefinition:{
-                buildingDefinition:    '',
-                usage:                 '',
-                height:                0,
-                specialConsiderations: ''
-            },
-            fireFightingEquipment:{
-                fireLift:               false,
-                escapeStairs:           false,
-                risers:                 false,
-                sprinkler:              false,
-                smokeDetectors:         false,
-                markers:                false,
-                automaticFireDetector:  false,
-                internalAlert:          false
-            },
+        buildingDefinition:    '',
+        usage:                 '',
+        height:                0,
+        specialConsiderations: '',
+        fireFightingEquipment:{
+            fireLift:               false,
+            escapeStairs:           false,
+            risers:                 false,
+            sprinkler:              false,
+            smokeDetectors:         false,
+            markers:                false,
+            automaticFireDetector:  false,
+            internalAlert:          false
+        },
         consideration: '',
         fullOpPlan:    ''
     };
@@ -339,8 +337,9 @@ function handleOpPlan(request, response){
      * The opPlan Object is updated with its location.
      */
     form.on('fileBegin', (name, file) => {
-        file.path = `${__dirname}/Data/OperativePDF/${file.name}`;
-        newOpPlan.fullOpPlan = file.path;
+        fileName = file.name.replace(/\s/g, '_');
+        file.path = `./Data/OperativePDF/${fileName}`;
+        newOpPlan.fullOpPlan = file.path.replace('./','/Node/');;
     });
 
     form.on('file', (name, file) => {
@@ -351,11 +350,9 @@ function handleOpPlan(request, response){
      * Each field has a name which is used to update the matching key in the object
      */
     form.on('field', (name, field) => {
-        console.log('Handling: ', name);
-        console.log(field);
-        if (isBuildingDefinition(name)){
-            newOpPlan.buildingDefinition[name] = field;
-        } else if (isFirefightingEquipment(name)) {
+        /*console.log('Handling: ', name);
+        console.log(field);*/
+        if (isFirefightingEquipment(name)) {
             newOpPlan.fireFightingEquipment[name] = true;
         } else if (isCoordinate(name)) {
             if (name  === 'ncoordinate'){
@@ -374,17 +371,6 @@ function handleOpPlan(request, response){
     response.writeHead(301,
         {location: 'http://127.0.0.1:5500/opPlanInput.html'
     });
-}  
-
-function isBuildingDefinition (name) {
-    if (name === 'buildingDefinition' || 
-        name === 'usage'              || 
-        name === 'height'             || 
-        name === 'specialConsiderations') {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 function isCoordinate (name) {
