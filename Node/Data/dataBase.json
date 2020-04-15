@@ -48,6 +48,29 @@
         },
         {
             "coordinates": [
+                57.01,
+                9.8
+            ],
+            "address": "fristrupvej 8",
+            "buildingDefinition": "boliG",
+            "usage": "bOlIg",
+            "height": "8",
+            "specialConsiderations": "firefiredamn",
+            "fireFightingEquipment": {
+                "fireLift": true,
+                "escapeStairs": false,
+                "risers": true,
+                "sprinkler": true,
+                "smokeDetectors": true,
+                "markers": true,
+                "automaticFireDetector": true,
+                "internalAlert": false
+            },
+            "consideration": "",
+            "fullOpPlan": "/Node/Node/Data/OperativePDF/Alchemist's+Supplies.pdf"
+        },
+        {
+            "coordinates": [
                 57.03713,
                 9.90761
             ],
