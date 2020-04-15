@@ -1,7 +1,7 @@
 // Intro blurb, Code for Operative Plan GIS site, using leaflet
 // Written as part of a 2nd semester project on AAU
 const scale = 13;
-9.9189, 57.05016// Leaflet copy-paste job, creates the map then gets the map from mapbox
+// Leaflet copy-paste job, creates the map then gets the map from mapbox
 let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -104,7 +104,7 @@ function displayPlan(data){
             for (element in data.NearbyWarnings[property]){
                 if (element == "buildingDefinition" || element ==  "usage" || element == "specialConsideration"){
                     let p = document.createElement("p");
-                    p.innerHTML = element.capitalize() + " = " + data.NearbyWarnings[property][element];
+                    p.innerHTML = element.capitalize() + ": " + data.NearbyWarnings[property][element];
                     document.getElementById(data.NearbyWarnings[property].address).appendChild(p);
                 }
             } 
@@ -144,7 +144,7 @@ function displayAddress(data, outerElement){
 
 function displayGenerel(data, property){
     let p = document.createElement("p");
-    p.innerHTML = property.capitalize() + " = " + data.opPlan[property];
+    p.innerHTML = property.capitalize() + ": " + data.opPlan[property];
     document.getElementById("Generel").appendChild(p);
 }
 
@@ -156,7 +156,7 @@ function displayEquip(data, property){
         document.getElementById("Equip").appendChild(p);
     }}
     let p = document.createElement("p");
-    p.innerHTML = "Consideration = " + data.opPlan.consideration;
+    p.innerHTML = "Consideration: " + data.opPlan.consideration;
     document.getElementById("Equip").appendChild(p);
 }
 
