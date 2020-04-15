@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
               integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
               crossorigin=""/>
+              <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
                 integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
                 crossorigin=""></script>
@@ -17,19 +18,20 @@
             <h2> Operative plan overview </h2>
         </div>
         <div id="mapArea"></div>
-        <div id="strucPlan" class="textbox">
+        <!-- <div id="strucPlan" class="textbox">
             <h3>Structure plan</h3>
-        </div>
+        </div> -->
         <div id="opPlan" class="textbox">
-            <h3>Operative plan</h3>
+            <h3> Operative plan: </h3>
+            <button class = "accordion">Fire info</button>
+            <div class = "panel" id="fireinfo"></div>
             <button class = "accordion">Generel information</button>
-            <div class = "panel">
-                <p>lorem ipsum...</p>
-            </div>
-            <button class = "accordion">Objects</button>
-            <div class = "panel">
-                <p>some object</p>
-            </div>
+            <div class = "panel" id="Generel"></div>
+            <button class = "accordion">Firefighting Equipment</button>
+            <div class = "panel" id="Equip"></div>
+            <button class = "accordion">Nearby Warnings</button>
+            <div class = "panel" id="Nearby"></div>
+
         </div>
     </body>
 </html>
