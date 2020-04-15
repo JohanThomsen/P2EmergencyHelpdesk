@@ -44,30 +44,7 @@
                 "smokeDetectors": false
             },
             "consideration": "Controllable fire ventilation",
-            "fullOpPlan": "/Node/Data/OperativePDF/42.Shoppen-Vandmanden5,AalborgSV.pdf"
-        },
-        {
-            "coordinates": [
-                57.01,
-                9.8
-            ],
-            "address": "fristrupvej 8",
-            "buildingDefinition": "boliG",
-            "usage": "bOlIg",
-            "height": "8",
-            "specialConsiderations": "firefiredamn",
-            "fireFightingEquipment": {
-                "fireLift": true,
-                "escapeStairs": false,
-                "risers": true,
-                "sprinkler": true,
-                "smokeDetectors": true,
-                "markers": true,
-                "automaticFireDetector": true,
-                "internalAlert": false
-            },
-            "consideration": "",
-            "fullOpPlan": "/Node/Node/Data/OperativePDF/Alchemist's+Supplies.pdf"
+            "fullOpPlan": "OperativePDF/42.Shoppen-Vandmanden5,AalborgSV.pdf"
         },
         {
             "coordinates": [
@@ -90,7 +67,7 @@
                 "smokeDetectors": false
             },
             "consideration": "",
-            "fullOpPlan": "/Node/Data/OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf"
+            "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf"
         },
         {
             "coordinates": [
@@ -113,7 +90,7 @@
                 "smokeDetectors": true
             },
             "consideration": "A spare key is located at the fire central",
-            "fullOpPlan": "/Node/Data/OperativePDF/001.Nordkraft_KjellerupsTorv"
+            "fullOpPlan": "OperativePDF/001.Nordkraft_KjellerupsTorv"
         },
         {
             "coordinates": [
@@ -136,7 +113,7 @@
                 "smokeDetectors": true
             },
             "consideration": "A guide to interrupt electricity from the PV system, is found in the tech room",
-            "fullOpPlan": "/Node/Data/OperativePDF/002.LarsenWaterfront.pdf"
+            "fullOpPlan": "OperativePDF/002.LarsenWaterfront.pdf"
         },
         {
             "coordinates": [
@@ -159,7 +136,7 @@
                 "smokeDetectors": false
             },
             "consideration": "Passage with fire vehicles is between building 14 and 24 and from the beach",
-            "fullOpPlan": "/Node/Data/OperativePDF/035.JomfruAneGade.pdf"
+            "fullOpPlan": "OperativePDF/035.JomfruAneGade.pdf"
         },
         {
             "coordinates": [
