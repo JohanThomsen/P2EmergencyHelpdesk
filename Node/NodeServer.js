@@ -19,6 +19,10 @@ let server = http.createServer((request, response) => {
                 fileResponse('index.html', response);
             break; 
 
+            case '/uploadOP': 
+            fileResponse('opPlanInput.html', response);
+            break; 
+
             case '/fires':
                 fileResponse('currentFires.geojson', response);
             break;
