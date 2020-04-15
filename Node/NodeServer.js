@@ -52,7 +52,7 @@ let server = http.createServer((request, response) => {
                 });
             })
             .then((jsonData) => {
-                CheckFire(jsonData, './Node/Data/currentFires.geojson');
+                CheckFire(jsonData, './Node/PublicResources/currentFires.geojson');
             });
         break;
 

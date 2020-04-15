@@ -129,6 +129,70 @@
                     57.046799
                 ]
             }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "type of fire",
+                "time": "10:00",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    57.01,
+                    9.8
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "type of fire",
+                "time": "10:00",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    57.01,
+                    10
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "type of fire",
+                "time": "10:00",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    58,
+                    10
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "type of fire",
+                "time": "10:00",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.8,
+                    57.01
+                ]
+            }
         }
     ]
 }
