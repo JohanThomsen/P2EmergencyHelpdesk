@@ -342,8 +342,8 @@ function handleOpPlan(request, response){
      */
     form.on('fileBegin', (name, file) => {
         fileName = file.name.replace(/\s/g, '_');
-        file.path = `OperativePDF/${fileName}`;
-        newOpPlan.fullOpPlan = file.path;
+        file.path = `Node/PublicResources/OperativePDF/${fileName}`;
+        newOpPlan.fullOpPlan = `operativePDF/${fileName}`;
     });
 
     form.on('file', (name, file) => {
