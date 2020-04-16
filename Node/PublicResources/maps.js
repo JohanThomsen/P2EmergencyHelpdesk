@@ -72,11 +72,13 @@ function fetchPlan(feature, layer){
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
     let opPlan = document.getElementById("opPlan");
+    document.getElementById("fireinfo").innerHTML = "";
     document.getElementById("Generel").innerHTML = "";
     document.getElementById("Equip").innerHTML = "";
     document.getElementById("Nearby").innerHTML = "";
     if (document.getElementById("address")) document.getElementById("address").remove();
     if (document.getElementById("warning")) document.getElementById("warning").remove();
+    if (document.getElementById("pdf")) document.getElementById("pdf").remove();
 
     if (data) { // Checks whether the data arrived, if true, writes the information, otherwise displays an error message
         for (property in data.opPlan){
@@ -102,7 +104,7 @@ function displayPlan(data){
             outerAccordion.appendChild(accordion);
             
             for (element in data.NearbyWarnings[property]){
-                if (element == "buildingDefinition" || element ==  "usage" || element == "specialConsideration"){
+                if (element == "specialConsideration"){
                     let p = document.createElement("p");
                     p.innerHTML = element.capitalize() + ": " + data.NearbyWarnings[property][element];
                     document.getElementById(data.NearbyWarnings[property].address).appendChild(p);
@@ -117,14 +119,12 @@ function displayPlan(data){
         a.download = "Full operative plan";
         a.innerHTML = "Full operative plan";
         a.id = "pdf"
-        if (document.getElementById("pdf")) document.getElementById("pdf").remove();
         opPlan.insertBefore(a, opPlan.childNodes[3]);
 
 
 
     } else { // Styling could be improved, otherwise this section does its job
         if (document.getElementById("warning")) document.getElementById("warning").remove();
-        if (document.getElementById("pdf")) document.getElementById("pdf").remove();
         let p = document.createElement("p");
         p.innerHTML = "Operative plan for this location not available";
         p.id = "warning";
