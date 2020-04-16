@@ -3,6 +3,7 @@
 
 const scale = 13;
 const evntSource = new EventSource("/Node/NodeServer.js");
+const fireIcon = new MarkerIcon({iconURL: 'fireMarker.png'});
 // Leaflet copy-paste job, creates the map then gets the map from mapbox
 let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -32,6 +33,7 @@ startMap();
 evntSource.addEventListener("ping", startMap);
 // Gets the current fires, loads them onto the map with the display function on click
 // Make this reload the fires live, websocket maybe?
+
 function startMap(){
     fetch("/fires")
         .then((response) => {
@@ -39,6 +41,9 @@ function startMap(){
         })
         .then((data) => {
             let geojsonLayer = new L.geoJSON(data, {
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng, {icon: fireIcon});
+                },
                 onEachFeature: markerFeatures
             });
             geojsonLayer.addTo(primaryMap);
@@ -89,29 +94,38 @@ function displayPlan(data){
             }
         }
 
+        // Creates nearby warnings if a special consideration exists for any of the nearby buildings
+        // Prints the address of the warning, and the special consideration
         outerAccordion = document.getElementById("Nearby");
-        for (property in data.NearbyWarnings){
-            let button = document.createElement("button");
-            button.className = "accordion";
-            button.innerHTML = data.NearbyWarnings[property].address;
-            outerAccordion.appendChild(button);
-
-            let accordion = document.createElement("div");
-            accordion.className = "panel";
-            accordion.id = data.NearbyWarnings[property].address;
-            outerAccordion.appendChild(accordion);
-            
-            for (element in data.NearbyWarnings[property]){
-                if (element == "specialConsideration"){
-                    let p = document.createElement("p");
-                    p.innerHTML = element.capitalize() + ": " + data.NearbyWarnings[property][element];
-                    document.getElementById(data.NearbyWarnings[property].address).appendChild(p);
-                }
-            } 
+        let nearbyconsideration;
+        for (element in data.NearbyWarnings[property]){
+            if (element == "specialConsideration") {nearbyconsideration = true;}
         }
+        if (nearbyconsideration == true){
+            for (property in data.NearbyWarnings){
+                let button = document.createElement("button");
+                button.className = "accordion";
+                button.innerHTML = data.NearbyWarnings[property].address;
+                outerAccordion.appendChild(button);
+    
+                let accordion = document.createElement("div");
+                accordion.className = "panel";
+                accordion.id = data.NearbyWarnings[property].address;
+                outerAccordion.appendChild(accordion);
+                
+                for (element in data.NearbyWarnings[property]){
+                    if (element == "specialConsideration"){
+                        let p = document.createElement("p");
+                        p.innerHTML = element.capitalize() + ": " + data.NearbyWarnings[property][element];
+                        document.getElementById(data.NearbyWarnings[property].address).appendChild(p);
+                    }
+                }
+            }
+        }
+        // After possibly creating/removing accordions for nearby warnings, all accordions must be event enabled to work
         enableAccordion();
 
-
+        // Creates the download link for the opPlan
         let a = document.createElement("a");
         a.href = data.opPlan.fullOpPlan;
         a.download = "Full operative plan";
@@ -121,7 +135,7 @@ function displayPlan(data){
 
 
 
-    } else { // Styling could be improved, otherwise this section does its job
+    } else { // Creates the warning if there is no operative plan available
         if (document.getElementById("warning")) document.getElementById("warning").remove();
         let p = document.createElement("p");
         p.innerHTML = "Operative plan for this location not available";
@@ -132,6 +146,7 @@ function displayPlan(data){
 
 }
 
+//Displays the address of the clicked fire at the top
 function displayAddress(data, outerElement){
     let p = document.createElement("p");
     p.innerHTML = data.opPlan.address;
@@ -140,12 +155,14 @@ function displayAddress(data, outerElement){
     outerElement.insertBefore(p, outerElement.childNodes[2]);
 }
 
+// Displays all the generel data for the fire in the relevant accordion
 function displayGenerel(data, property){
     let p = document.createElement("p");
     p.innerHTML = property.capitalize() + ": " + data.opPlan[property];
     document.getElementById("Generel").appendChild(p);
 }
 
+// 
 function displayEquip(data, property){
     for (item in data.opPlan[property]){
         if (data.opPlan[property][item] == true){
