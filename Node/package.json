@@ -1,0 +1,17 @@
+{
+  "name": "p2projekt",
+  "version": "1.0.0",
+  "description": "Program that helps ermegency helpdesks with easily finding an operative plan for a given address",
+  "main": "NodeServer.js",
+  "dependencies": {
+    "formidable": "^1.2.2",
+    "jest": "^25.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  
+  "author": "",
+  "license": "ISC"
+}

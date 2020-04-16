@@ -19,6 +19,10 @@ let server = http.createServer((request, response) => {
                 fileResponse('index.html', response);
             break; 
 
+            case '/uploadOP': 
+            fileResponse('opPlanInput.html', response);
+            break; 
+
             case '/fires':
                 fileResponse('currentFires.geojson', response);
             break;
@@ -52,7 +56,7 @@ let server = http.createServer((request, response) => {
                 });
             })
             .then((jsonData) => {
-                CheckFire(jsonData, './Node/Data/currentFires.geojson');
+                CheckFire(jsonData, './Node/PublicResources/currentFires.geojson');
             });
         break;
 
@@ -71,7 +75,7 @@ server.listen(port, hostName, () =>{
 
 function NearbyLocation(path, index, coordinates) {
     let file = fs.readFileSync(path);
-    let opArray = JSON.parse(file).data;
+    let opArray = JSON.parse(file).data; //dobbelt arbejde
     let opArraySorted = search.mergeSort(opArray);
     
     return checkNext(coordinates, index, opArraySorted).concat(checkPrevious(coordinates, index, opArraySorted));
@@ -191,7 +195,7 @@ function sendOperativePlan(path, requestUrl, response) {
         BuildingMetaData: insideBuilding(coordinates, './Node/Buildings.geojson'),
         NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
     };
-    console.log(result)
+    //console.log(result)
     response.statusCode = 200;
     response.setHeader('Content-Type', 'application/json');
     response.write(JSON.stringify(result, null, 4));
@@ -221,7 +225,7 @@ function insideBuilding(point, geoJsonPath) {
     });
 
     if (success == false) {
-        buildingIndex = -1; 
+        buildingIndex = -1; //dobbelt arbjede
     }
 
     if (buildingIndex != -1) {
@@ -280,7 +284,7 @@ function guessMimeType(fileName) {
  */
 async function updateDatabase (post, res) {
     console.log("In Process")
-    fs.readFile('Data/dataBase.json', 'utf8',(err, data) => {
+    fs.readFile('Node/Data/dataBase.json', 'utf8',(err, data) => {
         if (err){
             console.log(err);
         } else {
@@ -293,7 +297,7 @@ async function updateDatabase (post, res) {
             opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
             console.log(opPlanArray.data);
             let jsonOpPlan = JSON.stringify(opPlanArray, null, 4).replace(/\\\\/g, "/");
-            fs.writeFile('Data/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
+            fs.writeFile('Node/Data/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
                 if (err){
                     console.log(err);
                 }
@@ -338,8 +342,8 @@ function handleOpPlan(request, response){
      */
     form.on('fileBegin', (name, file) => {
         fileName = file.name.replace(/\s/g, '_');
-        file.path = `./Data/OperativePDF/${fileName}`;
-        newOpPlan.fullOpPlan = file.path.replace('./','/Node/');;
+        file.path = `Node/PublicResources/OperativePDF/${fileName}`;
+        newOpPlan.fullOpPlan = `operativePDF/${fileName}`;
     });
 
     form.on('file', (name, file) => {
@@ -369,8 +373,9 @@ function handleOpPlan(request, response){
     updateDatabase(newOpPlan, response);
 
     response.writeHead(301,
-        {location: 'http://127.0.0.1:5500/opPlanInput.html'
+        {location: '/opPlanInput.html'
     });
+    response.end('\n');
 }
 
 function isCoordinate (name) {
