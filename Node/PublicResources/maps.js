@@ -1,6 +1,8 @@
 // Intro blurb, Code for Operative Plan GIS site, using leaflet
 // Written as part of a 2nd semester project on AAU
+
 const scale = 13;
+const evntSource = new EventSource("/Node/NodeServer.js");
 // Leaflet copy-paste job, creates the map then gets the map from mapbox
 let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -21,31 +23,28 @@ function displayProperties(feature, layer){
         for(property in feature.properties) {
             let p = document.createElement("p");
             p.innerHTML = feature.properties[property];
-
-            // let attributeCount = Object.keys(feature.properties).length + 1;
-            // let padding = ((outerElement.clientHeight / attributeCount) - 18) / 2; // that 18(text height) is really scuffed, figure out a change if necessary
-            // p.style.margin = `${padding-1}px 2% ${padding-2}px 2%`; // -1 on both margin on account of padding, -1 on bottom because of border
-            // p.style.padding = "1px";
-
             document.getElementById("fireinfo").appendChild(p);
 
         }
     });
 }
-
+startMap();
+evntSource.addEventListener("ping", startMap);
 // Gets the current fires, loads them onto the map with the display function on click
 // Make this reload the fires live, websocket maybe?
-fetch("/fires")
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        let geojsonLayer = new L.geoJSON(data, {
-            onEachFeature: markerFeatures
+function startMap(){
+    fetch("/fires")
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            let geojsonLayer = new L.geoJSON(data, {
+                onEachFeature: markerFeatures
+            });
+            geojsonLayer.addTo(primaryMap);
         });
+}
 
-        geojsonLayer.addTo(primaryMap);
-    });
 
 //Gets the operative plan data, and calls displayPlan with the appropriate response
 function fetchPlan(feature, layer){
@@ -72,7 +71,6 @@ function fetchPlan(feature, layer){
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
     let opPlan = document.getElementById("opPlan");
-    document.getElementById("fireinfo").innerHTML = "";
     document.getElementById("Generel").innerHTML = "";
     document.getElementById("Equip").innerHTML = "";
     document.getElementById("Nearby").innerHTML = "";

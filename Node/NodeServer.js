@@ -56,7 +56,7 @@ let server = http.createServer((request, response) => {
                 });
             })
             .then((jsonData) => {
-                CheckFire(jsonData, './Node/PublicResources/currentFires.geojson');
+                CheckFire(jsonData, './Node/PublicResources/currentFires.geojson', response);
             });
         break;
 
@@ -118,20 +118,29 @@ function BinaryToJson(data) {
 }
 
 //update list of fires with new information
-function CheckFire(jsonData, path) {
+function CheckFire(jsonData, path, response) {
     let file = fs.readFileSync(path);
     let json = JSON.parse(file);  
     let entryValue = EntryExist(json.features, jsonData.location, 'geometry', 'coordinates');
     if (jsonData.active == true) {
         if (entryValue.returnValue != true) {
-            UpdateFile(jsonData, path);     
+            UpdateFile(jsonData, path);
+            sendEvent(response);   
         }
         return;
     } else if(entryValue.returnValue == true) {
         //if it is not active, but exists in the file, it is deleted  
         DeleteEntry(path, entryValue.indexValue);
+        sendEvent(response);
         return;
     }
+}
+
+function sendEvent(response) {
+    response.setHeader('Content-Type', 'text/event-stream');
+    response.setHeader('Cache-Control', 'no-cache');
+    response.write("event: ping\n");
+    response.end('\n');
 }
 
 //check if an entry exists in an array. 
