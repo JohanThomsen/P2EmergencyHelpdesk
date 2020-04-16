@@ -38,7 +38,11 @@ let server = http.createServer((request, response) => {
                     response.write(data);
                     response.end('\n');
                     });
-            break; 
+            break;
+
+            case('/fireAlert'):
+                sendEvent(response)
+            break;
 
             default:
                 fileResponse(request.url, response);
@@ -141,6 +145,7 @@ function sendEvent(response) {
     response.setHeader('Cache-Control', 'no-cache');
     response.write("event: ping\n");
     response.end('\n');
+    console.log(response)
 }
 
 //check if an entry exists in an array. 

@@ -2,7 +2,7 @@
 // Written as part of a 2nd semester project on AAU
 
 const scale = 13;
-const evntSource = new EventSource("/Node/NodeServer.js");
+const evntSource = new EventSource("http://127.0.0.1:3000/fireAlert");
 // Leaflet copy-paste job, creates the map then gets the map from mapbox
 let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
