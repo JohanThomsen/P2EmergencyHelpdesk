@@ -225,3 +225,17 @@ async function getFire() {
     let data = await response.json();
     console.log(data);
 }
+
+/*Websocket code*/
+/*   for chat   */
+let updateSocket = new WebSocket('ws://127.0.0.1:3000/chat');
+
+updateSocket.onopen = function (event) {
+    
+}
+
+updateSocket.onmessage = function (event) {
+    
+    console.log("let");
+
+}
