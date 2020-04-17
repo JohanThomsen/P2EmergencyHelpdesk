@@ -3,7 +3,11 @@
 
 const scale = 13;
 const evntSource = new EventSource("http://127.0.0.1:3000/fireAlert");
-const fireIcon = new MarkerIcon({iconURL: 'fireMarker.png'});
+const fireIcon = L.icon({
+      iconUrl: 'fireMarker.png',
+      iconSize: [25, 50],
+      iconAnchor: [12.5, 50]
+    });
 // Leaflet copy-paste job, creates the map then gets the map from mapbox
 let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -22,9 +26,20 @@ function displayProperties(feature, layer){
         console.log(feature.geometry.coordinates);
         // Creates a paragraf for each attribute, with padding depending on the amount of attributes
         for(property in feature.properties) {
-            let p = document.createElement("p");
-            p.innerHTML = feature.properties[property];
-            document.getElementById("fireinfo").appendChild(p);
+            if (property == 'typeFire'){
+                let p = document.createElement("p");
+                p.innerHTML = "Type of fire: " + feature.properties[property];
+                document.getElementById("fireinfo").appendChild(p);
+            } else if (property == "time"){
+                let p = document.createElement("p");
+                p.innerHTML = "Time: " + feature.properties[property];
+                document.getElementById("fireinfo").appendChild(p);
+            } else if (property == "automaticAlarm"){
+                let p = document.createElement("p");
+                p.innerHTML = feature.properties[property] ?"Automatic alarm: Yes" : "";
+                document.getElementById("fireinfo").appendChild(p);
+            }
+            
 
         }
     });
