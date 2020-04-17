@@ -246,6 +246,7 @@ updateSocket.onopen = function (event) {
 
 updateSocket.onmessage = function (event) {
     
-    console.log("let");
+    console.log("PING");
+    location.assign('/')
 
 }
