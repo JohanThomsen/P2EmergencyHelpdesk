@@ -35,17 +35,22 @@ function displayProperties(feature, layer){
 
 // Gets the current fires, loads them onto the map with the display function on click
 // Make this reload the fires live, websocket maybe?
-fetch("/fires")
+let geojsonLayer;
+function fetchFireMarkers(){
+    fetch("/fires")
     .then((response) => {
         return response.json();
     })
     .then((data) => {
-        let geojsonLayer = new L.geoJSON(data, {
+        geojsonLayer = new L.geoJSON(data, {
             onEachFeature: markerFeatures
         });
 
         geojsonLayer.addTo(primaryMap);
     });
+}
+
+fetchFireMarkers();
 
 //Gets the operative plan data, and calls displayPlan with the appropriate response
 function fetchPlan(feature, layer){
@@ -247,6 +252,7 @@ updateSocket.onopen = function (event) {
 updateSocket.onmessage = function (event) {
     
     console.log("PING");
-    location.assign('/')
+    geojsonLayer.removeFrom(primaryMap);
+    fetchFireMarkers();
 
 }
