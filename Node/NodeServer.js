@@ -59,6 +59,8 @@ let server = http.createServer((request, response) => {
             .then((jsonData) => {
                 CheckFire(jsonData, './Node/PublicResources/currentFires.geojson');
             });
+            response.statusCode = 200;
+            response.end('\n');
         break;
 
         case '/addOpPlan':
