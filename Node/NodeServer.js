@@ -226,7 +226,7 @@ function sendOperativePlan(path, requestUrl, response) {
 
 
 
-//console.log(insideBuilding([9.932281699291654, 57.04652291941613], './Node/Buildings.geojson'));
+console.log(insideBuilding([9.932281699291654, 57.04652291941613], './Node/Buildings.geojson'));
 function insideBuilding(point, geoJsonPath) {
     let geoJsonFile = fs.readFileSync(geoJsonPath);
     let geoJsonObject = JSON.parse(geoJsonFile);
@@ -251,7 +251,7 @@ function insideBuilding(point, geoJsonPath) {
     }
 
     if (buildingIndex != -1) {
-        return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type};
+        return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type, polygon: geoJsonObject.features[buildingIndex].geometry.coordinates[0][0]};
     } else {
         return {name: '', type: ''};
     }
