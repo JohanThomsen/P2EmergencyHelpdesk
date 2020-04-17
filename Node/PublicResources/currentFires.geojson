@@ -2,5 +2,21 @@
     "type": "FeatureCollection",
     "name": "currentFires",
     "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "type of fire",
+                "time": "10:00",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.932281699291654,
+                    57.04652291941613
+                ]
+            }
+        }
     ]
 }
