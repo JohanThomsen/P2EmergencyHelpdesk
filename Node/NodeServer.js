@@ -260,7 +260,7 @@ function insideBuilding(point, geoJsonPath) {
     }
 
     if (buildingIndex != -1) {
-        return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type};
+        return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type, polygon: geoJsonObject.features[buildingIndex].geometry.coordinates[0][0]};
     } else {
         return {name: '', type: ''};
     }
