@@ -35,17 +35,22 @@ function displayProperties(feature, layer){
 
 // Gets the current fires, loads them onto the map with the display function on click
 // Make this reload the fires live, websocket maybe?
-fetch("/fires")
+let geojsonLayer;
+function fetchFireMarkers(){
+    fetch("/fires")
     .then((response) => {
         return response.json();
     })
     .then((data) => {
-        let geojsonLayer = new L.geoJSON(data, {
+        geojsonLayer = new L.geoJSON(data, {
             onEachFeature: markerFeatures
         });
 
         geojsonLayer.addTo(primaryMap);
     });
+}
+
+fetchFireMarkers();
 
 //Gets the operative plan data, and calls displayPlan with the appropriate response
 function fetchPlan(feature, layer){
@@ -65,12 +70,22 @@ function fetchPlan(feature, layer){
             })
             .then((data) => {
                 displayPlan(data);
+                displayPolygon(data);
             });
         });
 }
 
+function displayPolygon(data){
+    let polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
+    let poly = L.polygon(polyCoords);
+    poly.addTo(primaryMap);
+}
+
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
+    //test of array with polygons
+    console.log(data.BuildingMetaData.polygon);
+    console.log(data);
     let opPlan = document.getElementById("opPlan");
     document.getElementById("fireinfo").innerHTML = "";
     document.getElementById("Generel").innerHTML = "";
@@ -224,4 +239,20 @@ async function getFire() {
     let response = await fetch("http://127.0.0.1:3000/fires");
     let data = await response.json();
     console.log(data);
+}
+
+/*Websocket code*/
+/*   for chat   */
+let updateSocket = new WebSocket('ws://127.0.0.1:3000/chat');
+
+updateSocket.onopen = function (event) {
+    
+}
+
+updateSocket.onmessage = function (event) {
+    
+    console.log("PING");
+    geojsonLayer.removeFrom(primaryMap);
+    fetchFireMarkers();
+
 }
