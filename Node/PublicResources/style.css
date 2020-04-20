@@ -8,6 +8,11 @@
     float: left;
     overflow-y: scroll;
 }
+
+#slideArea {
+    display: none;
+}
+
 /* .textbox p{
     margin-left: 2%;
     margin-right: 2%;
@@ -91,7 +96,7 @@ button{
 
 }
 
-#mapArea {
+.imageBox {
     overflow: hidden;
     height: 86%;
     width: 45%;
@@ -101,6 +106,7 @@ button{
     float: left;
     border: 1px solid black;
     z-index: 0;
+    display: hidden;
 }
 
 #opPlan{

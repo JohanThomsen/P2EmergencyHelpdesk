@@ -129,24 +129,25 @@ function CheckFire(jsonData, path, response) {
     if (jsonData.active == true) {
         if (entryValue.returnValue != true) {
             UpdateFile(jsonData, path);
-            sendEvent(response);   
+            //sendEvent(response);   
         }
         return;
     } else if(entryValue.returnValue == true) {
         //if it is not active, but exists in the file, it is deleted  
         DeleteEntry(path, entryValue.indexValue);
-        sendEvent(response);
+        //sendEvent(response);
         return;
     }
 }
 
-function sendEvent(response) {
+/*function sendEvent(response) {
     response.setHeader('Content-Type', 'text/event-stream');
     response.setHeader('Cache-Control', 'no-cache');
+    response.setHeader('Connection', 'keep-alive');
     response.write("event: ping\n");
     response.end('\n');
     console.log(response)
-}
+}*/
 
 //check if an entry exists in an array. 
 function EntryExist(array, searchKey, valueKey1, valueKey2) {

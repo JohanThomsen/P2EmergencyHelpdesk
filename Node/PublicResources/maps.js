@@ -2,7 +2,9 @@
 // Written as part of a 2nd semester project on AAU
 
 const scale = 13;
+//The source for the SSE to reload the map
 const evntSource = new EventSource("http://127.0.0.1:3000/fireAlert");
+// Details for the icon used on the fires
 const fireIcon = L.icon({
       iconUrl: 'fireMarker.png',
       iconSize: [25, 50],
@@ -141,15 +143,15 @@ function displayPlan(data){
         enableAccordion();
 
         // Creates the download link for the opPlan
-        let a = document.createElement("a");
-        a.href = data.opPlan.fullOpPlan;
-        a.download = "Full operative plan";
-        a.innerHTML = "Full operative plan";
-        a.id = "pdf"
-        opPlan.insertBefore(a, opPlan.childNodes[3]);
-
-
-
+        if (data.opPlan.fullOpPlan){
+            let a = document.createElement("a");
+            a.href = data.opPlan.fullOpPlan;
+            a.download = "Full operative plan";
+            a.innerHTML = "Full operative plan";
+            a.id = "pdf"
+            opPlan.insertBefore(a, opPlan.childNodes[3]);
+        }
+        
     } else { // Creates the warning if there is no operative plan available
         if (document.getElementById("warning")) document.getElementById("warning").remove();
         let p = document.createElement("p");
