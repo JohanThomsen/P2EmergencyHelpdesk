@@ -41,10 +41,6 @@ let server = http.createServer((request, response) => {
                     });
             break;
 
-            case('/fireAlert'):
-                sendEvent(response)
-            break;
-
             default:
                 fileResponse(request.url, response);
             break;
@@ -61,7 +57,7 @@ let server = http.createServer((request, response) => {
                 });
             })
             .then((jsonData) => {
-                CheckFire(jsonData, './Node/PublicResources/currentFires.geojson', response);
+                CheckFire(jsonData, './Node/PublicResources/currentFires.geojson');
             });
             response.statusCode = 200;
             response.end('\n');
@@ -149,7 +145,7 @@ function BinaryToJson(data) {
 }
 
 //update list of fires with new information
-function CheckFire(jsonData, path, response) {
+function CheckFire(jsonData, path) {
     let file = fs.readFileSync(path);
     let json = JSON.parse(file);  
     let entryValue = EntryExist(json.features, jsonData.location, 'geometry', 'coordinates');

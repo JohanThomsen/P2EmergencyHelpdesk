@@ -2,8 +2,7 @@
 // Written as part of a 2nd semester project on AAU
 
 const scale = 13;
-//The source for the SSE to reload the map
-const evntSource = new EventSource("http://127.0.0.1:3000/fireAlert");
+
 // Details for the icon used on the fires
 const fireIcon = L.icon({
       iconUrl: 'fireMarker.png',
@@ -46,8 +45,7 @@ function displayProperties(feature, layer){
         }
     });
 }
-startMap();
-evntSource.addEventListener("ping", startMap);
+
 // Gets the current fires, loads them onto the map with the display function on click
 // Make this reload the fires live, websocket maybe?
 let geojsonLayer;
@@ -64,8 +62,7 @@ function fetchFireMarkers(){
             onEachFeature: markerFeatures
         });
         geojsonLayer.addTo(primaryMap);
-    }   
-    
+    });
 };
 
 
