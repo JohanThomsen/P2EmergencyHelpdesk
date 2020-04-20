@@ -4,6 +4,7 @@ const path = require('path');
 const formidable = require('formidable');
 const search = require('./dataManagement/dataSorting.js');
 const checkPolygon = require('./checkPolygon.js');
+const webSocketServer = require('websocket');
 
 //server setup variables
 const port = 3000;
@@ -62,6 +63,8 @@ let server = http.createServer((request, response) => {
             .then((jsonData) => {
                 CheckFire(jsonData, './Node/PublicResources/currentFires.geojson', response);
             });
+            response.statusCode = 200;
+            response.end('\n');
         break;
 
         case '/addOpPlan':
@@ -74,6 +77,30 @@ let server = http.createServer((request, response) => {
 //server listen for requests 
 server.listen(port, hostName, () =>{
 });
+
+
+/*Websocket code*/
+/*   for map update   */
+let test; 
+
+let updateServer = new webSocketServer.server({
+    httpServer: server
+  });
+  
+  updateServer.on('request', (request) => {
+    console.log((new Date()) + 'Connection from origin: ' + request.origin);
+    let conenction = request.accept(null, request.origin);
+    console.log((new Date()) + ' Connection accepted.');
+
+    updatePing = function(){
+        updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
+        console.log('PINGED');
+    }
+    
+    
+
+  });
+  
 
 //console.log(checkPolygon.checkPolygon([[9.9314944, 57.0462362], [9.9315033, 57.0462819], [9.9315998, 57.0467743], [9.9316016, 57.0467837], [9.9318321, 57.0467725], [9.9318377, 57.0468267], [9.9319988, 57.0468179], [9.9320002, 57.0468448], [9.933088, 57.0467891], [9.9329993, 57.0463101], [9.9329407, 57.0463116], [9.9329382, 57.046276], [9.9330566, 57.0462722], [9.9330571, 57.0462029], [9.9330097, 57.0462034], [9.9330083, 57.0461685], [9.9322898, 57.0461892], [9.9314944, 57.0462362]], [9.932281699291654, 57.04652291941613]));
 
@@ -129,13 +156,15 @@ function CheckFire(jsonData, path, response) {
     if (jsonData.active == true) {
         if (entryValue.returnValue != true) {
             UpdateFile(jsonData, path);
-            //sendEvent(response);   
+            //updatePing()   
+            updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
         }
         return;
     } else if(entryValue.returnValue == true) {
         //if it is not active, but exists in the file, it is deleted  
         DeleteEntry(path, entryValue.indexValue);
-        //sendEvent(response);
+        //updatePing()
+        updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
         return;
     }
 }
