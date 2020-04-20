@@ -76,6 +76,9 @@ function fetchPlan(feature, layer){
 }
 
 function displayPolygon(data){
+    console.log("Data + polygon array: ");
+    console.log(data);
+    console.log(data.BuildingMetaData.polygon);    //test of array with polygons
     let polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
     let poly = L.polygon(polyCoords);
     poly.addTo(primaryMap);
@@ -83,8 +86,6 @@ function displayPolygon(data){
 
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
-    //test of array with polygons
-    console.log(data.BuildingMetaData.polygon);
     console.log(data);
     let opPlan = document.getElementById("opPlan");
     document.getElementById("fireinfo").innerHTML = "";

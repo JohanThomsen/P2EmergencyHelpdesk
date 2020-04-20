@@ -2,12 +2,13 @@ module.exports = {checkPolygon};
 
 function checkPolygon(polygon, point) {
     const infinite = 1;
+    let polygonArray = [];
 
     polygon.forEach((element, index) => {
-        polygon[index] = {x: element[0], y: element[1]}    
+        polygonArray[index] = {x: element[0], y: element[1]}
     });
 
-    if (polygon.length < 3) {
+    if (polygonArray.length < 3) {
         return false;
     }
 
@@ -15,8 +16,8 @@ function checkPolygon(polygon, point) {
     let infPoint = { x: point[0] + infinite, y: point[1]};
 
     let intersections = 0;
-    for (let i = 0; i <= polygon.length - 1; i++) {
-        let next = i >= polygon.length - 1 ? 0 : i+1;
+    for (let i = 0; i <= polygonArray.length - 1; i++) {
+        let next = i >= polygonArray.length - 1 ? 0 : i+1;
         if (doIntersect(polygon[i], polygon[next], startPoint, infPoint)) {
             if (orientation(polygon[i], startPoint, polygon[next]) == 0) {
                 return onSegment(polygon[i], startPoint, polygon[next]);
