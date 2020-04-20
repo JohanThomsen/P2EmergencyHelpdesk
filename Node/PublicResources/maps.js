@@ -16,7 +16,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 function displayProperties(feature, layer){
     layer.on('mousedown', (e) => {
         document.getElementById("fireinfo").innerHTML ="";
-        console.log(feature.geometry.coordinates);
+        //console.log(feature.geometry.coordinates);
         // Creates a paragraf for each attribute, with padding depending on the amount of attributes
         for(property in feature.properties) {
             let p = document.createElement("p");
@@ -51,7 +51,6 @@ function fetchFireMarkers(){
 }
 
 fetchFireMarkers();
-
 //Gets the operative plan data, and calls displayPlan with the appropriate response
 function fetchPlan(feature, layer){
     layer.on("mousedown", (e) => {
@@ -59,7 +58,7 @@ function fetchPlan(feature, layer){
         let tempCoordY = feature.geometry.coordinates[1];
         let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
         stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
-        console.log(stringedCoord);
+        //console.log(stringedCoord);
 
         //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
         fetch(`/operativePlans=${stringedCoord}`)
@@ -77,17 +76,22 @@ function fetchPlan(feature, layer){
 
 function displayPolygon(data){
     let polyCoords = data.BuildingMetaData.polygon;
+    let poly
+    polyCoords.forEach(element => {
+        element.reverse();
+    });
     console.log("Data + polygon array: ");
     console.log(data);
     console.log(data.BuildingMetaData.polygon);    //test of array with polygons
-    let polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
-    let poly = L.polygon(polyCoords);
+//  polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
+    poly = L.polygon(polyCoords);
+    poly.removeFrom(primaryMap);
     poly.addTo(primaryMap);
 }
 
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
-    console.log(data);
+    //console.log(data);
     let opPlan = document.getElementById("opPlan");
     document.getElementById("fireinfo").innerHTML = "";
     document.getElementById("Generel").innerHTML = "";
@@ -240,7 +244,7 @@ async function postFire(location, typeFire, time, automaticAlarm, active, id) {
 async function getFire() {
     let response = await fetch("http://127.0.0.1:3000/fires");
     let data = await response.json();
-    console.log(data);
+    //console.log(data);
 }
 
 /*Websocket code*/
