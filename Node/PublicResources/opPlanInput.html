@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="opPlanInput.css">
+    <meta charset="UTF-8">
+</head>
+<body>
+    <form action = "http://127.0.0.1:3000/addOpPlan" method = "post" enctype = "multipart/form-data" id = "uploadFile">
+        <label for = "ncoordinate"> <h1>Coordinates*</h1> </label>
+        <input type = "number" id = "ncoordinate" step="0.0000001"   name = "ncoordinate"           placeholder = "North*" required>
+        <input type = "number" id = "ecoordinate" step="0.0000001"  name = "ecoordinate"            placeholder = "East*"  required>
+        <br>
+        <label for = "address"> <h1>Address*</h1> </label>
+        <input type = "text" id = "address" placeholder="address*" name = "address" required>
+        <br>
+        <label for = "buildingDefinition"> <h1>Building Definition</h1> </label>
+        <input type = "text"    id = "buildingDefinition"    name = "buildingDefinition"    placeholder = "Building Definition*" required>
+        <input type = "text"    id = "usage"                 name = "usage"                 placeholder = "Usage*" required>
+        <input type = "number"  id = "height"                name = "height"                placeholder = "Height in meters*" required>
+        <input type = "text"    id = "specialConsiderations" name = "specialConsiderations" placeholder = "Special considerations">
+        <br>
+        <label for = "fireEquipment"> <h1>Fire Equipment:</h1> </label>
+        <br>
+        <div class = "checkboxgroup">
+            <label for = "risers"> Risers</label>
+            <input type = "checkbox" id = "risers"                name = "risers"                 value = "risers">
+            <br>
+            <label for = "sprinkler"> Sprinklers </label>
+            <input type = "checkbox" id = "sprinkler"             name = "sprinkler"              value = "sprinkler">
+            <br>
+            <label for = "internalAlert"> Internal alert</label>
+            <input type = "checkbox" id = "internalAlert"         name = "internalAlert"          value = "internalAlert">
+            <br>
+            <label for = "markers"> Markers </label>
+            <input type = "checkbox" id = "markers"               name = "markers"                value = "markers">
+            <br>
+            <label for = "automaticFireDetector"> Automatic fire detector </label>
+            <input type = "checkbox" id = "automaticFireDetector" name = "automaticFireDetector" value = "automaticFireDetector">
+            <br>
+            <label for = "escapeStairs"> Escape Stairs</label>
+            <input type = "checkbox" id = "escapeStairs"          name = "escapeStairs"           value = "escapeStairs">
+            <br>
+            <label for = "fireLift"> Fire lift</label>
+            <input type = "checkbox" id = "fireLift"              name = "fireLift">
+            <br>
+            <label for = "smokeDetector"> Smoke detector </label>
+            <input type = "checkbox" id = "smokeDetectors"        name = "smokeDetectors"        value = "smokeDetectors">
+            <br>
+        </div>
+        <label for = "considerations"> <h1>Considerations</h1> </label>
+        <input type="text"       id = "consideration"        name = "consideration">
+        <br>
+        <label for "fullOpPlan"> Full operative plan*</label>
+        <input type = "file"     id = "fullOpPlan"           name = "fullOpPlan"       accept = ".pdf" required>
+        <br>
+        <label for "fullOpPlan"> Building Overview*</label>
+        <input type = "file"     id = "buildingOverview"     name = "buildingOverview" accept = ".png" required>
+        <br>
+        <label for "fullOpPlan"> Floor plans*</label>
+        <input type = "file"     id = "floorPlans"           name = "floorPlans"       accept = ".png" multiple required>
+        <input type = "submit"   id = "submitButton">
+    </form>
+</body>
+</html>

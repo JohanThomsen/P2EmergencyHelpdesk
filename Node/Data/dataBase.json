@@ -1,0 +1,179 @@
+{
+    "data": [
+        {
+            "coordinates": [
+                0,
+                0
+            ],
+            "address": "Fyldeplads 0, 9200",
+            "buildingDefinition": "Ghetto",
+            "usage": "Last point",
+            "height": "69",
+            "specialConsideration": "Johans ghetto løsning",
+            "fireFightingEquipment": {
+                "risers": false,
+                "sprinkler": false,
+                "internalAlert": false,
+                "markers": false,
+                "automaticFiredetector": false,
+                "escapeStairs": false,
+                "fireLift": false,
+                "smokeDetectors": false
+            },
+            "consideration": "Locker 5 has a plastic depot. Care for dangerous smoke",
+            "fullOpPlan": "Not Available",
+            "buildingOverview": "",
+            "floorPlans": ""
+        },
+        {
+            "coordinates": [
+                57.00369,
+                9.87142
+            ],
+            "address": "Vandmanden 5, 9200",
+            "buildingDefinition": "Shoppen and Bio City",
+            "usage": "Mall and cinema",
+            "height": "20",
+            "specialConsideration": "person counter",
+            "fireFightingEquipment": {
+                "risers": true,
+                "sprinkler": true,
+                "internalAlert": true,
+                "markers": true,
+                "AutomaticFiredetector": true,
+                "escapeStairs": false,
+                "fireLift": false,
+                "smokeDetectors": false
+            },
+            "consideration": "Controllable fire ventilation",
+            "fullOpPlan": "OperativePDF/42.Shoppen-Vandmanden5,AalborgSV.pdf",
+            "buildingOverview": "ShoppenOverview.png",
+            "floorPlans": "floorPlans/Vandmanden_5,_9200/"
+        },
+        {
+            "coordinates": [
+                57.03713,
+                9.90761
+            ],
+            "address": "Mølleparkvej 4, 9000",
+            "buildingDefinition": "Hospital",
+            "usage": "bed and treatment ward",
+            "height": "34",
+            "specialConsideration": "floor 5 is an tech floor only",
+            "fireFightingEquipment": {
+                "risers": true,
+                "sprinkler": true,
+                "internalAlert": false,
+                "markers": false,
+                "automaticFiredetector": true,
+                "escapeStairs": true,
+                "fireLift": false,
+                "smokeDetectors": false
+            },
+            "consideration": "",
+            "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf",
+            "buildingOverview": "MølleParkVejOverview.png",
+            "floorPlans": "floorPlans/Mølleparkvej_4,_9000/"
+        },
+        {
+            "coordinates": [
+                57.046799,
+                9.93207
+            ],
+            "address": "Kjellerups Torv 1",
+            "buildingDefinition": "Nordkraft",
+            "usage": "offices. sports and activities. classrooms. assembly rooms",
+            "height": "42",
+            "specialConsideration": "split evacuation.firstfloor1-8,then8minlaterfloor9-13",
+            "fireFightingEquipment": {
+                "risers": true,
+                "sprinkler": true,
+                "internalAlert": false,
+                "markers": true,
+                "automaticFiredetector": false,
+                "escapeStairs": true,
+                "fireLift": true,
+                "smokeDetectors": true
+            },
+            "consideration": "A spare key is located at the fire central",
+            "fullOpPlan": "OperativePDF/001.Nordkraft_KjellerupsTorv.pdf",
+            "buildingOverview": "NordkraftOverview.png",
+            "floorPlans": "floorPlans/Kjellerups_Torv_1/"
+        },
+        {
+            "coordinates": [
+                57.04825,
+                9.93116
+            ],
+            "address": "Rendsburggade 28",
+            "buildingDefinition": "Larsen Waterfront",
+            "usage": "living",
+            "height": "42",
+            "specialConsideration": "common room for 150 people on 15. floor",
+            "FireFightingEquipment": {
+                "risers": true,
+                "sprinkler": true,
+                "internalAlert": false,
+                "markers": false,
+                "automaticFiredetector": false,
+                "escapeStairs": true,
+                "fireLift": true,
+                "smokeDetectors": true
+            },
+            "consideration": "A guide to interrupt electricity from the PV system, is found in the tech room",
+            "fullOpPlan": "OperativePDF/002.LarsenWaterfront.pdf",
+            "buildingOverview": "LarsenOverView.png",
+            "floorPlans": "floorPlans/Rendsburggade_28/"
+        },
+        {
+            "coordinates": [
+                57.05016,
+                9.9189
+            ],
+            "address": "Jomfru Ane Gade",
+            "buildingDefinition": "Jomfru Ane Gade",
+            "Usage": "Bar street",
+            "height": "15",
+            "specialConsideration": "Keybox is located in building 16 , max 8475 people. 6574 inside and 1900 on the street",
+            "FireFightingEquipment": {
+                "risers": false,
+                "sprinkler": false,
+                "internalAlert": false,
+                "markers": false,
+                "automaticFiredetector": true,
+                "escapeStairs": false,
+                "fireLift": false,
+                "smokeDetectors": false
+            },
+            "consideration": "Passage with fire vehicles is between building 14 and 24 and from the beach",
+            "fullOpPlan": "OperativePDF/035.JomfruAneGade.pdf",
+            "buildingOverview": "JomfuAneGadeBuildings.png",
+            "floorPlans": "floorPlans/Jomfru_Ane_Gade/"
+        },
+        {
+            "coordinates": [
+                90,
+                90
+            ],
+            "address": "Fyldeplads 90, 9200",
+            "buildingDefinition": "Ghetto",
+            "usage": "Last point",
+            "height": "69",
+            "specialConsideration": "Johans ghetto løsning",
+            "fireFightingEquipment": {
+                "risers": false,
+                "sprinkler": false,
+                "internalAlert": false,
+                "markers": false,
+                "automaticFiredetector": false,
+                "escapeStairs": false,
+                "fireLift": false,
+                "smokeDetectors": false
+            },
+            "consideration": "",
+            "fullOpPlan": "alt",
+            "buildingOverview": "",
+            "floorPlans": ""
+        }
+    ]
+}
