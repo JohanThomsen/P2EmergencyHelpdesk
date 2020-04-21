@@ -284,15 +284,12 @@ updateSocket.onopen = function (event) {
 }
 
 updateSocket.onmessage = function (event) {
-    
-    console.log("PING");
     geojsonLayer.removeFrom(primaryMap);
     fetchFireMarkers();
 
 }
 
 updateSocket.onclose = function(event) {
-    console.log("WebSocket is closed now.");
     if (document.getElementById("warning")) document.getElementById("warning").remove();
     let p = document.createElement("p");
     p.innerHTML = "CONNECTION TO SERVER LOST";
