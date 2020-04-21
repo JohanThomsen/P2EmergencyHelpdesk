@@ -280,7 +280,7 @@ async function getFire() {
 let updateSocket = new WebSocket('ws://127.0.0.1:3000/update');
 
 updateSocket.onopen = function (event) {
-    
+   
 }
 
 updateSocket.onmessage = function (event) {
@@ -293,4 +293,10 @@ updateSocket.onmessage = function (event) {
 
 updateSocket.onclose = function(event) {
     console.log("WebSocket is closed now.");
+    if (document.getElementById("warning")) document.getElementById("warning").remove();
+    let p = document.createElement("p");
+    p.innerHTML = "CONNECTION TO SERVER LOST";
+    p.id = "warning";
+    p.style.textAlign = "center";
+    opPlan.insertBefore(p, opPlan.childNodes[2]);
   };
