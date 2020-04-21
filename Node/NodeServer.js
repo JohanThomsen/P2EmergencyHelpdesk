@@ -242,8 +242,6 @@ function sendOperativePlan(path, requestUrl, response) {
     response.end('\n');
 }
 
-
-
 //console.log(insideBuilding([9.932281699291654, 57.04652291941613], './Node/Buildings.geojson'));
 function insideBuilding(point, geoJsonPath) {
     let geoJsonFile = fs.readFileSync(geoJsonPath);
