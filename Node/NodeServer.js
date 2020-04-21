@@ -244,6 +244,7 @@ function sendOperativePlan(path, requestUrl, response) {
 
 //console.log(insideBuilding([9.932281699291654, 57.04652291941613], './Node/Buildings.geojson'));
 function insideBuilding(point, geoJsonPath) {
+    point = point.reverse(); //
     let geoJsonFile = fs.readFileSync(geoJsonPath);
     let geoJsonObject = JSON.parse(geoJsonFile);
     let success = false; 
@@ -263,7 +264,7 @@ function insideBuilding(point, geoJsonPath) {
     });
 
     if (success == false) {
-        buildingIndex = -1; //dobbelt arbjede
+        buildingIndex = -1; 
     }
 
     if (buildingIndex != -1) {

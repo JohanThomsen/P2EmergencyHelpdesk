@@ -85,23 +85,24 @@ function fetchPlan(feature, layer){
             })
             .then((data) => {
                 displayPlan(data);
+                poly.removeFrom(primaryMap);
                 displayPolygon(data);
             });
         });
 }
-
+let poly
+poly = L.polygon([[0,0][0,0]]); //0,0 polygon to intialise polylayer to avoid clearing of "undefined" first time fetchPlan is run
 function displayPolygon(data){
     let polyCoords = data.BuildingMetaData.polygon;
-    let poly
     polyCoords.forEach(element => {
         element.reverse();
     });
     console.log("Data + polygon array: ");
     console.log(data);
     console.log(data.BuildingMetaData.polygon);    //test of array with polygons
-//  polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
+    //polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
     poly = L.polygon(polyCoords);
-    poly.removeFrom(primaryMap);
+    //poly.removeFrom(primaryMap);
     poly.addTo(primaryMap);
 }
 
