@@ -39,7 +39,7 @@ let server = http.createServer((request, response) => {
                     response.write(data);
                     response.end('\n');
                     });
-            break; 
+            break;
 
             default:
                 fileResponse(request.url, response);
@@ -165,6 +165,15 @@ function CheckFire(jsonData, path) {
     }
 }
 
+/*function sendEvent(response) {
+    response.setHeader('Content-Type', 'text/event-stream');
+    response.setHeader('Cache-Control', 'no-cache');
+    response.setHeader('Connection', 'keep-alive');
+    response.write("event: ping\n");
+    response.end('\n');
+    console.log(response)
+}*/
+
 //check if an entry exists in an array. 
 function EntryExist(array, searchKey, valueKey1, valueKey2) {
     let returnValue = false;
@@ -232,8 +241,6 @@ function sendOperativePlan(path, requestUrl, response) {
     response.write(JSON.stringify(result, null, 4));
     response.end('\n');
 }
-
-
 
 //console.log(insideBuilding([9.932281699291654, 57.04652291941613], './Node/Buildings.geojson'));
 function insideBuilding(point, geoJsonPath) {
@@ -314,17 +321,15 @@ function guessMimeType(fileName) {
  * reloads the updated database
  */
 async function updateDatabase (post, res) {
-    console.log("In Process")
     fs.readFile('Node/Data/dataBase.json', 'utf8',(err, data) => {
         if (err){
             console.log(err);
         } else {
-            console.log('Updating JSON');
+           // console.log('Updating JSON');
             console.log('Post: ', post);
             opPlanArray = JSON.parse(data);
             //opPlanArray.data = search.mergeSort(opPlanArray.data);
-            console.log(opPlanArray.data);
-            //opPlanArray.data.push(post);
+            //console.log(opPlanArray.data);
             opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
             console.log(opPlanArray.data);
             let jsonOpPlan = JSON.stringify(opPlanArray, null, 4).replace(/\\\\/g, "/");
@@ -333,6 +338,7 @@ async function updateDatabase (post, res) {
                     console.log(err);
                 }
             });
+            
         }
     });
 }
@@ -343,6 +349,7 @@ async function updateDatabase (post, res) {
  * afterwards it redirects back to the page.
  */
 function handleOpPlan(request, response){
+    let floorPlanIncrement = 1;
     let newOpPlan = {
         coordinates: [0, 0],
         address: '',
@@ -360,11 +367,13 @@ function handleOpPlan(request, response){
             automaticFireDetector:  false,
             internalAlert:          false
         },
-        consideration: '',
-        fullOpPlan:    ''
+        consideration:    '',
+        fullOpPlan:       '',
+        buildingOverview: '',
+        floorPlans:       ''
     };
 
-    console.log('Uploading');
+    //console.log('Uploading');
     let form = new formidable.IncomingForm();
     form.parse(request);
 
@@ -372,9 +381,25 @@ function handleOpPlan(request, response){
      * The opPlan Object is updated with its location.
      */
     form.on('fileBegin', (name, file) => {
-        fileName = file.name.replace(/\s/g, '_');
-        file.path = `Node/PublicResources/OperativePDF/${fileName}`;
-        newOpPlan.fullOpPlan = `operativePDF/${fileName}`;
+        if (name === 'fullOpPlan'){
+            fileName = file.name.replace(/\s/g, '_');
+            file.path = `Node/PublicResources/OperativePDF/${fileName}`;
+            newOpPlan.fullOpPlan = `OperativePDF/${fileName}`;
+        } else if (name === 'buildingOverview'){
+            fileName = file.name.replace(/\s/g, '_');
+            file.path = `Node/PublicResources/buildingOverview/${fileName}`;
+            newOpPlan.buildingOverview = `buildingOverview/${fileName}`;
+        } else if (name === 'floorPlans'){
+            console.log(newOpPlan.address);
+            let folder = newOpPlan.address.replace(/\s/g, '_');
+            let dirName = `Node/PublicResources/floorPlans/${folder}`;
+            if (!fs.existsSync(dirName)){
+                fs.mkdirSync(dirName);
+            }
+            file.path = `${dirName}/floor-${floorPlanIncrement}.png`;
+            newOpPlan.floorPlans = `floorPlans/${folder}/`;
+            floorPlanIncrement++;
+        }
     });
 
     form.on('file', (name, file) => {
@@ -401,7 +426,11 @@ function handleOpPlan(request, response){
             newOpPlan[name] = field
         }
     });
-    updateDatabase(newOpPlan, response);
+
+    form.on('end', () => {
+        updateDatabase(newOpPlan, response);
+    });
+    
 
     response.writeHead(301,
         {location: '/opPlanInput.html'

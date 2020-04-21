@@ -73,6 +73,8 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
     let breakCheck = false;
     let j;
 
+    /*console.log(newOpPlan);
+    console.log(oldOpPlanArray);*/
     /* the array is searched using binary search
      * when the value is found it is not returned
      * the value is approx. the right placement for the new value
@@ -105,7 +107,7 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
             if (targetN <= oldOpPlanArray[i].coordinates[0]) {
                 for (j = oldOpPlanArray.length - 1; j >=
                      i; j--) {
-                    console.log(`j: ${j}`); 
+                    //console.log(`j: ${j}`); 
                     oldOpPlanArray[j+1] = oldOpPlanArray[j];
                 }
                 breakCheck = true;
@@ -124,7 +126,7 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
             console.log(`i: ${i}`);*/
             if (targetN >= oldOpPlanArray[i].coordinates[0]) {
                 for (j = oldOpPlanArray.length - 1 ; j > i; j--) {
-                    console.log(`j: ${j}`); 
+                    //console.log(`j: ${j}`); 
                     oldOpPlanArray[j+1] = oldOpPlanArray[j];
                 }
                 breakCheck = true;

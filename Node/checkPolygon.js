@@ -1,4 +1,4 @@
-module.exports = {checkPolygon};
+module.exports = {checkPolygon, onSegment, orientation};
 
 function checkPolygon(polygon, point) {
     const infinite = 1;

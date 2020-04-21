@@ -21,7 +21,9 @@
                 "smokeDetectors": false
             },
             "consideration": "Locker 5 has a plastic depot. Care for dangerous smoke",
-            "fullOpPlan": "Not Available"
+            "fullOpPlan": "Not Available",
+            "buildingOverview": "",
+            "floorPlans": ""
         },
         {
             "coordinates": [
@@ -44,7 +46,9 @@
                 "smokeDetectors": false
             },
             "consideration": "Controllable fire ventilation",
-            "fullOpPlan": "OperativePDF/42.Shoppen-Vandmanden5,AalborgSV.pdf"
+            "fullOpPlan": "OperativePDF/42.Shoppen-Vandmanden5,AalborgSV.pdf",
+            "buildingOverview": "ShoppenOverview.png",
+            "floorPlans": "floorPlans/Vandmanden_5,_9200/"
         },
         {
             "coordinates": [
@@ -67,7 +71,9 @@
                 "smokeDetectors": false
             },
             "consideration": "",
-            "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf"
+            "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf",
+            "buildingOverview": "MølleParkVejOverview.png",
+            "floorPlans": "floorPlans/Mølleparkvej_4,_9000/"
         },
         {
             "coordinates": [
@@ -90,7 +96,9 @@
                 "smokeDetectors": true
             },
             "consideration": "A spare key is located at the fire central",
-            "fullOpPlan": "OperativePDF/001.Nordkraft_KjellerupsTorv.pdf"
+            "fullOpPlan": "OperativePDF/001.Nordkraft_KjellerupsTorv.pdf",
+            "buildingOverview": "NordkraftOverview.png",
+            "floorPlans": "floorPlans/Kjellerups_Torv_1/"
         },
         {
             "coordinates": [
@@ -113,7 +121,9 @@
                 "smokeDetectors": true
             },
             "consideration": "A guide to interrupt electricity from the PV system, is found in the tech room",
-            "fullOpPlan": "OperativePDF/002.LarsenWaterfront.pdf"
+            "fullOpPlan": "OperativePDF/002.LarsenWaterfront.pdf",
+            "buildingOverview": "LarsenOverView.png",
+            "floorPlans": "floorPlans/Rendsburggade_28/"
         },
         {
             "coordinates": [
@@ -136,7 +146,9 @@
                 "smokeDetectors": false
             },
             "consideration": "Passage with fire vehicles is between building 14 and 24 and from the beach",
-            "fullOpPlan": "OperativePDF/035.JomfruAneGade.pdf"
+            "fullOpPlan": "OperativePDF/035.JomfruAneGade.pdf",
+            "buildingOverview": "JomfuAneGadeBuildings.png",
+            "floorPlans": "floorPlans/Jomfru_Ane_Gade/"
         },
         {
             "coordinates": [
@@ -158,10 +170,10 @@
                 "fireLift": false,
                 "smokeDetectors": false
             },
-            "consideration": {
-                "fireVentilation": false
-            },
-            "fullOpPlan": "alt"
+            "consideration": "",
+            "fullOpPlan": "alt",
+            "buildingOverview": "",
+            "floorPlans": ""
         }
     ]
 }

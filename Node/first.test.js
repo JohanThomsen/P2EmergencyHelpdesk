@@ -79,3 +79,7 @@ test('Sorts an unsorted Array using mergeSort', () => {
 test('Input a new Oplan via Coordinates into a sorted array', () => {
     expect(search.binaryInput({coordinates: [58.5, 10]}, mergeTestArraySorted.data, 58.5, 10)).toStrictEqual(mergeTestArraySortedInput.data);
 });
+
+test('Searches for a specific coordinate in an array', () => {
+    expect(search.binarySearch(mergeTestArraySortedInput.data, 59, 10)).toBe(3);
+});
