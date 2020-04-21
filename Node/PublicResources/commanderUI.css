@@ -1,0 +1,125 @@
+.textbox{
+    height: 42%;
+    margin-top: 1%;
+    width: 45%;
+    margin-left: 1%;
+    border: 1px solid black;    
+    background: #ccc;
+    float: left;
+    overflow-y: scroll;
+}
+
+#slideArea {
+    display: none;
+}
+
+/* .textbox p{
+    margin-left: 2%;
+    margin-right: 2%;
+    border-left: 3px solid rgb(202, 0, 0);
+    background-color: rgb(141, 141, 141);
+    text-indent: 1%;
+    float: left;
+    width: 96%;
+} */
+
+.headerBar{
+    overflow: hidden;
+    background-color: rgb(42, 42, 43);
+    color: azure;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: auto;
+    z-index: 1;
+}
+
+.main{
+    height: inherit;
+    margin-left: unset;
+    margin-bottom: auto;
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+    background-color: #ccc;
+    color: #444;
+    cursor: pointer;
+    padding: 1% 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.2s;
+    font-family: 'Roboto';font-size: 22px;
+}
+
+/* Add a background color to the button if it is hovered on */
+.accordion:hover {
+    background-color: #eee;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+    padding: 0 18px;
+    margin-left: 0;
+    background-color: #ccc;
+    display: block;
+    overflow: hidden;
+}
+
+.panel p{
+    margin: 2px 18px;
+    font-family: 'Roboto';
+}
+
+html, body {
+    height: 100%;
+    margin: unset;
+}
+
+h2, h3{
+    text-align: center;
+}
+
+h3{
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+th, td {
+    margin-left: 1%;
+    text-align: left;
+  }
+
+button{
+
+}
+
+.imageBox {
+    overflow: hidden;
+    height: 86%;
+    width: 45%;
+    margin-left: 5%;
+    margin-top: 80px;
+    margin-bottom: 2%;
+    float: left;
+    border: 1px solid black;
+    z-index: 0;
+    display: hidden;
+}
+
+#opPlan{
+    margin-top: 80px;
+    height: 86%;
+}
+
+#address{
+    margin: 0;
+}
+
+#pdf{
+    width: 100%;
+    display: block;
+    text-align: center;
+}
