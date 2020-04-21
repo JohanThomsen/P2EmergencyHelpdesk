@@ -277,7 +277,7 @@ async function getFire() {
 
 /*Websocket code*/
 /*   for chat   */
-let updateSocket = new WebSocket('ws://127.0.0.1:3000/chat');
+let updateSocket = new WebSocket('ws://127.0.0.1:3000/update');
 
 updateSocket.onopen = function (event) {
     
@@ -290,3 +290,7 @@ updateSocket.onmessage = function (event) {
     fetchFireMarkers();
 
 }
+
+updateSocket.onclose = function(event) {
+    console.log("WebSocket is closed now.");
+  };
