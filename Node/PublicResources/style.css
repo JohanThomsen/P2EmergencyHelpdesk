@@ -141,6 +141,7 @@ button{
   .dropdown {
     position: relative;
     display: inline-block;
+    left: 25%;
   }
   
   .dropdown-content {

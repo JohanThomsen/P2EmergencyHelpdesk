@@ -290,6 +290,7 @@ async function initDropDown(currentViewedCoords){
         htmlString += `<a href="#" onclick="assignCommander(${element}, [${currentViewedCoords}])">${commanderList[element].commanderName}</a>`;
     })
     dropDownElement.innerHTML = htmlString;
+    document.getElementById('dropdownDiv').style.display = "block";
 }
 
 

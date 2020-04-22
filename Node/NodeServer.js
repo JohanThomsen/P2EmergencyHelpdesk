@@ -108,7 +108,6 @@ function updateCommanderFile(jsonData) {
     let file = fs.readFileSync(path);
     let commanderData = JSON.parse(file); //this looks stupid because of size 1 array in json file.
     commanderData.commanders[0][jsonData.commanderID].coordinates = jsonData.fireCoordinates;
-    console.log(commanderList[jsonData.commanderID]);
 
     fs.writeFile(path, JSON.stringify(commanderData, null, 4), (error) => {
         if (error) {
