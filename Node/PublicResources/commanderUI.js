@@ -20,9 +20,13 @@ const scale = 13;
 //     accessToken: 'pk.eyJ1Ijoia3Jpczk3M2EiLCJhIjoiY2s3eGFtM2hiMDlnbjNmcHByNXBocWE1ZSJ9.AC0zZ0OWIjPa70_crBl-qQ'
 // }).addTo(primaryMap);
 
-function getID() {
-    let commanderID = document.getElementById('logInID').value
+let commanderID;
+
+function login() {
+    commanderID = document.getElementById('logInID').value
+    console.log(commanderID);
 }
+
 
 
 // Gets the building properties from the marker and displays them in the box
@@ -275,16 +279,16 @@ async function getFire() {
 
 /*Websocket code*/
 /*   for chat   */
-let updateSocket = new WebSocket('ws://127.0.0.1:3000/chat');
+// let updateSocket = new WebSocket('ws://127.0.0.1:3000/chat');
 
-updateSocket.onopen = function (event) {
+// updateSocket.onopen = function (event) {
     
-}
+// }
 
-updateSocket.onmessage = function (event) {
+// updateSocket.onmessage = function (event) {
     
-    console.log("PING");
-    geojsonLayer.removeFrom(primaryMap);
-    fetchFireMarkers();
+//     console.log("PING");
+//     geojsonLayer.removeFrom(primaryMap);
+//     fetchFireMarkers();
 
-}
+// }
