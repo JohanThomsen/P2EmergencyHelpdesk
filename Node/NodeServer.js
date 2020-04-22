@@ -42,6 +42,10 @@ let server = http.createServer((request, response) => {
             break;
             
             case ('/commanders'):
+                fileResponse('commanderUI.html', response);
+            break;
+
+            case ('/commanderList'):
                 fileResponse('commanderID.json', response);
             break;
 

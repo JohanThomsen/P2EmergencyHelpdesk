@@ -23,10 +23,24 @@ const scale = 13;
 
 function login() {
     let commanderID = document.getElementById('logInID').value
-    console.log(commanderID);
-    fetchPlan();
+    fetchCommanders(commanderID);
+    console.log(commanderID.coordinates);
+    //fetchPlan();
 }
 
+function fetchCommanders(commanderID){
+         fetch("/commanders")
+         .then((response) => {
+             return response.json();
+         })
+         .then((data) => {
+            for(id in data.commanders) {
+                if (id === commanderID){
+                    commanderID.coordinates = id.coordinates;
+                }
+            }
+         });
+     };
 
 
 // Gets the building properties from the marker and displays them in the box
