@@ -275,6 +275,38 @@ async function getFire() {
     //console.log(data);
 }
 
+//drop down menu control 
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function dropDown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+  
+  
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+}
+
+function assignCommander(id, fireCoords) {
+    fetch('http://127.0.0.1:3000/assignCommander', {
+        method: 'POST', body: JSON.stringify({
+            commanderID: id,
+            fireCoordinates: fireCoords
+        })
+    })
+}
+
+
 /*Websocket code*/
 /*   for chat   */
 let updateSocket = new WebSocket('ws://127.0.0.1:3000/update');
@@ -297,3 +329,5 @@ updateSocket.onclose = function(event) {
     p.style.textAlign = "center";
     opPlan.insertBefore(p, opPlan.childNodes[2]);
   };
+
+  

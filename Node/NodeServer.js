@@ -66,6 +66,17 @@ let server = http.createServer((request, response) => {
         case '/addOpPlan':
             handleOpPlan(request, response);
         break;
+
+        case '/assignCommander':
+            new Promise((resolve, reject) => {
+                request.on('data', (data) => {
+                    resolve(BinaryToJson(data));
+                });
+            })
+            .then((jsonData) => {
+                updateCommanderFile(jsonData);
+            }) 
+            
         }
     };
 });
@@ -74,16 +85,14 @@ let server = http.createServer((request, response) => {
 server.listen(port, hostName, () =>{
 });
 
-
 /*Websocket code*/
 /*   for map update   */
-let test; 
 
 let updateServer = new webSocketServer.server({
     httpServer: server
-  });
+});
   
-  updateServer.on('request', (request) => {
+updateServer.on('request', (request) => {
     console.log((new Date()) + 'Connection from origin: ' + request.origin);
     let conenction = request.accept(null, request.origin);
     console.log((new Date()) + ' Connection accepted.');
@@ -92,14 +101,13 @@ let updateServer = new webSocketServer.server({
         updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
         console.log('PINGED');
     }
-    
-    
+});
 
-  });
-  
+function updateCommanderFile(jsonData) {
+    
+}
 
 //console.log(checkPolygon.checkPolygon([[9.9314944, 57.0462362], [9.9315033, 57.0462819], [9.9315998, 57.0467743], [9.9316016, 57.0467837], [9.9318321, 57.0467725], [9.9318377, 57.0468267], [9.9319988, 57.0468179], [9.9320002, 57.0468448], [9.933088, 57.0467891], [9.9329993, 57.0463101], [9.9329407, 57.0463116], [9.9329382, 57.046276], [9.9330566, 57.0462722], [9.9330571, 57.0462029], [9.9330097, 57.0462034], [9.9330083, 57.0461685], [9.9322898, 57.0461892], [9.9314944, 57.0462362]], [9.932281699291654, 57.04652291941613]));
-
 function NearbyLocation(path, index, coordinates) {
     let file = fs.readFileSync(path);
     let opArray = JSON.parse(file).data; //dobbelt arbejde
