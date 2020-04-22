@@ -91,16 +91,57 @@ function fetchPlan(feature, layer){
             })
             .then((data) => {
                 displayPlan(data);
-                displayPolygon(data);
+                // displayPolygon(data);
+
             });
         });
 }
 
-function displayPolygon(data){
-    let polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
-    let poly = L.polygon(polyCoords);
-    poly.addTo(primaryMap);
+function diplaySlides(data){
+    //test object
+    let data = {
+        "coordinates": [
+            57.00369,
+            9.87142
+        ],
+        "address": "Vandmanden 5, 9200",
+        "buildingDefinition": "Shoppen and Bio City",
+        "usage": "Mall and cinema",
+        "height": "20",
+        "specialConsideration": "person counter",
+        "fireFightingEquipment": {
+            "risers": true,
+            "sprinkler": true,
+            "internalAlert": true,
+            "markers": true,
+            "AutomaticFiredetector": true,
+            "escapeStairs": false,
+            "fireLift": false,
+            "smokeDetectors": false
+        },
+        "consideration": "Controllable fire ventilation",
+        "fullOpPlan": "OperativePDF/42.Shoppen-Vandmanden5,AalborgSV.pdf",
+        "buildingOverview": "ShoppenOverview.png",
+        "floorPlans": "floorPlans/Vandmanden_5,_9200/"
+    }
+    let slideIndex = 1;
+    let i;
+    for(i = 0; i < slideAmount; i++){
+        document.getElementById().innerHTML
+        if() 
+        <div class="mySlides fade">
+        <div class="numbertext">1 / 3</div>
+        <img src="img1.jpg" style="width:100%">
+        <div class="text">Caption Text</div>
+        </div>
+    }
 }
+
+// function displayPolygon(data){
+//     let polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
+//     let poly = L.polygon(polyCoords);
+//     poly.addTo(primaryMap);
+// }
 
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){

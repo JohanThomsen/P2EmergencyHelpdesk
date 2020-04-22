@@ -11,17 +11,21 @@
         <div class="headerBar">
             <h2> Onsite emergency </h2>
         </div>
-        <div id="floorplanArea" class="imageBox"></div>
-        <!-- <div id="slideArea" class="imageBox"></div> -->
-        <!-- <div id="strucPlan" class="textbox">
-            <h3>Structure plan</h3>
-        </div> -->
-        <form method = "POST" id = "IDinput">
-            <label for = "logInID"> <h1>User ID</h1> </label>
-            <input type="text" id = "logInID" name = "logInID" placeholder="User ID">
-            <button onclick="">Log in</button>
-        <br>
-        </form>
+        <!-- <div id="floorplanArea" class="imageBox"></div> -->
+        <div class="slideshow-container">
+
+            
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+        <div class = "logIndDiv">
+            <form  method = "POST" id = "IDinput">
+                <label for = "logInID"> <h1>User ID</h1> </label>
+                <input type="text" id = "logInID" name = "logInID" placeholder="User ID">
+                <button onclick="">Log in</button>
+                <br>
+            </form>
+        </div>
         <div id="opPlan" class="textbox">
             <h3> Operative plan: </h3>
             <button class = "accordion">Fire info</button>
