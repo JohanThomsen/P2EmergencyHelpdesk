@@ -371,7 +371,8 @@ function handleOpPlan(request, response){
         consideration:    '',
         fullOpPlan:       '',
         buildingOverview: '',
-        floorPlans:       ''
+        floorPlans:       '',
+        floorPlanAmount:  0
     };
 
     //console.log('Uploading');
@@ -400,6 +401,7 @@ function handleOpPlan(request, response){
             file.path = `${dirName}/floor-${floorPlanIncrement}.png`;
             newOpPlan.floorPlans = `floorPlans/${folder}/`;
             floorPlanIncrement++;
+            newOpPlan.floorPlanAmount = floorPlanIncrement - 1;
         }
     });
 

@@ -48,7 +48,8 @@
             "consideration": "Controllable fire ventilation",
             "fullOpPlan": "OperativePDF/42.Shoppen-Vandmanden5,AalborgSV.pdf",
             "buildingOverview": "ShoppenOverview.png",
-            "floorPlans": "floorPlans/Vandmanden_5,_9200/"
+            "floorPlans": "floorPlans/Vandmanden_5,_9200/",
+            "floorPlanAmount": 1
         },
         {
             "coordinates": [
@@ -73,7 +74,8 @@
             "consideration": "",
             "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf",
             "buildingOverview": "MølleParkVejOverview.png",
-            "floorPlans": "floorPlans/Mølleparkvej_4,_9000/"
+            "floorPlans": "floorPlans/Mølleparkvej_4,_9000/",
+            "floorPlanAmount": 2
         },
         {
             "coordinates": [
@@ -98,7 +100,8 @@
             "consideration": "A spare key is located at the fire central",
             "fullOpPlan": "OperativePDF/001.Nordkraft_KjellerupsTorv.pdf",
             "buildingOverview": "NordkraftOverview.png",
-            "floorPlans": "floorPlans/Kjellerups_Torv_1/"
+            "floorPlans": "floorPlans/Kjellerups_Torv_1/",
+            "floorPlanAmount": 1
         },
         {
             "coordinates": [
@@ -123,7 +126,8 @@
             "consideration": "A guide to interrupt electricity from the PV system, is found in the tech room",
             "fullOpPlan": "OperativePDF/002.LarsenWaterfront.pdf",
             "buildingOverview": "LarsenOverView.png",
-            "floorPlans": "floorPlans/Rendsburggade_28/"
+            "floorPlans": "floorPlans/Rendsburggade_28/",
+            "floorPlanAmount": 2
         },
         {
             "coordinates": [
@@ -148,7 +152,8 @@
             "consideration": "Passage with fire vehicles is between building 14 and 24 and from the beach",
             "fullOpPlan": "OperativePDF/035.JomfruAneGade.pdf",
             "buildingOverview": "JomfuAneGadeBuildings.png",
-            "floorPlans": "floorPlans/Jomfru_Ane_Gade/"
+            "floorPlans": "floorPlans/Jomfru_Ane_Gade/",
+            "floorPlanAmount": 0
         },
         {
             "coordinates": [
