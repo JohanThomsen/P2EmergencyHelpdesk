@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CommanderUI</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script defer src="commanderUI.js"></script>
+        <link rel="stylesheet" type="text/css" href="commanderUI.css">
+    </head>
+    <body class = "main">
+        <div class="headerBar">
+            <h2> Onsite emergency </h2>
+        </div>
+        <div id="floorplanArea" class="imageBox"></div>
+        <!-- <div id="slideArea" class="imageBox"></div> -->
+        <!-- <div id="strucPlan" class="textbox">
+            <h3>Structure plan</h3>
+        </div> -->
+        <form method = "POST" id = "IDinput">
+            <label for = "logInID"> <h1>User ID</h1> </label>
+            <input type="text" id = "logInID" name = "logInID" placeholder="User ID">
+            <button onclick="">Log in</button>
+        <br>
+        </form>
+        <div id="opPlan" class="textbox">
+            <h3> Operative plan: </h3>
+            <button class = "accordion">Fire info</button>
+            <div class = "panel" id="fireinfo"></div>
+            <button class = "accordion">Generel information</button>
+            <div class = "panel" id="Generel"></div>
+            <button class = "accordion">Firefighting Equipment</button>
+            <div class = "panel" id="Equip"></div>
+            <button class = "accordion">Nearby Warnings</button>
+            <div class = "panel" id="Nearby"></div>
+        </div>
+    </body>
+</html>

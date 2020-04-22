@@ -1,0 +1,41 @@
+#mapArea {
+    height: 500px;
+    width: 45%;
+    margin-left: 5%;
+    margin-top: 1%;
+    float: left;
+    border: 1px solid black;
+}
+#opPlan{
+    height: 250px;
+    margin-top: 1%;
+    width: 40%;
+    margin-left: 2%;
+    border: 1px solid black;    
+    background: lightgrey;
+    float: left;
+    overflow: hidden;
+}
+
+#strucPlan{
+    height: 250px;
+    margin-top: 1px;
+    width: 40%;
+    margin-left: 2%;    
+    border: 1px solid black;
+    background: lightgrey;
+    float: left;
+    overflow: hidden;
+}
+
+#tempPlanContent{
+
+}
+
+#operative{
+    margin-top: 5px;
+}
+
+#structure{
+    height: 300px;
+}
