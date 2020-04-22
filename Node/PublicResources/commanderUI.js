@@ -2,6 +2,7 @@
 // Written as part of a 2nd semester project on AAU
 
 const scale = 13;
+let slideIndex = 1;
 
 // // Details for the icon used on the fires
 // const fireIcon = L.icon({
@@ -92,49 +93,80 @@ function fetchPlan(feature, layer){
             .then((data) => {
                 displayPlan(data);
                 // displayPolygon(data);
-
+                
             });
         });
 }
-
-function diplaySlides(data){
+diplaySlides();
+function diplaySlides(/*data*/){
     //test object
     let data = {
         "coordinates": [
-            57.00369,
-            9.87142
+            57.03713,
+            9.90761
         ],
-        "address": "Vandmanden 5, 9200",
-        "buildingDefinition": "Shoppen and Bio City",
-        "usage": "Mall and cinema",
-        "height": "20",
-        "specialConsideration": "person counter",
+        "address": "Mølleparkvej 4, 9000",
+        "buildingDefinition": "Hospital",
+        "usage": "bed and treatment ward",
+        "height": "34",
+        "specialConsideration": "floor 5 is an tech floor only",
         "fireFightingEquipment": {
             "risers": true,
             "sprinkler": true,
-            "internalAlert": true,
-            "markers": true,
-            "AutomaticFiredetector": true,
-            "escapeStairs": false,
+            "internalAlert": false,
+            "markers": false,
+            "automaticFiredetector": true,
+            "escapeStairs": true,
             "fireLift": false,
             "smokeDetectors": false
         },
-        "consideration": "Controllable fire ventilation",
-        "fullOpPlan": "OperativePDF/42.Shoppen-Vandmanden5,AalborgSV.pdf",
-        "buildingOverview": "ShoppenOverview.png",
-        "floorPlans": "floorPlans/Vandmanden_5,_9200/"
+        "consideration": "",
+        "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf",
+        "buildingOverview": "MølleParkVejOverview.png",
+        "floorPlans": "floorPlans/Molleparkvej_4,_9000/",
+        "floorPlanAmount": 2
     }
-    let slideIndex = 1;
+
     let i;
-    for(i = 0; i < slideAmount; i++){
-        document.getElementById().innerHTML
-        if() 
-        <div class="mySlides fade">
-        <div class="numbertext">1 / 3</div>
-        <img src="img1.jpg" style="width:100%">
-        <div class="text">Caption Text</div>
-        </div>
+    let slideAmount = data.floorPlanAmount;
+    let source = data.floorPlans;
+    console.log(source);
+    for(i = 1; i <= slideAmount; i++){
+        document.getElementById("slideshow").innerHTML += 
+        `<div class="mySlides fade">
+            <div class="numbertext">${i} / ${slideAmount}</div>
+            <img src="${source}floor-${i}.png" style="width:100%">
+            <div class="text">Caption Text</div>
+        </div>`
     }
+    showSlides(slideIndex);
+}
+
+
+// Next/previous controls
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+    showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+    let i = 0;
+    let slides = document.getElementsByClassName("mySlides");
+    //let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    // for (i = 0; i < dots.length; i++) {
+    //     dots[i].className = dots[i].className.replace(" active", "");
+    // }
+    slides[slideIndex-1].style.display = "block";
+    //dots[slideIndex-1].className += " active";
 }
 
 // function displayPolygon(data){
