@@ -40,6 +40,10 @@ let server = http.createServer((request, response) => {
                     response.end('\n');
                     });
             break;
+            
+            case ('/commanders'):
+                fileResponse('commanderID.json', response);
+            break;
 
             default:
                 fileResponse(request.url, response);

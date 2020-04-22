@@ -1,0 +1,14 @@
+{
+    "commanders": [
+        {
+            "23": {
+                "commanderName": "Karin",
+                "coordinates": [9, 57]
+            },
+            "42": {
+                "commanderName": "Nanna",
+                "coordinates": [10, 57]
+            }            
+        }
+    ]
+}
