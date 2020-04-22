@@ -22,21 +22,28 @@ const scale = 13;
 
 
 function login() {
-    let commanderID = document.getElementById('logInID').value
-    fetchCommanders(commanderID);
-    console.log(commanderID.coordinates);
+    let commander = {
+        ID: "",
+        coords: 5
+    };
+    commander.ID = document.getElementById('logInID').value
+    fetchCommanders(commander);
+    console.log(commander.coords);
     //fetchPlan();
 }
 
-function fetchCommanders(commanderID){
-         fetch("/commanders")
+function fetchCommanders(commander){
+         fetch("/commanderList")
          .then((response) => {
+             console.log(response);
              return response.json();
          })
          .then((data) => {
+             console.log(data);
             for(id in data.commanders) {
-                if (id === commanderID){
-                    commanderID.coordinates = id.coordinates;
+                if (id === commander.ID){
+                    console.log(id);
+                    commander.coords = data.commanders[id].coordinates;
                 }
             }
          });
