@@ -1,29 +1,35 @@
 // Intro blurb, Code for Operative Plan GIS site, using leaflet
 // Written as part of a 2nd semester project on AAU
+
 const scale = 13;
 
-// Details for the icon used on the fires
-const fireIcon = L.icon({
-      iconUrl: 'fireMarker.png',
-      iconSize: [25, 50],
-      iconAnchor: [12.5, 50]
-    });
-// Leaflet copy-paste job, creates the map then gets the map from mapbox
-let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox/streets-v11',
-    tileSize: 512,
-    zoomOffset: -1,
-    accessToken: 'pk.eyJ1Ijoia3Jpczk3M2EiLCJhIjoiY2s3eGFtM2hiMDlnbjNmcHByNXBocWE1ZSJ9.AC0zZ0OWIjPa70_crBl-qQ'
-}).addTo(primaryMap);
+// // Details for the icon used on the fires
+// const fireIcon = L.icon({
+//       iconUrl: 'fireMarker.png',
+//       iconSize: [25, 50],
+//       iconAnchor: [12.5, 50]
+//     });
+// // Leaflet copy-paste job, creates the map then gets the map from mapbox
+// let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
+// L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+//     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+//     maxZoom: 18,
+//     id: 'mapbox/streets-v11',
+//     tileSize: 512,
+//     zoomOffset: -1,
+//     accessToken: 'pk.eyJ1Ijoia3Jpczk3M2EiLCJhIjoiY2s3eGFtM2hiMDlnbjNmcHByNXBocWE1ZSJ9.AC0zZ0OWIjPa70_crBl-qQ'
+// }).addTo(primaryMap);
+
+function getID() {
+    let commanderID = document.getElementById('logInID').value
+}
+
 
 // Gets the building properties from the marker and displays them in the box
 function displayProperties(feature, layer){
     layer.on('mousedown', (e) => {
         document.getElementById("fireinfo").innerHTML ="";
-        //console.log(feature.geometry.coordinates);
+        console.log(feature.geometry.coordinates);
         // Creates a paragraf for each attribute, with padding depending on the amount of attributes
         for(property in feature.properties) {
             if (property == 'typeFire'){
@@ -47,34 +53,34 @@ function displayProperties(feature, layer){
 
 // Gets the current fires, loads them onto the map with the display function on click
 // Make this reload the fires live, websocket maybe?
-let geojsonLayer;
-function fetchFireMarkers(){
-    fetch("/fires")
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        geojsonLayer = new L.geoJSON(data, {
-            pointToLayer: function (feature, latlng) {
-                return L.marker(latlng, {icon: fireIcon});
-            },
-            onEachFeature: markerFeatures
-        });
-        geojsonLayer.addTo(primaryMap);
-    });
-};
+// let geojsonLayer;
+// function fetchFireMarkers(){
+//     fetch("/fires")
+//     .then((response) => {
+//         return response.json();
+//     })
+//     .then((data) => {
+//         geojsonLayer = new L.geoJSON(data, {
+//             pointToLayer: function (feature, latlng) {
+//                 return L.marker(latlng, {icon: fireIcon});
+//             },
+//             onEachFeature: markerFeatures
+//         });
+//         geojsonLayer.addTo(primaryMap);
+//     });
+// };
 
 
-fetchFireMarkers();
+//fetchFireMarkers();
+
 //Gets the operative plan data, and calls displayPlan with the appropriate response
 function fetchPlan(feature, layer){
     layer.on("mousedown", (e) => {
         let tempCoordX = feature.geometry.coordinates[0];
         let tempCoordY = feature.geometry.coordinates[1];
-        let currentViewedCoords = [tempCoordX, tempCoordY];
         let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
         stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
-        //console.log(stringedCoord);
+        console.log(stringedCoord);
 
         //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
         fetch(`/operativePlans=${stringedCoord}`)
@@ -85,32 +91,22 @@ function fetchPlan(feature, layer){
             })
             .then((data) => {
                 displayPlan(data);
-                console.log(currentViewedCoords);
-                initDropDown(currentViewedCoords);
-                poly.removeFrom(primaryMap);
                 displayPolygon(data);
             });
         });
 }
-let poly
-poly = L.polygon([[0,0][0,0]]); //0,0 polygon to intialise polylayer to avoid clearing of "undefined" first time fetchPlan is run
+
 function displayPolygon(data){
-    let polyCoords = data.BuildingMetaData.polygon;
-    polyCoords.forEach(element => {
-        element.reverse();
-    });
-    console.log("Data + polygon array: ");
-    console.log(data);
-    console.log(data.BuildingMetaData.polygon);    //test of array with polygons
-    //polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
-    poly = L.polygon(polyCoords);
-    //poly.removeFrom(primaryMap);
+    let polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
+    let poly = L.polygon(polyCoords);
     poly.addTo(primaryMap);
 }
 
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
-    //console.log(data);
+    //test of array with polygons
+    console.log(data.BuildingMetaData.polygon);
+    console.log(data);
     let opPlan = document.getElementById("opPlan");
     document.getElementById("Generel").innerHTML = "";
     document.getElementById("Equip").innerHTML = "";
@@ -258,7 +254,7 @@ function toggleActive() {
 enableAccordion();
 
 async function postFire(location, typeFire, time, automaticAlarm, active, id) {
-    fetch('/fireAlert', {
+    fetch('http://127.0.0.1:3000/fireAlert', {
         method: 'POST', body: JSON.stringify({
             location: location,
             typeFire: typeFire,
@@ -272,85 +268,23 @@ async function postFire(location, typeFire, time, automaticAlarm, active, id) {
 }
 
 async function getFire() {
-    let response = await fetch("/fires");
+    let response = await fetch("http://127.0.0.1:3000/fires");
     let data = await response.json();
-    //console.log(data);
+    console.log(data);
 }
-
-//init dropdown with commanders 
-async function initDropDown(currentViewedCoords){
-    let response = await fetch("/commanderID.json");
-    let data = await response.json();
-    let commanderList = data.commanders[0];
-    const keys = Object.keys(commanderList);
-    dropDownElement = document.getElementById('myDropdown');
-    htmlString = '';
-    keys.forEach((element) => {
-        //let listElement = document.createElement("a");
-        htmlString += `<a href="#" onclick="assignCommander(${element}, [${currentViewedCoords}])">${commanderList[element].commanderName}</a>`;
-    })
-    dropDownElement.innerHTML = htmlString;
-    document.getElementById('dropdownDiv').style.display = "block";
-}
-
-
-
-function assignCommander(id, fireCoords) {
-    console.log(fireCoords);
-    fetch('http://127.0.0.1:3000/assignCommander', {
-        method: 'POST', body: JSON.stringify({
-            commanderID: id,
-            fireCoordinates: fireCoords
-        })
-    })
-}
-
-
-//drop down menu control 
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function dropDown() {
-    document.getElementById("myDropdown").classList.toggle("show");
-  }
-  
-  
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-}
-
-
 
 /*Websocket code*/
 /*   for chat   */
-let updateSocket = new WebSocket('ws://127.0.0.1:3000/update');
+let updateSocket = new WebSocket('ws://127.0.0.1:3000/chat');
 
 updateSocket.onopen = function (event) {
-   
+    
 }
 
 updateSocket.onmessage = function (event) {
+    
+    console.log("PING");
     geojsonLayer.removeFrom(primaryMap);
     fetchFireMarkers();
 
 }
-
-updateSocket.onclose = function(event) {
-    if (document.getElementById("warning")) document.getElementById("warning").remove();
-    let p = document.createElement("p");
-    p.innerHTML = "CONNECTION TO SERVER LOST";
-    p.id = "warning";
-    p.style.textAlign = "center";
-    opPlan.insertBefore(p, opPlan.childNodes[2]);
-  };
-
-  
