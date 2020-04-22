@@ -20,11 +20,11 @@ const scale = 13;
 //     accessToken: 'pk.eyJ1Ijoia3Jpczk3M2EiLCJhIjoiY2s3eGFtM2hiMDlnbjNmcHByNXBocWE1ZSJ9.AC0zZ0OWIjPa70_crBl-qQ'
 // }).addTo(primaryMap);
 
-let commanderID;
 
 function login() {
-    commanderID = document.getElementById('logInID').value
+    let commanderID = document.getElementById('logInID').value
     console.log(commanderID);
+    fetchPlan();
 }
 
 
