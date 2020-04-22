@@ -1,6 +1,5 @@
 // Intro blurb, Code for Operative Plan GIS site, using leaflet
 // Written as part of a 2nd semester project on AAU
-
 const scale = 13;
 
 // Details for the icon used on the fires
@@ -72,6 +71,7 @@ function fetchPlan(feature, layer){
     layer.on("mousedown", (e) => {
         let tempCoordX = feature.geometry.coordinates[0];
         let tempCoordY = feature.geometry.coordinates[1];
+        let currentViewedCoords = [tempCoordX, tempCoordY];
         let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
         stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
         //console.log(stringedCoord);
@@ -85,6 +85,8 @@ function fetchPlan(feature, layer){
             })
             .then((data) => {
                 displayPlan(data);
+                console.log(currentViewedCoords);
+                initDropDown(currentViewedCoords);
                 poly.removeFrom(primaryMap);
                 displayPolygon(data);
             });
@@ -256,7 +258,7 @@ function toggleActive() {
 enableAccordion();
 
 async function postFire(location, typeFire, time, automaticAlarm, active, id) {
-    fetch('http://127.0.0.1:3000/fireAlert', {
+    fetch('/fireAlert', {
         method: 'POST', body: JSON.stringify({
             location: location,
             typeFire: typeFire,
@@ -270,10 +272,38 @@ async function postFire(location, typeFire, time, automaticAlarm, active, id) {
 }
 
 async function getFire() {
-    let response = await fetch("http://127.0.0.1:3000/fires");
+    let response = await fetch("/fires");
     let data = await response.json();
     //console.log(data);
 }
+
+//init dropdown with commanders 
+async function initDropDown(currentViewedCoords){
+    let response = await fetch("/commanderID.json");
+    let data = await response.json();
+    let commanderList = data.commanders[0];
+    const keys = Object.keys(commanderList);
+    dropDownElement = document.getElementById('myDropdown');
+    htmlString = '';
+    keys.forEach((element) => {
+        //let listElement = document.createElement("a");
+        htmlString += `<a href="#" onclick="assignCommander(${element}, [${currentViewedCoords}])">${commanderList[element].commanderName}</a>`;
+    })
+    dropDownElement.innerHTML = htmlString;
+}
+
+
+
+function assignCommander(id, fireCoords) {
+    console.log(fireCoords);
+    fetch('http://127.0.0.1:3000/assignCommander', {
+        method: 'POST', body: JSON.stringify({
+            commanderID: id,
+            fireCoordinates: fireCoords
+        })
+    })
+}
+
 
 //drop down menu control 
 /* When the user clicks on the button, 
@@ -297,14 +327,6 @@ window.onclick = function(event) {
     }
 }
 
-function assignCommander(id, fireCoords) {
-    fetch('http://127.0.0.1:3000/assignCommander', {
-        method: 'POST', body: JSON.stringify({
-            commanderID: id,
-            fireCoordinates: fireCoords
-        })
-    })
-}
 
 
 /*Websocket code*/

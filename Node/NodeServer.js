@@ -104,10 +104,17 @@ updateServer.on('request', (request) => {
 });
 
 function updateCommanderFile(jsonData) {
-    let file = fs.readFileSync('./Node/PublicResources/commanderID.json');
-    let commanderList = JSON.parse(file).commanders[0]; //this looks stupid because of size 1 array in json file.
-    commanderList[jsonData.commanderID].coordinates = jsonData.fireCoordinates;
-    console.log(commanderList);
+    let path = './Node/PublicResources/commanderID.json'
+    let file = fs.readFileSync(path);
+    let commanderData = JSON.parse(file); //this looks stupid because of size 1 array in json file.
+    commanderData.commanders[0][jsonData.commanderID].coordinates = jsonData.fireCoordinates;
+    console.log(commanderList[jsonData.commanderID]);
+
+    fs.writeFile(path, JSON.stringify(commanderData, null, 4), (error) => {
+        if (error) {
+            throw error;
+        }
+    });
 }
 
 //console.log(checkPolygon.checkPolygon([[9.9314944, 57.0462362], [9.9315033, 57.0462819], [9.9315998, 57.0467743], [9.9316016, 57.0467837], [9.9318321, 57.0467725], [9.9318377, 57.0468267], [9.9319988, 57.0468179], [9.9320002, 57.0468448], [9.933088, 57.0467891], [9.9329993, 57.0463101], [9.9329407, 57.0463116], [9.9329382, 57.046276], [9.9330566, 57.0462722], [9.9330571, 57.0462029], [9.9330097, 57.0462034], [9.9330083, 57.0461685], [9.9322898, 57.0461892], [9.9314944, 57.0462362]], [9.932281699291654, 57.04652291941613]));
