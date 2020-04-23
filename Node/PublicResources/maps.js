@@ -281,7 +281,7 @@ async function getFire() {
 async function initDropDown(currentViewedCoords){
     let response = await fetch("/commanderID.json");
     let data = await response.json();
-    let commanderList = data.commanders[0];
+    let commanderList = data.commanders;
     const keys = Object.keys(commanderList);
     dropDownElement = document.getElementById('myDropdown');
     htmlString = '';
