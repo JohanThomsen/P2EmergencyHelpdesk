@@ -98,8 +98,7 @@ function diplaySlides(/*data*/){
         document.getElementById("slideshow").innerHTML += 
         `<div class="mySlides fade">
             <div class="numbertext">${i} / ${slideAmount}</div>
-            <img src="${source}floor-${i}.png" style="width:100%">
-            <div class="text">Caption Text</div>
+            <img class="image" src="${source}floor-${i}.png">
         </div>`
     }
     showSlides(slideIndex);
