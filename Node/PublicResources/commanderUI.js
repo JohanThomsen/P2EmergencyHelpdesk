@@ -123,7 +123,7 @@ function diplaySlides(/*data*/){
         "consideration": "",
         "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf",
         "buildingOverview": "MølleParkVejOverview.png",
-        "floorPlans": "floorPlans/Molleparkvej_4,_9000/",
+        "floorPlans": "floorPlans/Mølleparkvej_4,_9000/",
         "floorPlanAmount": 2
     }
 
