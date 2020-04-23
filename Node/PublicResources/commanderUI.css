@@ -40,7 +40,7 @@
   }
 
   .next {
-    right: 40%;
+    right: 0%;
     border-radius: 3px 0 0 3px;
   }
 
@@ -48,15 +48,16 @@
     background-color: rgba(0,0,0,0.8);
   }
 
-.logIndDiv form{
-    width: 100%;
+.logIndField form{
+    width: fit-content;
+    margin: auto;
     position: relative;
-    top: 80 px;
+    align
 }
 
-.logIndDiv form input, {
-    position: relative;
-    top: 80 px;
+.logIndDiv{
+
+    
 }
 
 /* .textbox p{
@@ -124,13 +125,17 @@ html, body {
     margin: unset;
 }
 
-h2, h3{
+h1, h2, h3{
     text-align: center;
 }
 
+h2, h3{
+    font-size: 130%;
+    margin: 2% 0;
+}
+
 h3{
-    margin-top: 1%;
-    margin-bottom: 1%;
+    margin-bottom: 0;
 }
 
 th, td {
@@ -138,33 +143,48 @@ th, td {
     text-align: left;
   }
 
-.slideshow-container {
+.slideshow-container, .buildingOverview {
+    margin-top: 90px;
     position: relative;
-    left: ;
     overflow: hidden;
-    height: 86%;
+    height: 45%;
     width: 55%;
-    margin-left: 5%;
-    margin-top: 80px;
+    margin-left: 4%;
     margin-bottom: 2%;
     float: left;
     border: 1px solid black;
     z-index: 0;
-    display: hidden;
+    
+}
+
+.image{
+    margin-top: 30px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 90%;
+}
+
+.buildingOverview{
+    margin: 0 4%;
+    margin-right: 0;
+}
+
+/* .buildingOverview img{
+    height: 100%;
+    width: 96%;
+    margin: 2%;
+} */
+
+#opPlan{
+    position: relative;
+    float: right;
+    margin-top: 90px;
+    margin-right: 4%;
+    height: calc(78% - 4px);
 }
 
 .imageContainer{
     height: 100%;
-}
-
-.image{
-   width: 100%;
-   height: 100%;
-}
-
-#opPlan{
-    margin-top: 80px;
-    height: 86%;
 }
 
 #address{
@@ -177,3 +197,21 @@ th, td {
     text-align: center;
 }
 
+.text {
+    color: #444;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+    top: 0;
+}
+
+.numbertext {
+    color: #444;
+    font-size: 18px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}

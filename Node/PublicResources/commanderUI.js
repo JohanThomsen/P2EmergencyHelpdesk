@@ -132,7 +132,6 @@ function diplayImages(/*data*/){
     if (data.floorPlanAmount != 0) {
         document.getElementById("slideshowContainer").innerHTML = 
         `<div class="imageContainer" id = "slideshow">
-
         </div>
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="next" onclick="plusSlides(1)">&#10095;</a>`
@@ -144,6 +143,7 @@ function diplayImages(/*data*/){
             `<div class="mySlides fade">
                 <div class="numbertext">${i} / ${slideAmount}</div>
                 <img class="image" src="${floorPlanSource}floor-${i}.png">
+                <div class="text">Floor Plan:</div>
             </div>`
         }
         showSlides(slideIndex);
