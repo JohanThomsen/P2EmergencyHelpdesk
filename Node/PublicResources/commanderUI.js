@@ -4,23 +4,6 @@
 const scale = 13;
 let slideIndex = 1;
 
-// // Details for the icon used on the fires
-// const fireIcon = L.icon({
-//       iconUrl: 'fireMarker.png',
-//       iconSize: [25, 50],
-//       iconAnchor: [12.5, 50]
-//     });
-// // Leaflet copy-paste job, creates the map then gets the map from mapbox
-// let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
-// L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-//     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-//     maxZoom: 18,
-//     id: 'mapbox/streets-v11',
-//     tileSize: 512,
-//     zoomOffset: -1,
-//     accessToken: 'pk.eyJ1Ijoia3Jpczk3M2EiLCJhIjoiY2s3eGFtM2hiMDlnbjNmcHByNXBocWE1ZSJ9.AC0zZ0OWIjPa70_crBl-qQ'
-// }).addTo(primaryMap);
-
 function getID() {
     let commanderID = document.getElementById('logInID').value
 }
@@ -51,26 +34,6 @@ function displayProperties(feature, layer){
         }
     });
 }
-
-// Gets the current fires, loads them onto the map with the display function on click
-// Make this reload the fires live, websocket maybe?
-// let geojsonLayer;
-// function fetchFireMarkers(){
-//     fetch("/fires")
-//     .then((response) => {
-//         return response.json();
-//     })
-//     .then((data) => {
-//         geojsonLayer = new L.geoJSON(data, {
-//             pointToLayer: function (feature, latlng) {
-//                 return L.marker(latlng, {icon: fireIcon});
-//             },
-//             onEachFeature: markerFeatures
-//         });
-//         geojsonLayer.addTo(primaryMap);
-//     });
-// };
-
 
 //fetchFireMarkers();
 
@@ -168,12 +131,6 @@ function showSlides(n) {
     slides[slideIndex-1].style.display = "block";
     //dots[slideIndex-1].className += " active";
 }
-
-// function displayPolygon(data){
-//     let polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
-//     let poly = L.polygon(polyCoords);
-//     poly.addTo(primaryMap);
-// }
 
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
