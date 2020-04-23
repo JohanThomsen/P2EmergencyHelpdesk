@@ -21,7 +21,7 @@ let server = http.createServer((request, response) => {
             break; 
 
             case '/uploadOP': 
-            fileResponse('opPlanInput.html', response);
+                fileResponse('opPlanInput.html', response);
             break; 
 
             case '/fires':
@@ -253,11 +253,13 @@ function sendOperativePlan(path, requestUrl, response) {
     let file = fs.readFileSync(path);
     let opArray = JSON.parse(file).data;
     let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
+    let metaData = insideBuilding(coordinates, './Node/Buildings.geojson');
+    console.log(metaData);
     let opArraySorted = search.mergeSort(opArray);
-    let resultIndex = search.binarySearch(opArraySorted, coordinates[0], coordinates[1]);
+    let resultIndex = search.binarySearch(opArraySorted, metaData.opCoords == null ? coordinates[0] : metaData.opCoords[0], metaData.opCoords == null ? coordinates[1] : metaData.opCoords[1]);
     let result = {
         opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
-        BuildingMetaData: insideBuilding(coordinates, './Node/Buildings.geojson'),
+        BuildingMetaData: metaData,
         NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
     };
     //console.log(result)
@@ -293,9 +295,9 @@ function insideBuilding(point, geoJsonPath) {
     }
 
     if (buildingIndex != -1) {
-        return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type, polygon: geoJsonObject.features[buildingIndex].geometry.coordinates[0][0]};
+        return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type, polygon: geoJsonObject.features[buildingIndex].geometry.coordinates[0][0], fileIndex: buildingIndex, opCoords: geoJsonObject.features[buildingIndex].properties.opPlanCoords};
     } else {
-        return {name: '', type: '', polygon: ''};
+        return {name: '', type: '', polygon: '', fileIndex: ''};
     }
 }
 
@@ -364,9 +366,23 @@ async function updateDatabase (post, res) {
                     console.log(err);
                 }
             });
-            
         }
     });
+    fs.readFile('./Node/Buildings.geojson', (err, buildings) => {
+        if (err){
+            console.log(err);
+        } else {
+            let buildingArray = JSON.parse(buildings);
+            let buildingIndex = insideBuilding([post.coordinates[0], post.coordinates[1]], './Node/Buildings.geojson').fileIndex;
+            buildingArray.features[buildingIndex].properties.opPlanCoords = [post.coordinates[0], post.coordinates[1]];
+            let updatedArray = JSON.stringify(buildingArray);
+            fs.writeFile('./Node/Buildings.geojson', updatedArray, (err, data) => {
+                if (err){
+                    console.log(err);
+                }
+            })
+        }
+    })
 }
 
 /* formidable catches the form and parses it
