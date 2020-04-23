@@ -74,31 +74,6 @@ function displayProperties(feature, layer){
     });
 }
 
-//fetchFireMarkers();
-
-//Gets the operative plan data, and calls displayPlan with the appropriate response
-function fetchPlan(feature, layer){
-    layer.on("mousedown", (e) => {
-        let tempCoordX = feature.geometry.coordinates[0];
-        let tempCoordY = feature.geometry.coordinates[1];
-        let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
-        stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
-        console.log(stringedCoord);
-
-        //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
-        fetch(`/operativePlans=${stringedCoord}`)
-            .then((response) => {
-                if (response.status == 404) {
-                    return false;
-                } else return response.json();              
-            })
-            .then((data) => {
-                displayPlan(data);
-                // displayPolygon(data);
-                
-            });
-        });
-}
 diplaySlides();
 function diplaySlides(/*data*/){
     //test object
