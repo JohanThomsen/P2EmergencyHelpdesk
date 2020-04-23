@@ -25,6 +25,8 @@ function login(data) {
     console.log(commander.coords);
     fetchPlan(commander.coords);
 }
+const scale = 13;
+let slideIndex = 1;
 
 function fetchPlan(coordinates){
     let tempCoordX = coordinates[0];
@@ -70,6 +72,102 @@ function displayProperties(feature, layer){
 
         }
     });
+}
+
+//fetchFireMarkers();
+
+//Gets the operative plan data, and calls displayPlan with the appropriate response
+function fetchPlan(feature, layer){
+    layer.on("mousedown", (e) => {
+        let tempCoordX = feature.geometry.coordinates[0];
+        let tempCoordY = feature.geometry.coordinates[1];
+        let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
+        stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
+        console.log(stringedCoord);
+
+        //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
+        fetch(`/operativePlans=${stringedCoord}`)
+            .then((response) => {
+                if (response.status == 404) {
+                    return false;
+                } else return response.json();              
+            })
+            .then((data) => {
+                displayPlan(data);
+                // displayPolygon(data);
+                
+            });
+        });
+}
+diplaySlides();
+function diplaySlides(/*data*/){
+    //test object
+    let data = {
+        "coordinates": [
+            57.03713,
+            9.90761
+        ],
+        "address": "Mølleparkvej 4, 9000",
+        "buildingDefinition": "Hospital",
+        "usage": "bed and treatment ward",
+        "height": "34",
+        "specialConsideration": "floor 5 is an tech floor only",
+        "fireFightingEquipment": {
+            "risers": true,
+            "sprinkler": true,
+            "internalAlert": false,
+            "markers": false,
+            "automaticFiredetector": true,
+            "escapeStairs": true,
+            "fireLift": false,
+            "smokeDetectors": false
+        },
+        "consideration": "",
+        "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf",
+        "buildingOverview": "MølleParkVejOverview.png",
+        "floorPlans": "floorPlans/Mølleparkvej_4,_9000/",
+        "floorPlanAmount": 2
+    }
+
+    let i;
+    let slideAmount = data.floorPlanAmount;
+    let source = data.floorPlans;
+    console.log(source);
+    for(i = 1; i <= slideAmount; i++){
+        document.getElementById("slideshow").innerHTML += 
+        `<div class="mySlides fade">
+            <div class="numbertext">${i} / ${slideAmount}</div>
+            <img class="image" src="${source}floor-${i}.png">
+        </div>`
+    }
+    showSlides(slideIndex);
+}
+
+
+// Next/previous controls
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+    showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+    let i = 0;
+    let slides = document.getElementsByClassName("mySlides");
+    //let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    // for (i = 0; i < dots.length; i++) {
+    //     dots[i].className = dots[i].className.replace(" active", "");
+    // }
+    slides[slideIndex-1].style.display = "block";
+    //dots[slideIndex-1].className += " active";
 }
 
 // Is functional, but the actual plans, when available, need redesign

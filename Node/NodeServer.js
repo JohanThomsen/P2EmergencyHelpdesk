@@ -425,6 +425,7 @@ function handleOpPlan(request, response){
             }
             file.path = `${dirName}/floor-${floorPlanIncrement}.png`;
             newOpPlan.floorPlans = `floorPlans/${folder}/`;
+            newOpPlan.floorPlanAmount = floorPlanIncrement;
             floorPlanIncrement++;
             newOpPlan.floorPlanAmount = floorPlanIncrement - 1;
         }
