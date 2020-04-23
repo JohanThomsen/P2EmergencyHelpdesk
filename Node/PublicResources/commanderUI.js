@@ -1,53 +1,49 @@
 // Intro blurb, Code for Operative Plan GIS site, using leaflet
 // Written as part of a 2nd semester project on AAU
 
-const scale = 13;
-
-// // Details for the icon used on the fires
-// const fireIcon = L.icon({
-//       iconUrl: 'fireMarker.png',
-//       iconSize: [25, 50],
-//       iconAnchor: [12.5, 50]
-//     });
-// // Leaflet copy-paste job, creates the map then gets the map from mapbox
-// let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
-// L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-//     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-//     maxZoom: 18,
-//     id: 'mapbox/streets-v11',
-//     tileSize: 512,
-//     zoomOffset: -1,
-//     accessToken: 'pk.eyJ1Ijoia3Jpczk3M2EiLCJhIjoiY2s3eGFtM2hiMDlnbjNmcHByNXBocWE1ZSJ9.AC0zZ0OWIjPa70_crBl-qQ'
-// }).addTo(primaryMap);
-
-
-function login() {
-    let commander = {
-        ID: "",
-        coords: 5
-    };
-    commander.ID = document.getElementById('logInID').value
-    fetchCommanders(commander);
-    console.log(commander.coords);
-    //fetchPlan();
+function fetchCommanders(){
+    fetch("/commanderList")
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            login(data);
+        })
 }
 
-function fetchCommanders(commander){
-         fetch("/commanderList")
-         .then((response) => {
-             console.log(response);
-             return response.json();
-         })
-         .then((data) => {
-             console.log(data);
-            for(id in data.commanders) {
-                if (id === commander.ID){
-                    console.log(id);
-                    commander.coords = data.commanders[id].coordinates;
-                }
-            }
+function login(data) {
+    let commander = {
+        ID: "",
+        coords: []
+    };
+    commander.ID = document.getElementById('logInID').value;
+    for(id in data.commanders) {
+        if (id === commander.ID){
+            commander.coords = data.commanders[id].coordinates;
+        }
+    }
+    console.log(commander.coords);
+    fetchPlan(commander.coords);
+}
+
+function fetchPlan(coordinates){
+    let tempCoordX = coordinates[0];
+    let tempCoordY = coordinates[1];
+    let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
+    stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
+    console.log(stringedCoord);
+
+    //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
+    fetch(`/operativePlans=${stringedCoord}`)
+        .then((response) => {
+            if (response.status == 404) {
+                return false;
+            } else return response.json();              
+        })
+        .then((data) => {
+            displayPlan(data);
          });
-     };
+}
 
 
 // Gets the building properties from the marker and displays them in the box
@@ -76,61 +72,9 @@ function displayProperties(feature, layer){
     });
 }
 
-// Gets the current fires, loads them onto the map with the display function on click
-// Make this reload the fires live, websocket maybe?
-// let geojsonLayer;
-// function fetchFireMarkers(){
-//     fetch("/fires")
-//     .then((response) => {
-//         return response.json();
-//     })
-//     .then((data) => {
-//         geojsonLayer = new L.geoJSON(data, {
-//             pointToLayer: function (feature, latlng) {
-//                 return L.marker(latlng, {icon: fireIcon});
-//             },
-//             onEachFeature: markerFeatures
-//         });
-//         geojsonLayer.addTo(primaryMap);
-//     });
-// };
-
-
-//fetchFireMarkers();
-
-//Gets the operative plan data, and calls displayPlan with the appropriate response
-function fetchPlan(feature, layer){
-    layer.on("mousedown", (e) => {
-        let tempCoordX = feature.geometry.coordinates[0];
-        let tempCoordY = feature.geometry.coordinates[1];
-        let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
-        stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
-        console.log(stringedCoord);
-
-        //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
-        fetch(`/operativePlans=${stringedCoord}`)
-            .then((response) => {
-                if (response.status == 404) {
-                    return false;
-                } else return response.json();              
-            })
-            .then((data) => {
-                displayPlan(data);
-                displayPolygon(data);
-            });
-        });
-}
-
-function displayPolygon(data){
-    let polyCoords = [[9.932281699291654, 57.04652291941613],[10, 58],[11, 58]]/*data.BuildingMetaData.polygon*/;
-    let poly = L.polygon(polyCoords);
-    poly.addTo(primaryMap);
-}
-
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
     //test of array with polygons
-    console.log(data.BuildingMetaData.polygon);
     console.log(data);
     let opPlan = document.getElementById("opPlan");
     document.getElementById("Generel").innerHTML = "";
