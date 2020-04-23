@@ -48,10 +48,15 @@
     background-color: rgba(0,0,0,0.8);
   }
 
-.logIndDiv {
-    /* margin-left: 45%;
-    z-index: 1;
-    position: absolute; */
+.logIndDiv form{
+    width: 100%;
+    position: relative;
+    top: 80 px;
+}
+
+.logIndDiv form input, {
+    position: relative;
+    top: 80 px;
 }
 
 /* .textbox p{
@@ -133,11 +138,9 @@ th, td {
     text-align: left;
   }
 
-button{
-
-}
-
 .slideshow-container {
+    position: relative;
+    left: ;
     overflow: hidden;
     height: 86%;
     width: 55%;
