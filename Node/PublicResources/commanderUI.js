@@ -99,8 +99,8 @@ function fetchPlan(feature, layer){
             });
         });
 }
-diplaySlides();
-function diplaySlides(/*data*/){
+diplayImages();
+function diplayImages(/*data*/){
     //test object
     let data = {
         "coordinates": [
@@ -129,18 +129,34 @@ function diplaySlides(/*data*/){
         "floorPlanAmount": 2
     }
 
-    let i;
-    let slideAmount = data.floorPlanAmount;
-    let source = data.floorPlans;
-    console.log(source);
-    for(i = 1; i <= slideAmount; i++){
-        document.getElementById("slideshow").innerHTML += 
-        `<div class="mySlides fade">
-            <div class="numbertext">${i} / ${slideAmount}</div>
-            <img class="image" src="${source}floor-${i}.png">
-        </div>`
+    if (data.floorPlanAmount != 0) {
+        document.getElementById("slideshowContainer").innerHTML = 
+        `<div class="imageContainer" id = "slideshow">
+
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>`
+        let i;
+        let slideAmount = data.floorPlanAmount;
+        let floorPlanSource = data.floorPlans;
+        for(i = 1; i <= slideAmount; i++){
+            document.getElementById("slideshow").innerHTML += 
+            `<div class="mySlides fade">
+                <div class="numbertext">${i} / ${slideAmount}</div>
+                <img class="image" src="${floorPlanSource}floor-${i}.png">
+            </div>`
+        }
+        showSlides(slideIndex);
+    } else {
+        document.getElementById("slideshowContainer").innerHTML =
+        ` <h2> No floor plans found </h2>`
     }
-    showSlides(slideIndex);
+    
+    document.getElementById("buildingOverviewContainer").innerHTML += 
+        `<div class="buildingOverview">
+            <img class="image" src="buildingOverview/${data.buildingOverview}">
+        </div>`
+
 }
 
 
