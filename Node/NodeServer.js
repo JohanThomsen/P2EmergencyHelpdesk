@@ -434,7 +434,7 @@ function handleOpPlan(request, response){
             newOpPlan.buildingOverview = `buildingOverview/${fileName}`;
         } else if (name === 'floorPlans'){
             console.log(newOpPlan.address);
-            let folder = newOpPlan.address.replace(/\s/g, '_');
+            let folder = newOpPlan.address.replace(/\s/g, '_').replace('æ','ae').replace('ø','oe').replace('å','aa');
             let dirName = `Node/PublicResources/floorPlans/${folder}`;
             if (!fs.existsSync(dirName)){
                 fs.mkdirSync(dirName);
@@ -468,7 +468,7 @@ function handleOpPlan(request, response){
                 newOpPlan.coordinates[1] = Number(field);
             }
         } else {
-            newOpPlan[name] = field.replace('æ','ae').replace('ø','oe').replace('å','aa');
+            newOpPlan[name] = field;
         }
     });
 
