@@ -9,32 +9,31 @@
     </head>
     <body class = "main">
         <div class="headerBar">
-            <h2> Onsite emergency </h2>
+            <h1> Onsite emergency </h1>
         </div>
-        <!-- <div id="floorplanArea" class="imageBox"></div> -->
-        <div class="slideshow-container" >
-            <div class="imageContainer" id = "slideshow">
-
-            </div>
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-        </div>
-        <div class = "logIndDiv">
-            <form  method = "POST" id = "IDinput">
-                <label for = "logInID"> <h1>User ID</h1> </label>
-                <input type="text" id = "logInID" name = "logInID" placeholder="User ID">
-                <button onclick="fetchCommanders()">Log in</button>
-                <br>
-            </form>
+        <div class="slideshow-container" id="slideshowContainer">
         </div>
         <div id="opPlan" class="textbox">
-            <h3> Operative plan: </h3>
+            <h2> Operative plan: </h2>
             <button class = "accordion">Generel information</button>
             <div class = "panel" id="Generel"></div>
             <button class = "accordion">Firefighting Equipment</button>
             <div class = "panel" id="Equip"></div>
             <button class = "accordion">Nearby Warnings</button>
             <div class = "panel" id="Nearby"></div>
+            <div class = "logIndField">
+                <form  method = "POST" id = "IDinput">
+                    <div class = logIndDiv>
+                    <!-- <label for = "logInID"> <h1>User ID</h1> </label> -->
+                    <input type="text" id = "logInID" name = "logInID" placeholder="User ID">
+                    <button onclick="fetchCommanders()">Log in</button>
+    
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="buildingOverview-container" id = "buildingOverviewContainer">
+            
         </div>
     </body>
 </html>
