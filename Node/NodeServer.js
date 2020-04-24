@@ -468,7 +468,7 @@ function handleOpPlan(request, response){
                 newOpPlan.coordinates[1] = Number(field);
             }
         } else {
-            newOpPlan[name] = field
+            newOpPlan[name] = field.replace('æ','ae').replace('ø','oe').replace('å','aa');
         }
     });
 
