@@ -68,8 +68,6 @@ function displayProperties(feature, layer){
                 p.innerHTML = feature.properties[property] ?"Automatic alarm: Yes" : "";
                 document.getElementById("fireinfo").appendChild(p);
             }
-            
-
         }
     });
 }
