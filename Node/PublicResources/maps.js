@@ -108,6 +108,14 @@ function displayPolygon(data){
     poly.addTo(primaryMap);
 }
 
+primaryMap.on('click', 
+function(e){
+    var coord = e.latlng.toString().split(',');
+    var lat = coord[0].split('(');
+    var lng = coord[1].split(')');
+    console.log("You clicked the map at latitude: [" + lng[0] + ", " + lat[1] + "]");
+});
+
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
     //console.log(data);
@@ -281,7 +289,7 @@ async function getFire() {
 async function initDropDown(currentViewedCoords){
     let response = await fetch("/commanderID.json");
     let data = await response.json();
-    let commanderList = data.commanders[0];
+    let commanderList = data.commanders;
     const keys = Object.keys(commanderList);
     dropDownElement = document.getElementById('myDropdown');
     htmlString = '';

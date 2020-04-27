@@ -49,6 +49,38 @@
                     57.05
                 ]
             }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "type of fire",
+                "time": "10:00",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.932545,
+                    57.046401
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "type of fire",
+                "time": "10:00",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.900215,
+                    57.05
+                ]
+            }
         }
     ]
 }
