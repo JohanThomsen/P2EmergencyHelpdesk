@@ -9,7 +9,7 @@ const webSocketServer = require('websocket');
 //server setup variables
 const port = 3000;
 const hostName = '127.0.0.1';
-const publicResources = './node/PublicResources/';
+const publicResources = './Node/PublicResources/';
 
 //HTTP server
 let server = http.createServer((request, response) => {
@@ -434,7 +434,7 @@ function handleOpPlan(request, response){
             newOpPlan.buildingOverview = `buildingOverview/${fileName}`;
         } else if (name === 'floorPlans'){
             console.log(newOpPlan.address);
-            let folder = newOpPlan.address.replace(/\s/g, '_');
+            let folder = newOpPlan.address.replace(/\s/g, '_').replace('æ','ae').replace('ø','oe').replace('å','aa');
             let dirName = `Node/PublicResources/floorPlans/${folder}`;
             if (!fs.existsSync(dirName)){
                 fs.mkdirSync(dirName);
@@ -468,7 +468,7 @@ function handleOpPlan(request, response){
                 newOpPlan.coordinates[1] = Number(field);
             }
         } else {
-            newOpPlan[name] = field
+            newOpPlan[name] = field;
         }
     });
 
