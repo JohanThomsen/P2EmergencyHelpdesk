@@ -135,25 +135,25 @@
                 9.9189
             ],
             "address": "Jomfru Ane Gade",
-            "buildingDefinition": "Jomfru Ane Gade",
-            "Usage": "Bar street",
+            "buildingDefinition": "Party Street",
+            "usage": "Bar street",
             "height": "15",
-            "specialConsideration": "Keybox is located in building 16 , max 8475 people. 6574 inside and 1900 on the street",
-            "FireFightingEquipment": {
+            "specialConsiderations": "Keybox is located in building 16 , max 8475 people. 6574 inside and 1900 on the street",
+            "fireFightingEquipment": {
+                "fireLift": false,
+                "escapeStairs": false,
                 "risers": false,
                 "sprinkler": false,
-                "internalAlert": false,
+                "smokeDetectors": false,
                 "markers": false,
-                "automaticFiredetector": true,
-                "escapeStairs": false,
-                "fireLift": false,
-                "smokeDetectors": false
+                "automaticFireDetector": true,
+                "internalAlert": false
             },
             "consideration": "Passage with fire vehicles is between building 14 and 24 and from the beach",
             "fullOpPlan": "OperativePDF/035.JomfruAneGade.pdf",
-            "buildingOverview": "JomfuAneGadeBuildings.png",
+            "buildingOverview": "buildingOverview/JomfuAneGadeBuildings.PNG",
             "floorPlans": "floorPlans/Jomfru_Ane_Gade/",
-            "floorPlanAmount": 0
+            "floorPlanAmount": 1
         },
         {
             "coordinates": [

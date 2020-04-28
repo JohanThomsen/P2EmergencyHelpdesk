@@ -128,7 +128,6 @@ function updateCommanderFile(jsonData) {
 function NearbyLocation(path, index, coordinates) {
     let file = fs.readFileSync(path);
     let opArray = JSON.parse(file).data; //dobbelt arbejde
-    let opArraySorted = search.mergeSort(opArray);
     
     return checkNext(coordinates, index, opArraySorted).concat(checkPrevious(coordinates, index, opArraySorted));
 }
@@ -251,11 +250,10 @@ function DeleteEntry(path, index){
 
 function sendOperativePlan(path, requestUrl, response) {
     let file = fs.readFileSync(path);
-    let opArray = JSON.parse(file).data;
+    let opArraySorted = JSON.parse(file).data;
     let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
     let metaData = insideBuilding(coordinates, './Node/Buildings.geojson');
     console.log(metaData);
-    let opArraySorted = search.mergeSort(opArray);
     let resultIndex = search.binarySearch(opArraySorted, metaData.opCoords == null ? coordinates[0] : metaData.opCoords[0], metaData.opCoords == null ? coordinates[1] : metaData.opCoords[1]);
     let result = {
         opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
@@ -356,7 +354,6 @@ async function updateDatabase (post, res) {
            // console.log('Updating JSON');
             console.log('Post: ', post);
             opPlanArray = JSON.parse(data);
-            //opPlanArray.data = search.mergeSort(opPlanArray.data);
             //console.log(opPlanArray.data);
             opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
             console.log(opPlanArray.data);
@@ -478,7 +475,7 @@ function handleOpPlan(request, response){
     
 
     response.writeHead(301,
-        {location: '/opPlanInput.html'
+        {location: '/uploadOP'
     });
     response.end('\n');
 }
