@@ -143,12 +143,12 @@ function checkNext(start, index, opArray) {
     return []; 
 }
 
-function checkPrevious(start, index, opArraySorted) {
-    let prevX = opArraySorted[index - 1].coordinates[0];
-    let prevY = opArraySorted[index - 1].coordinates[1];
+function checkPrevious(start, index, opArray) {
+    let prevX = opArray[index - 1].coordinates[0];
+    let prevY = opArray[index - 1].coordinates[1];
     if (start[0] < prevX + 0.005) {
         if (start[1] < prevY + 0.005 && start[1] > prevY - 0.005) {
-            return nextArray = [opArraySorted[index - 1]].concat(checkPrevious(start, index - 1, opArraySorted));
+            return nextArray = [opArray[index - 1]].concat(checkPrevious(start, index - 1, opArray));
         }
     }
     return []; 
