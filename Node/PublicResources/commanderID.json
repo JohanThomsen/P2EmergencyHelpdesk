@@ -1,12 +1,18 @@
 {
     "commanders": {
-            "23": {
-                "commanderName": "Karin",
-                "coordinates": [9.87142, 57.00369]
-            },
-            "42": {
-                "commanderName": "Nanna",
-                "coordinates": [10, 57]
-            }            
+        "23": {
+            "commanderName": "Karin",
+            "coordinates": [
+                9.932545,
+                57.046401
+            ]
+        },
+        "42": {
+            "commanderName": "Nanna",
+            "coordinates": [
+                10,
+                57
+            ]
+        }
     }
 }
