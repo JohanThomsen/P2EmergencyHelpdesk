@@ -129,15 +129,15 @@ function NearbyLocation(path, index, coordinates) {
     let file = fs.readFileSync(path);
     let opArray = JSON.parse(file).data; //dobbelt arbejde
     
-    return checkNext(coordinates, index, opArraySorted).concat(checkPrevious(coordinates, index, opArraySorted));
+    return checkNext(coordinates, index, opArray).concat(checkPrevious(coordinates, index, opArray));
 }
 
-function checkNext(start, index, opArraySorted) {
-    let nextX = opArraySorted[index + 1].coordinates[0];
-    let nextY = opArraySorted[index + 1].coordinates[1];
+function checkNext(start, index, opArray) {
+    let nextX = opArray[index + 1].coordinates[0];
+    let nextY = opArray[index + 1].coordinates[1];
     if (start[0] > nextX - 0.005) {
         if (start[1] < nextY + 0.005 && start[1] > nextY - 0.005) {
-            return nextArray = [opArraySorted[index + 1]].concat(checkNext(start, index+1, opArraySorted));
+            return nextArray = [opArray[index + 1]].concat(checkNext(start, index+1, opArray));
         }
     }
     return []; 
