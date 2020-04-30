@@ -8,10 +8,11 @@ h2, h3{
 }
 
 .main{
-    height: inherit;
+    height: 100%;
     margin-left: unset;
     margin-bottom: auto;
-    overflow: hidden;
+    width: 100%; 
+    display: block;
 }
 
 .textbox{
@@ -208,18 +209,21 @@ th, td {
     text-align: left;
   }
 
-.slideshow-container, .buildingOverview {
+.slideshow-container, .buildingOverview-container {
     margin-top: 90px;
     position: relative;
-    overflow: hidden;
-    height: 45%;
+    overflow: auto;
+    height: 40%;
     width: 55%;
     margin-left: 4%;
-    margin-bottom: 2%;
+    margin-bottom: 20px;
     float: left;
     border: 1px solid black;
     z-index: 0;
-    
+}
+
+.buildingOverview-container{
+    margin-top: unset;
 }
 
 .image{
@@ -231,7 +235,7 @@ th, td {
 
 .buildingOverview{
     margin: 0 4%;
-    margin-right: 0;
+    /* margin-right: 0 ; */
 }
 
 /* .buildingOverview img{
@@ -245,10 +249,11 @@ th, td {
     float: right;
     margin-top: 90px;
     margin-right: 4%;
-    height: calc(78% - 4px);
+    height: calc(80% + 22px);
 }
 
 .imageContainer{
+    float: left;
     height: 100%;
 }
 
@@ -280,3 +285,5 @@ th, td {
     position: absolute;
     top: 0;
 }
+
+
