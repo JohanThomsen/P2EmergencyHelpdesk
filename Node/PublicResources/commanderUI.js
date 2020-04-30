@@ -21,6 +21,9 @@ function login(data) {
     for(id in data.commanders) {
         if (id === commander.ID){
             commander.coords = data.commanders[id].coordinates;
+            document.getElementById('opPlan').style.marginRight="4%";
+            document.getElementsByClassName('slideshow-container')[0].style.display="block";
+            document.getElementsByClassName('buildingOverview-container')[0].style.display="block";
         }
     }
     console.log(commander.coords);

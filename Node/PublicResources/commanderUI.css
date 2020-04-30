@@ -17,18 +17,6 @@ h2, h3{
     overflow-y: scroll;
    
 }
-
-.textbox{
-    height: 42%;
-    margin-top: 1%;
-    width: 35%;
-    margin-left: 1%;
-    border: 1px solid black;    
-    background: #ccc;
-    float: left;
-    overflow-y: auto;
-}
-
 /* #slideArea {
     height: 42%;
     margin-top: 1%;
@@ -218,6 +206,7 @@ th, td {
 
 .slideshow-container, .buildingOverview-container {
     margin-top: 90px;
+    display: none;
     position: relative;
     overflow: auto;
     height: 60%;
@@ -254,11 +243,22 @@ th, td {
     margin: 2%;
 } */
 
+.textbox{
+    height: 42%;
+    margin-top: 1%;
+    width: 35%;
+    margin-left: 1%;
+    border: 1px solid black;    
+    background: #ccc;
+    float: left;
+    overflow-y: auto;
+}
+
 #opPlan{
     position: relative;
     float: right;
     margin-top: 90px;
-    margin-right: 4%;
+    margin-right: 36.5%;
     height: 60%;
 }
 
