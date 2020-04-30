@@ -2,11 +2,25 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="opPlanInput.css">
     <meta charset="UTF-8">
 </head>
-<body>
-    <form action = "http://127.0.0.1:3000/addOpPlan" method = "post" enctype = "multipart/form-data" id = "uploadFile">
+<body class = "main">
+    <div class="headerBar">
+        <div class="dropdown">
+            <button class="dropbtn">Menu
+                <i class="fa fa-github"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="http://127.0.0.1:3000/#">Operator</a>
+                <a href="http://127.0.0.1:3000/commanderUI.html">Commander</a>
+                <a href="http://127.0.0.1:3000/opPlanInput.html">Input</a>
+            </div>
+        </div>
+        <h2> Operational plan input site </h2>
+    </div>
+    <form class = "inputField" action = "http://127.0.0.1:3000/addOpPlan" method = "post" enctype = "multipart/form-data" id = "uploadFile">
         <label for = "ncoordinate"> <h1>Coordinates*</h1> </label>
         <input type = "number" id = "ncoordinate" step="0.0000001"   name = "ncoordinate"           placeholder = "North*" required>
         <input type = "number" id = "ecoordinate" step="0.0000001"  name = "ecoordinate"            placeholder = "East*"  required>

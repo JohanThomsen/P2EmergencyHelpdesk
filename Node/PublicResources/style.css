@@ -24,15 +24,80 @@
 } */
 
 .headerBar{
-    overflow: hidden;
+    overflow: visible;
     background-color: rgb(42, 42, 43);
     color: azure;
     position: absolute;
     top: 0;
     width: 100%;
     height: auto;
-    z-index: 1;
+    z-index: 0;
 }
+
+.headerBar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* The dropdown container */
+  .dropdown {
+    float: right;
+    overflow: hidden;
+    height: 67.03px;/*To make the dropdown box the same size as the headerbar*/
+  }
+  
+  /* Dropdown button */
+  .dropdown .dropbtn {
+    font-size: 1.5em;
+    height: 100%;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+  }
+  
+  /* Add a grey background color to navbar links on hover */
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: rgb(60, 60, 61);
+  }
+  
+  /* Dropdown content (hidden by default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  /* Add a grey background color to dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
 
 .main{
     height: inherit;
@@ -92,10 +157,6 @@ th, td {
     text-align: left;
   }
 
-button{
-
-}
-
 .imageBox {
     overflow: hidden;
     height: 86%;
@@ -125,7 +186,7 @@ button{
 }
 
 /* drop down styling */
-.dropbtn {
+.textbox .dropbtn {
     background-color: #3498DB;
     color: white;
     padding: 16px;
@@ -134,17 +195,17 @@ button{
     cursor: pointer;
   }
   
-  .dropbtn:hover, .dropbtn:focus {
+  .textbox .dropbtn:hover,.textbox .dropbtn:focus {
     background-color: #2980B9;
   }
   
-  .dropdown {
+  .textbox .dropdown {
     position: relative;
     display: inline-block;
     left: 25%;
   }
   
-  .dropdown-content {
+  .textbox .dropdown-content {
     display: none;
     position: absolute;
     background-color: #f1f1f1;
@@ -154,13 +215,13 @@ button{
     z-index: 1;
   }
   
-  .dropdown-content a {
+  .textbox .dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
   }
   
-  .dropdown a:hover {background-color: #ddd;}
+  .textbox .dropdown a:hover {background-color: #ddd;}
 
-  .show {display: block;}
+.show {display: block;}
