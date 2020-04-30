@@ -44,68 +44,18 @@ function fetchPlan(coordinates){
         })
         .then((data) => {
             displayPlan(data);
+            displayImages(data.opPlan);
          });
 }
 
-
-// Gets the building properties from the marker and displays them in the box
-function displayProperties(feature, layer){
-    layer.on('mousedown', (e) => {
-        document.getElementById("fireinfo").innerHTML ="";
-        console.log(feature.geometry.coordinates);
-        // Creates a paragraf for each attribute, with padding depending on the amount of attributes
-        for(property in feature.properties) {
-            if (property == 'typeFire'){
-                let p = document.createElement("p");
-                p.innerHTML = "Type of fire: " + feature.properties[property];
-                document.getElementById("fireinfo").appendChild(p);
-            } else if (property == "time"){
-                let p = document.createElement("p");
-                p.innerHTML = "Time: " + feature.properties[property];
-                document.getElementById("fireinfo").appendChild(p);
-            } else if (property == "automaticAlarm"){
-                let p = document.createElement("p");
-                p.innerHTML = feature.properties[property] ?"Automatic alarm: Yes" : "";
-                document.getElementById("fireinfo").appendChild(p);
-            }
-        }
-    });
-}
-
-//fetchFireMarkers();
-
-//Gets the operative plan data, and calls displayPlan with the appropriate response
-function fetchPlan(feature, layer){
-    layer.on("mousedown", (e) => {
-        let tempCoordX = feature.geometry.coordinates[0];
-        let tempCoordY = feature.geometry.coordinates[1];
-        let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
-        stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
-        console.log(stringedCoord);
-
-        //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
-        fetch(`/operativePlans=${stringedCoord}`)
-            .then((response) => {
-                if (response.status == 404) {
-                    return false;
-                } else return response.json();              
-            })
-            .then((data) => {
-                displayPlan(data);
-                // displayPolygon(data);
-                
-            });
-        });
-}
-diplayImages();
-function diplayImages(/*data*/){
+function displayImages(data){
     //test object
-    let data = {
+    /*let data = {
         "coordinates": [
             57.03713,
             9.90761
         ],
-        "address": "Mølleparkvej 4, 9000",
+        "address": "Mølleparkvej 4, 9000", 
         "buildingDefinition": "Hospital",
         "usage": "bed and treatment ward",
         "height": "34",
@@ -122,11 +72,11 @@ function diplayImages(/*data*/){
         },
         "consideration": "",
         "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf",
-        "buildingOverview": "MølleParkVejOverview.png",
-        "floorPlans": "floorPlans/Mølleparkvej_4,_9000/",
-        "floorPlanAmount": 2
-    }
-
+        "buildingOverview": "NordkraftOverview.png",
+        "floorPlans": "floorPlans/Kjellerups_Torv_1/",
+        "floorPlanAmount": 1
+    }*/
+    
     if (data.floorPlanAmount != 0) {
         document.getElementById("slideshowContainer").innerHTML = 
         `<div class="imageContainer" id = "slideshow">
@@ -136,14 +86,17 @@ function diplayImages(/*data*/){
         let i;
         let slideAmount = data.floorPlanAmount;
         let floorPlanSource = data.floorPlans;
-        for(i = 1; i <= slideAmount; i++){
+        console.log(floorPlanSource);
+        console.log(data.buildingOverview);
+        //for(i = 1; i <= slideAmount; i++){
+            console.log(`${floorPlanSource}floor-1.png`);
             document.getElementById("slideshow").innerHTML += 
-            `<div class="mySlides fade">
-                <div class="numbertext">${i} / ${slideAmount}</div>
-                <img class="image" src="${floorPlanSource}floor-${i}.png">
+            `<div class="mySlides">
+                <div class="numbertext">1 / ${slideAmount}</div>
+                <img class="image" src="${floorPlanSource}floor-1.png">
                 <div class="text">Floor Plan:</div>
             </div>`
-        }
+        //}
         showSlides(slideIndex);
     } else {
         document.getElementById("slideshowContainer").innerHTML =
@@ -186,7 +139,7 @@ function showSlides(n) {
 
 // Is functional, but the actual plans, when available, need redesign
 function displayPlan(data){
-    //test of array with polygons
+    //test of array with polygons;
     console.log(data);
     let opPlan = document.getElementById("opPlan");
     document.getElementById("Generel").innerHTML = "";
