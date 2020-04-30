@@ -11,6 +11,7 @@ function fetchCommanders(){
         })
 }
 
+
 function login(data) {
     let commander = {
         ID: "",
@@ -164,9 +165,14 @@ function displayPlan(data){
         // Prints the address of the warning, and the special consideration
         outerAccordion = document.getElementById("Nearby");
         let nearbyconsideration;
-        for (element in data.NearbyWarnings[property]){
-            if (element == "specialConsideration") {nearbyconsideration = true;}
-        }
+
+        data.NearbyWarnings.forEach(warning => {
+            for (element in warning){ //this needs to be fixed in another way
+                console.log(element)
+                if (element == "specialConsiderations") {nearbyconsideration = true;}
+            }
+        })
+
         if (nearbyconsideration == true){
             for (property in data.NearbyWarnings){
                 let button = document.createElement("button");
@@ -180,7 +186,8 @@ function displayPlan(data){
                 outerAccordion.appendChild(accordion);
                 
                 for (element in data.NearbyWarnings[property]){
-                    if (element == "specialConsideration"){
+                    console.log("was here");
+                    if (element == "specialConsiderations"){
                         let p = document.createElement("p");
                         p.innerHTML = element.capitalize() + ": " + data.NearbyWarnings[property][element];
                         document.getElementById(data.NearbyWarnings[property].address).appendChild(p);

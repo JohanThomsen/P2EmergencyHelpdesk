@@ -9,7 +9,7 @@
             "buildingDefinition": "Ghetto",
             "usage": "Last point",
             "height": "69",
-            "specialConsideration": "Johans ghetto løsning",
+            "specialConsiderations": "Johans ghetto løsning",
             "fireFightingEquipment": {
                 "risers": false,
                 "sprinkler": false,
@@ -34,7 +34,7 @@
             "buildingDefinition": "Shoppen and Bio City",
             "usage": "Mall and cinema",
             "height": "20",
-            "specialConsideration": "person counter",
+            "specialConsiderations": "person counter",
             "fireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
@@ -60,7 +60,7 @@
             "buildingDefinition": "Hospital",
             "usage": "bed and treatment ward",
             "height": "34",
-            "specialConsideration": "floor 5 is an tech floor only",
+            "specialConsiderations": "floor 5 is an tech floor only",
             "fireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
@@ -112,7 +112,7 @@
             "buildingDefinition": "Nordkraft",
             "usage": "offices. sports and activities. classrooms. assembly rooms",
             "height": "42",
-            "specialConsideration": "split evacuation.firstfloor1-8,then8minlaterfloor9-13",
+            "specialConsiderations": "split evacuation.firstfloor1-8,then8minlaterfloor9-13",
             "fireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
@@ -138,7 +138,7 @@
             "buildingDefinition": "Larsen Waterfront",
             "usage": "living",
             "height": "42",
-            "specialConsideration": "common room for 150 people on 15. floor",
+            "specialConsiderations": "common room for 150 people on 15. floor",
             "FireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
@@ -190,7 +190,7 @@
             "buildingDefinition": "Ghetto",
             "usage": "Last point",
             "height": "69",
-            "specialConsideration": "Johans ghetto løsning",
+            "specialConsiderations": "Johans ghetto løsning",
             "fireFightingEquipment": {
                 "risers": false,
                 "sprinkler": false,
