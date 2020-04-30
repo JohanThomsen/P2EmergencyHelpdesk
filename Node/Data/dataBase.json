@@ -79,6 +79,32 @@
         },
         {
             "coordinates": [
+                57.046642,
+                9.93099
+            ],
+            "address": "nearby adress",
+            "buildingDefinition": "testing",
+            "usage": "tests",
+            "height": "114",
+            "specialConsiderations": "Test of nearby",
+            "fireFightingEquipment": {
+                "fireLift": true,
+                "escapeStairs": true,
+                "risers": true,
+                "sprinkler": false,
+                "smokeDetectors": false,
+                "markers": true,
+                "automaticFireDetector": false,
+                "internalAlert": false
+            },
+            "consideration": "Test of nearby warning",
+            "fullOpPlan": "OperativePDF/MusikkenshusPlaceholder.pdf",
+            "buildingOverview": "buildingOverview/httpdiagramnew.png",
+            "floorPlans": "floorPlans/nearby_adress/",
+            "floorPlanAmount": 1
+        },
+        {
+            "coordinates": [
                 57.046799,
                 9.93207
             ],
