@@ -73,7 +73,7 @@
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
+    width: fit-content;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
   }
@@ -103,6 +103,8 @@
     height: inherit;
     margin-left: unset;
     margin-bottom: auto;
+    overflow: hidden;
+    overflow-y: auto;
 }
 
 /* Style the buttons that are used to open and close the accordion panel */

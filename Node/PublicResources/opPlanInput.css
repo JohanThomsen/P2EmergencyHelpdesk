@@ -2,6 +2,8 @@ html, body {
   height: 100%;
   width: 100%;
   margin: unset;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .headerBar{
@@ -25,6 +27,7 @@ html, body {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  width: fit-content;
 }
 
 /* The dropdown container */
@@ -57,7 +60,7 @@ html, body {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 160px;
+  width: fit-content;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
