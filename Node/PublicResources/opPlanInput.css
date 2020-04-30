@@ -1,10 +1,11 @@
 html, body {
   height: 100%;
+  width: 100%;
   margin: unset;
 }
 
 .headerBar{
-  overflow: visible;
+  overflow-y: visible;
   background-color: rgb(42, 42, 43);
   color: azure;
   position: absolute;
@@ -85,6 +86,10 @@ html, body {
   margin-top: 90px;
   margin: 0 5%;
   z-index: 0;
+}
+
+.CoordHeader{
+  margin-top: 100px;
 }
 
 input[type=text], select {
