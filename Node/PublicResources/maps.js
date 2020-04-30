@@ -131,7 +131,7 @@ function displayPlan(data){
         for (property in data.opPlan){
             if (property == "address"){
                 displayAddress(data, opPlan);
-            } else if (property == "buildingDefinition" || property == "usage" || property == "height" || property == "specialConsideration"){
+            } else if (property == "buildingDefinition" || property == "usage" || property == "height" || property == "specialConsiderations"){
                 displayGenerel(data, property);
             } else if (property.toLowerCase() == "firefightingequipment"){
                 displayEquip(data, property);
@@ -144,10 +144,13 @@ function displayPlan(data){
         
         let nearbyconsideration;
 
-        for (element in data.NearbyWarnings){ //this needs to be fixed in another way
-            console.log(element)
-            if (element == "specialConsideration") {nearbyconsideration = true;}
-        }
+        data.NearbyWarnings.forEach(warning => {
+            for (element in warning){ //this needs to be fixed in another way
+                console.log(element)
+                if (element == "specialConsiderations") {nearbyconsideration = true;}
+            }
+        })
+
         if (nearbyconsideration == true){
             for (property in data.NearbyWarnings){
                 let button = document.createElement("button");
@@ -162,7 +165,7 @@ function displayPlan(data){
                 
                 for (element in data.NearbyWarnings[property]){
                     console.log("was here");
-                    if (element == "specialConsideration"){
+                    if (element == "specialConsiderations"){
                         let p = document.createElement("p");
                         p.innerHTML = element.capitalize() + ": " + data.NearbyWarnings[property][element];
                         document.getElementById(data.NearbyWarnings[property].address).appendChild(p);
