@@ -253,14 +253,14 @@ function sendOperativePlan(path, requestUrl, response) {
     let opArraySorted = JSON.parse(file).data;
     let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
     let metaData = insideBuilding(coordinates, './Node/Buildings.geojson');
-    console.log(metaData);
     let resultIndex = search.binarySearch(opArraySorted, metaData.opCoords == null ? coordinates[0] : metaData.opCoords[0], metaData.opCoords == null ? coordinates[1] : metaData.opCoords[1]);
+    console.log(resultIndex);
     let result = {
         opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
         BuildingMetaData: metaData,
-        NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, coordinates) : []
+        NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, opArraySorted[resultIndex].coordinates) : []
     };
-    //console.log(result)
+    console.log(result)
     response.statusCode = 200;
     response.setHeader('Content-Type', 'application/json');
     response.write(JSON.stringify(result, null, 4));
