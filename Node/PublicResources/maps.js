@@ -141,8 +141,9 @@ function displayPlan(data){
         // Creates nearby warnings if a special consideration exists for any of the nearby buildings
         // Prints the address of the warning, and the special consideration
         outerAccordion = document.getElementById("Nearby");
+        
         let nearbyconsideration;
-        for (element in data.NearbyWarnings[property]){
+        for (element in data.NearbyWarnings[0]){ //this needs to be fixed in another way
             if (element == "specialConsideration") {nearbyconsideration = true;}
         }
         if (nearbyconsideration == true){
@@ -158,6 +159,7 @@ function displayPlan(data){
                 outerAccordion.appendChild(accordion);
                 
                 for (element in data.NearbyWarnings[property]){
+                    console.log("was here");
                     if (element == "specialConsideration"){
                         let p = document.createElement("p");
                         p.innerHTML = element.capitalize() + ": " + data.NearbyWarnings[property][element];
