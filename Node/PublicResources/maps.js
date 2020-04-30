@@ -143,7 +143,9 @@ function displayPlan(data){
         outerAccordion = document.getElementById("Nearby");
         
         let nearbyconsideration;
-        for (element in data.NearbyWarnings[0]){ //this needs to be fixed in another way
+
+        for (element in data.NearbyWarnings){ //this needs to be fixed in another way
+            console.log(element)
             if (element == "specialConsideration") {nearbyconsideration = true;}
         }
         if (nearbyconsideration == true){
