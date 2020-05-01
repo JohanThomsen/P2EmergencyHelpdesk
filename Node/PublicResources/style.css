@@ -6,6 +6,7 @@
     border: 1px solid black;    
     background: #ccc;
     float: left;
+    overflow: hidden;
     overflow-y: scroll;
 }
 
@@ -195,6 +196,7 @@ th, td {
     font-size: 16px;
     border: none;
     cursor: pointer;
+    width: 42%;
   }
   
   .commanderdropbtn:hover,.commanderdropbtn:focus {
@@ -204,17 +206,19 @@ th, td {
   .commanderdropdown {
     position: relative;
     display: inline-block;
-    left: 25%;
+    left: 18px;
+    margin: 18px 0;
   }
   
   .commanderdropdown-content {
     display: none;
     position: absolute;
     background-color: #f1f1f1;
-    min-width: 160px;
+    width: 42%;
     overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    margin-bottom: 18px;
   }
   
   .commanderdropdown-content a {
