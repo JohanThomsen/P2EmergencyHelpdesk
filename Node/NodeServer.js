@@ -137,18 +137,29 @@ function checkNext(start, index, opArray) {
     let nextY = opArray[index + 1].coordinates[1];
     if (start[0] > nextX - 0.005) {
         if (start[1] < nextY + 0.005 && start[1] > nextY - 0.005) {
-            return nextArray = [opArray[index + 1]].concat(checkNext(start, index+1, opArray));
+            for (element in opArray[index + 1]){
+                if (element == "specialConsiderations"){
+                    return nextArray = [opArray[index + 1]].concat(checkNext(start, index+1, opArray));
+                }
+            }
         }
     }
     return []; 
 }
+
+
+
 
 function checkPrevious(start, index, opArray) {
     let prevX = opArray[index - 1].coordinates[0];
     let prevY = opArray[index - 1].coordinates[1];
     if (start[0] < prevX + 0.005) {
         if (start[1] < prevY + 0.005 && start[1] > prevY - 0.005) {
-            return nextArray = [opArray[index - 1]].concat(checkPrevious(start, index - 1, opArray));
+            for (element in opArray[index - 1]){
+                if (element == "specialConsiderations"){
+                    return nextArray = [opArray[index - 1]].concat(checkPrevious(start, index - 1, opArray));
+                }
+            }
         }
     }
     return []; 
