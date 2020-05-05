@@ -13,6 +13,7 @@ function fetchCommanders(){
 
 
 function login(data) {
+    let commanderFound = false;
     let commander = {
         ID: "",
         coords: []
@@ -24,11 +25,18 @@ function login(data) {
             document.getElementById('opPlan').style.marginRight="4%";
             document.getElementsByClassName('slideshow-container')[0].style.display="block";
             document.getElementsByClassName('buildingOverview-container')[0].style.display="block";
+            commanderFound = true;
         }
     }
     console.log(commander.coords);
-    fetchPlan(commander.coords);
+    if(commanderFound === true){
+        fetchPlan(commander.coords);
+        document.getElementById("ErrorMessage").innerHTML = ``;
+    } else {
+        document.getElementById("ErrorMessage").innerHTML = `Commander ID not found`;
+    }    
 }
+
 const scale = 13;
 let slideIndex = 1;
 

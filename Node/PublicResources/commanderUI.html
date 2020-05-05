@@ -35,12 +35,13 @@
             <div class = "panel" id="Nearby"></div>
             <div class = "logIndField">
                 <form  method = "POST" id = "IDinput">
-                    <div class = logIndDiv>
+                    <div class = "logIndDiv">
                     <!-- <label for = "logInID"> <h1>User ID</h1> </label> -->
-                    <input type="text" id = "logInID" name = "logInID" placeholder="User ID">
+                    <input type="number" id = "logInID" name = "logInID" placeholder="User ID">
                     <button type="button" onclick="fetchCommanders()">Log in</button>
                     </div>
                 </form>
+                <p id = "ErrorMessage"></p>
             </div>
         </div>
         <div class="buildingOverview-container" id = "buildingOverviewContainer">
