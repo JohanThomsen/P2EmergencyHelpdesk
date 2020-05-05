@@ -93,18 +93,16 @@ let server = http.createServer((request, response) => {
 server.listen(port, hostName, () =>{
 });
 
-/*Websocket code*/
-/*   for map update   */
+/*  Websocket code      */
+/*   for map update     */
 
 let updateServer = new webSocketServer.server({
     httpServer: server
 });
   
 updateServer.on('request', (request) => {
-    console.log((new Date()) + 'Connection from origin: ' + request.origin);
     let conenction = request.accept(null, request.origin);
-    console.log((new Date()) + ' Connection accepted.');
-
+    
     updatePing = function(){
         updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
         console.log('PINGED');
@@ -124,7 +122,6 @@ function updateCommanderFile(jsonData) {
     });
 }
 
-//console.log(checkPolygon.checkPolygon([[9.9314944, 57.0462362], [9.9315033, 57.0462819], [9.9315998, 57.0467743], [9.9316016, 57.0467837], [9.9318321, 57.0467725], [9.9318377, 57.0468267], [9.9319988, 57.0468179], [9.9320002, 57.0468448], [9.933088, 57.0467891], [9.9329993, 57.0463101], [9.9329407, 57.0463116], [9.9329382, 57.046276], [9.9330566, 57.0462722], [9.9330571, 57.0462029], [9.9330097, 57.0462034], [9.9330083, 57.0461685], [9.9322898, 57.0461892], [9.9314944, 57.0462362]], [9.932281699291654, 57.04652291941613]));
 function NearbyLocation(path, index, coordinates) {
     let file = fs.readFileSync(path);
     let opArray = JSON.parse(file).data; //dobbelt arbejde
@@ -137,18 +134,29 @@ function checkNext(start, index, opArray) {
     let nextY = opArray[index + 1].coordinates[1];
     if (start[0] > nextX - 0.005) {
         if (start[1] < nextY + 0.005 && start[1] > nextY - 0.005) {
-            return nextArray = [opArray[index + 1]].concat(checkNext(start, index+1, opArray));
+            for (element in opArray[index + 1]){
+                if (element == "specialConsiderations"){
+                    return nextArray = [opArray[index + 1]].concat(checkNext(start, index+1, opArray));
+                }
+            }
         }
     }
     return []; 
 }
+
+
+
 
 function checkPrevious(start, index, opArray) {
     let prevX = opArray[index - 1].coordinates[0];
     let prevY = opArray[index - 1].coordinates[1];
     if (start[0] < prevX + 0.005) {
         if (start[1] < prevY + 0.005 && start[1] > prevY - 0.005) {
-            return nextArray = [opArray[index - 1]].concat(checkPrevious(start, index - 1, opArray));
+            for (element in opArray[index - 1]){
+                if (element == "specialConsiderations"){
+                    return nextArray = [opArray[index - 1]].concat(checkPrevious(start, index - 1, opArray));
+                }
+            }
         }
     }
     return []; 
@@ -176,27 +184,16 @@ function CheckFire(jsonData, path) {
     if (jsonData.active == true) {
         if (entryValue.returnValue != true) {
             UpdateFile(jsonData, path);
-            //updatePing()   
             updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
         }
         return;
     } else if(entryValue.returnValue == true) {
         //if it is not active, but exists in the file, it is deleted  
         DeleteEntry(path, entryValue.indexValue);
-        //updatePing()
         updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
         return;
     }
 }
-
-/*function sendEvent(response) {
-    response.setHeader('Content-Type', 'text/event-stream');
-    response.setHeader('Cache-Control', 'no-cache');
-    response.setHeader('Connection', 'keep-alive');
-    response.write("event: ping\n");
-    response.end('\n');
-    console.log(response)
-}*/
 
 //check if an entry exists in an array. 
 function EntryExist(array, searchKey, valueKey1, valueKey2) {
@@ -267,7 +264,6 @@ function sendOperativePlan(path, requestUrl, response) {
     response.end('\n');
 }
 
-//console.log(insideBuilding([9.932281699291654, 57.04652291941613], './Node/Buildings.geojson'));
 function insideBuilding(point, geoJsonPath) {
     point = point.reverse(); //
     let geoJsonFile = fs.readFileSync(geoJsonPath);
@@ -283,9 +279,7 @@ function insideBuilding(point, geoJsonPath) {
                 success =  true; 
                 return;
             }
-        //buildingIndex = -1;
         }
-        //buildingIndex = -1;
     });
 
     if (success == false) {
@@ -338,7 +332,6 @@ function guessMimeType(fileName) {
         "doc": 'application/msword',
         "docx": 'application/msword'
     };
-    //incomplete
     return (ext2Mime[fileExtension] || "text/plain");
 }
 
@@ -413,7 +406,6 @@ function handleOpPlan(request, response){
         floorPlanAmount:  0
     };
 
-    //console.log('Uploading');
     let form = new formidable.IncomingForm();
     form.parse(request);
 
@@ -452,8 +444,6 @@ function handleOpPlan(request, response){
      * Each field has a name which is used to update the matching key in the object
      */
     form.on('field', (name, field) => {
-        /*console.log('Handling: ', name);
-        console.log(field);*/
         if (isFirefightingEquipment(name)) {
             newOpPlan.fireFightingEquipment[name] = true;
         } else if (isCoordinate(name)) {
