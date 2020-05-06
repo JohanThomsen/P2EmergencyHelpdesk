@@ -27,6 +27,32 @@
         },
         {
             "coordinates": [
+                45,
+                21
+            ],
+            "address": "IDK1",
+            "buildingDefinition": "Test",
+            "usage": "TEst",
+            "height": "45",
+            "specialConsiderations": "34",
+            "fireFightingEquipment": {
+                "fireLift": false,
+                "escapeStairs": false,
+                "risers": true,
+                "sprinkler": false,
+                "smokeDetectors": false,
+                "markers": true,
+                "automaticFireDetector": false,
+                "internalAlert": true
+            },
+            "consideration": "A spare key is located at the fire central",
+            "fullOpPlan": "OperativePDF/mat_dtg.pdf",
+            "buildingOverview": "buildingOverview/danskElProduktion.png",
+            "floorPlans": "floorPlans/IDK1/",
+            "floorPlanAmount": 1
+        },
+        {
+            "coordinates": [
                 57.00369,
                 9.87142
             ],

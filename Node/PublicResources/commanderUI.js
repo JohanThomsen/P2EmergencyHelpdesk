@@ -21,20 +21,28 @@ function login(data) {
     commander.ID = document.getElementById('logInID').value;
     for(id in data.commanders) {
         if (id === commander.ID){
+            initCommanderHTML();
             commander.coords = data.commanders[id].coordinates;
-            document.getElementById('opPlan').style.marginRight="4%";
-            document.getElementsByClassName('slideshow-container')[0].style.display="block";
-            document.getElementsByClassName('buildingOverview-container')[0].style.display="block";
             commanderFound = true;
         }
     }
-    console.log(commander.coords);
+
+    getAndShowPlan(commander, commanderFound);   
+}
+
+function initCommanderHTML(){
+    document.getElementById('opPlan').style.marginRight="4%";
+    document.getElementsByClassName('slideshow-container')[0].style.display="block";
+    document.getElementsByClassName('buildingOverview-container')[0].style.display="block";
+}
+
+function getAndShowPlan(commander, commanderFound){
     if(commanderFound === true){
         fetchPlan(commander.coords);
         document.getElementById("ErrorMessage").innerHTML = ``;
     } else {
         document.getElementById("ErrorMessage").innerHTML = `Commander ID not found`;
-    }    
+    } 
 }
 
 const scale = 13;
@@ -45,7 +53,6 @@ function fetchPlan(coordinates){
     let tempCoordY = coordinates[1];
     let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
     stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
-    console.log(stringedCoord);
 
     //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
     fetch(`/operativePlans=${stringedCoord}`)
@@ -61,67 +68,46 @@ function fetchPlan(coordinates){
 }
 
 function displayImages(data){
-    //test object
-    /*let data = {
-        "coordinates": [
-            57.03713,
-            9.90761
-        ],
-        "address": "Mølleparkvej 4, 9000", 
-        "buildingDefinition": "Hospital",
-        "usage": "bed and treatment ward",
-        "height": "34",
-        "specialConsideration": "floor 5 is an tech floor only",
-        "fireFightingEquipment": {
-            "risers": true,
-            "sprinkler": true,
-            "internalAlert": false,
-            "markers": false,
-            "automaticFiredetector": true,
-            "escapeStairs": true,
-            "fireLift": false,
-            "smokeDetectors": false
-        },
-        "consideration": "",
-        "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf",
-        "buildingOverview": "NordkraftOverview.png",
-        "floorPlans": "floorPlans/Kjellerups_Torv_1/",
-        "floorPlanAmount": 1
-    }*/
     
     if (data.floorPlanAmount != 0) {
-        document.getElementById("slideshowContainer").innerHTML = 
-        `<div class="imageContainer" id = "slideshow">
-        </div>
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>`
+        initImageHTML();
         let i;
         let slideAmount = data.floorPlanAmount;
         let floorPlanSource = data.floorPlans;
-        console.log(floorPlanSource);
-        console.log(data.buildingOverview);
-        //for(i = 1; i <= slideAmount; i++){
-            console.log(`${floorPlanSource}floor-1.png`);
-            document.getElementById("slideshow").innerHTML += 
-            `<div class="mySlides">
-                <div class="numbertext">1 / ${slideAmount}</div>
-                <img class="image" src="${floorPlanSource}floor-1.png">
-                <div class="text">Floor Plan:</div>
-            </div>`
-        //}
+        for(i = 1; i <= slideAmount; i++){
+            createFloorPlanHTML(i, slideAmount, floorPlanSource);
+        }
         showSlides(slideIndex);
     } else {
         document.getElementById("slideshowContainer").innerHTML =
-        ` <h2> No floor plans found </h2>`
+        `<h2> No floor plans found </h2>`
     }
-    
-    document.getElementById("buildingOverviewContainer").innerHTML += 
-        `<div class="buildingOverview">
-            <img class="image" src="buildingOverview/${data.buildingOverview}">
-        </div>`
-
+    createBuildingOverViewHTML(data.buildingOverview);
 }
 
+function initImageHTML(){
+    document.getElementById("slideshowContainer").innerHTML = 
+    `<div class="imageContainer" id = "slideshow">
+    </div>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>`
+}
+
+function createFloorPlanHTML(imageIndex, slideAmount, floorPlanSource){
+    document.getElementById("slideshow").innerHTML += 
+            `<div class="mySlides">
+                <div class="numbertext">${imageIndex} / ${slideAmount}</div>
+                <img class="image" src="${floorPlanSource}floor-${imageIndex}.png">
+                <div class="text">Floor Plan:</div>
+            </div>`
+}
+
+function createBuildingOverViewHTML(imageSource){
+    document.getElementById("buildingOverviewContainer").innerHTML += 
+        `<div class="buildingOverview">
+            <img class="image" src="buildingOverview/${imageSource}">
+        </div>`
+}
 
 // Next/previous controls
 function plusSlides(n) {
@@ -148,195 +134,3 @@ function showSlides(n) {
     slides[slideIndex-1].style.display = "block";
     //dots[slideIndex-1].className += " active";
 }
-
-// Is functional, but the actual plans, when available, need redesign
-function displayPlan(data){
-    //test of array with polygons;
-    console.log(data);
-    let opPlan = document.getElementById("opPlan");
-    document.getElementById("Generel").innerHTML = "";
-    document.getElementById("Equip").innerHTML = "";
-    document.getElementById("Nearby").innerHTML = "";
-    if (document.getElementById("address")) document.getElementById("address").remove();
-    if (document.getElementById("warning")) document.getElementById("warning").remove();
-    if (document.getElementById("pdf")) document.getElementById("pdf").remove();
-
-    if (data) { // Checks whether the data arrived, if true, writes the information, otherwise displays an error message
-        for (property in data.opPlan){
-            if (property == "address"){
-                displayAddress(data, opPlan);
-            } else if (property == "buildingDefinition" || property == "usage" || property == "height" || property == "specialConsideration"){
-                displayGenerel(data, property);
-            } else if (property.toLowerCase() == "firefightingequipment"){
-                displayEquip(data, property);
-            }
-        }
-
-        // Creates nearby warnings if a special consideration exists for any of the nearby buildings
-        // Prints the address of the warning, and the special consideration
-        outerAccordion = document.getElementById("Nearby");
-        let nearbyconsideration;
-
-        data.NearbyWarnings.forEach(warning => {
-            for (element in warning){ //this needs to be fixed in another way
-                console.log(element)
-                if (element == "specialConsiderations") {nearbyconsideration = true;}
-            }
-        })
-
-        if (nearbyconsideration == true){
-            for (property in data.NearbyWarnings){
-                let button = document.createElement("button");
-                button.className = "accordion";
-                button.innerHTML = data.NearbyWarnings[property].address;
-                outerAccordion.appendChild(button);
-    
-                let accordion = document.createElement("div");
-                accordion.className = "panel";
-                accordion.id = data.NearbyWarnings[property].address;
-                outerAccordion.appendChild(accordion);
-                
-                for (element in data.NearbyWarnings[property]){
-                    console.log("was here");
-                    if (element == "specialConsiderations"){
-                        let p = document.createElement("p");
-                        p.innerHTML = element.capitalize() + ": " + data.NearbyWarnings[property][element];
-                        document.getElementById(data.NearbyWarnings[property].address).appendChild(p);
-                    }
-                }
-            }
-        }
-        // After possibly creating/removing accordions for nearby warnings, all accordions must be event enabled to work
-        enableAccordion();
-
-        // Creates the download link for the opPlan
-        if (data.opPlan.fullOpPlan){
-            let a = document.createElement("a");
-            a.href = data.opPlan.fullOpPlan;
-            a.download = "Full operative plan";
-            a.innerHTML = "Full operative plan";
-            a.id = "pdf"
-            opPlan.insertBefore(a, opPlan.childNodes[3]);
-        }
-        
-    } else { // Creates the warning if there is no operative plan available
-        if (document.getElementById("warning")) document.getElementById("warning").remove();
-        let p = document.createElement("p");
-        p.innerHTML = "Operative plan for this location not available";
-        p.id = "warning";
-        p.style.textAlign = "center";
-        opPlan.insertBefore(p, opPlan.childNodes[2]);
-    }
-
-}
-
-//Displays the address of the clicked fire at the top
-function displayAddress(data, outerElement){
-    let p = document.createElement("p");
-    p.innerHTML = data.opPlan.address;
-    p.style.textAlign = "center";
-    p.id = "address";
-    outerElement.insertBefore(p, outerElement.childNodes[2]);
-}
-
-// Displays all the generel data for the fire in the relevant accordion
-function displayGenerel(data, property){
-    let p = document.createElement("p");
-    p.innerHTML = property.capitalize() + ": " + data.opPlan[property];
-    document.getElementById("Generel").appendChild(p);
-}
-
-// 
-function displayEquip(data, property){
-    for (item in data.opPlan[property]){
-        if (data.opPlan[property][item] == true){
-        let p = document.createElement("p");
-        p.innerHTML = item.capitalize();
-        document.getElementById("Equip").appendChild(p);
-    }}
-    let p = document.createElement("p");
-    p.innerHTML = "Consideration: " + data.opPlan.consideration;
-    document.getElementById("Equip").appendChild(p);
-}
-
-// From stackoverflow by Steve Hansell
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-}
-
-// Zooms in on the marker when it is clicked on
-function markerView(feature, layer){
-    layer.on("mousedown", (e) => {
-        let coordX = feature.geometry.coordinates[0];
-        let coordY = feature.geometry.coordinates[1];
-        primaryMap.flyTo([coordY,coordX], scale+3);
-    });
-}
-
-// Defines all the marker features
-function markerFeatures(feature, layer){
-    displayProperties(feature, layer);
-    markerView(feature, layer);
-    fetchPlan(feature, layer);
-    
-}
-
-function enableAccordion(){
-    let acc = document.getElementsByClassName("accordion");
-
-    for (let i = 0; i < acc.length; i++) {
-    acc[i].removeEventListener("click", toggleActive);
-    acc[i].addEventListener("click", toggleActive);
-    }
-}
-
-function toggleActive() {
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
-    this.classList.toggle("active");
-    /* Toggle between hiding and showing the active panel */
-    let panel = this.nextElementSibling;
-    if (panel.style.display === "none") {
-    panel.style.display = "block";
-    } else {
-    panel.style.display = "none";
-    }
-}
-
-enableAccordion();
-
-async function postFire(location, typeFire, time, automaticAlarm, active, id) {
-    fetch('http://127.0.0.1:3000/fireAlert', {
-        method: 'POST', body: JSON.stringify({
-            location: location,
-            typeFire: typeFire,
-            time: time,
-            automaticAlarm: automaticAlarm,
-            active: active,
-            id: id
-        })
-    })
-    console.log('Message');
-}
-
-async function getFire() {
-    let response = await fetch("http://127.0.0.1:3000/fires");
-    let data = await response.json();
-    console.log(data);
-}
-
-/*Websocket code*/
-/*   for chat   */
-// let updateSocket = new WebSocket('ws://127.0.0.1:3000/chat');
-
-// updateSocket.onopen = function (event) {
-    
-// }
-
-// updateSocket.onmessage = function (event) {
-    
-//     console.log("PING");
-//     geojsonLayer.removeFrom(primaryMap);
-//     fetchFireMarkers();
-
-// }
