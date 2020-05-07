@@ -1,9 +1,8 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const formidable = require('formidable');
-const search = require('./dataManagement/dataSorting.js');
-const checkPolygon = require('./checkPolygon.js');
+const http =            require('http');
+const fs =              require('fs');
+const formidable =      require('formidable');
+const search =          require('./dataManagement/dataSorting.js');
+const checkPolygon =    require('./checkPolygon.js');
 const webSocketServer = require('websocket');
 
 //server setup variables
@@ -13,51 +12,58 @@ const publicResources = './Node/PublicResources/';
 
 //HTTP server
 let server = http.createServer((request, response) => {
-  //Cases for GET request 
     if (request.method == 'GET') {
-        switch (request.url) {
-            case '/': 
-                fileResponse('index.html', response);
-            break; 
+        GETRequests(request, response);
+    }
 
-            case '/uploadOP': 
-                fileResponse('opPlanInput.html', response);
-            break; 
-
-            case '/fires':
-                fileResponse('currentFires.geojson', response);
-            break;
-
-            case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
-                sendOperativePlan('./Node/Data/dataBase.json', request.url, response);
-            break;
-
-            case ('/buildings'):
-                fs.readFile('./Node/Buildingsgeojson', (err, data) => {
-                    response.statusCode = 200;
-                    response.setHeader('Content-Type', 'application/json');
-                    response.write(data);
-                    response.end('\n');
-                    });
-            break;
-            
-            case ('/commanders'):
-                fileResponse('commanderUI.html', response);
-            break;
-
-            case ('/commanderList'):
-                fileResponse('commanderID.json', response);
-            break;
-
-            default:
-                fileResponse(request.url, response);
-            break;
-    } 
-  }
-
-  //Cases for POST request 
     if (request.method == 'POST') {
-        switch(request.url){
+        POSTRequests(request, response);
+    };
+});
+  //Cases for GET request 
+function GETRequests(request, response){
+    switch (request.url) {
+        case '/': 
+            fileResponse('index.html', response);
+        break; 
+
+        case '/uploadOP': 
+            fileResponse('opPlanInput.html', response);
+        break; 
+
+        case '/fires':
+            fileResponse('currentFires.geojson', response);
+        break;
+
+        case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
+            sendOperativePlan('./Node/Data/dataBase.json', request.url, response);
+        break;
+
+        case ('/buildings'):
+            fs.readFile('./Node/Buildingsgeojson', (err, data) => {
+                response.statusCode = 200;
+                response.setHeader('Content-Type', 'application/json');
+                response.write(data);
+                response.end('\n');
+                });
+        break;
+        
+        case ('/commanders'):
+            fileResponse('commanderUI.html', response);
+        break;
+
+        case ('/commanderList'):
+            fileResponse('commanderID.json', response);
+        break;
+
+        default:
+            fileResponse(request.url, response);
+        break;
+    }  
+}
+  //Cases for POST request 
+function POSTRequests(request, response){
+    switch(request.url){
         case'/fireAlert':
             new Promise((resolve, reject) => {
                 request.on('data', (data) => {
@@ -86,9 +92,7 @@ let server = http.createServer((request, response) => {
             }) 
             
         }
-    };
-});
-
+}
 //server listen for requests 
 server.listen(port, hostName, () =>{
 });
@@ -251,13 +255,11 @@ function sendOperativePlan(path, requestUrl, response) {
     let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
     let metaData = insideBuilding(coordinates, './Node/Buildings.geojson');
     let resultIndex = search.binarySearch(opArraySorted, metaData.opCoords == null ? coordinates[0] : metaData.opCoords[0], metaData.opCoords == null ? coordinates[1] : metaData.opCoords[1]);
-    console.log(resultIndex);
     let result = {
         opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
         BuildingMetaData: metaData,
         NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, opArraySorted[resultIndex].coordinates) : []
     };
-    console.log(result)
     response.statusCode = 200;
     response.setHeader('Content-Type', 'application/json');
     response.write(JSON.stringify(result, null, 4));
@@ -299,7 +301,6 @@ function fileResponse(filename, res) {
     
     fs.readFile(path, (err, data) => {
         if (err) {
-            console.error(err);
             res.statusCode = 404;
             res.setHeader('Content-Type', 'text/txt');
             res.write("File Error:" + String(err));
@@ -344,44 +345,46 @@ async function updateDatabase (post, res) {
         if (err){
             console.log(err);
         } else {
-           // console.log('Updating JSON');
-            console.log('Post: ', post);
-            opPlanArray = JSON.parse(data);
-            //console.log(opPlanArray.data);
-            opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
-            console.log(opPlanArray.data);
-            let jsonOpPlan = JSON.stringify(opPlanArray, null, 4).replace(/\\\\/g, "/");
-            fs.writeFile('Node/Data/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
-                if (err){
-                    console.log(err);
-                }
-            });
+            writeOpPlanToFile(data, post);
         }
     });
     fs.readFile('./Node/Buildings.geojson', (err, buildings) => {
         if (err){
             console.log(err);
         } else {
-            let buildingArray = JSON.parse(buildings);
-            let buildingIndex = insideBuilding([post.coordinates[0], post.coordinates[1]], './Node/Buildings.geojson').fileIndex;
-            buildingArray.features[buildingIndex].properties.opPlanCoords = [post.coordinates[0], post.coordinates[1]];
-            let updatedArray = JSON.stringify(buildingArray);
-            fs.writeFile('./Node/Buildings.geojson', updatedArray, (err, data) => {
-                if (err){
-                    console.log(err);
-                }
-            })
+            writeBuildingsToFile(buildings, post);
         }
     })
 }
 
+async function writeOpPlanToFile(data, post){
+    let opPlanArray = await JSON.parse(data);
+    opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
+    let jsonOpPlan = JSON.stringify(opPlanArray, null, 4).replace(/\\\\/g, "/");
+    fs.writeFile('Node/Data/dataBase.json', jsonOpPlan, 'utf8', (err, data) => {
+        if (err){
+            console.log(err);
+        }
+    });
+}
+
+async function writeBuildingsToFile(buildings, post){
+    let buildingArray = await JSON.parse(buildings);
+    let buildingIndex = insideBuilding([post.coordinates[0], post.coordinates[1]], './Node/Buildings.geojson').fileIndex;
+    buildingArray.features[buildingIndex].properties.opPlanCoords = [post.coordinates[0], post.coordinates[1]];
+    let updatedArray = JSON.stringify(buildingArray);
+    fs.writeFile('./Node/Buildings.geojson', updatedArray, (err, data) => {
+        if (err){
+            console.log(err);
+        }
+    })
+}
 /* formidable catches the form and parses it
  * then the opPlan object is updated with the values from the form
  * and the database is updated
  * afterwards it redirects back to the page.
  */
 function handleOpPlan(request, response){
-    let floorPlanIncrement = 1;
     let newOpPlan = {
         coordinates: [0, 0],
         address: '',
@@ -413,27 +416,7 @@ function handleOpPlan(request, response){
      * The opPlan Object is updated with its location.
      */
     form.on('fileBegin', (name, file) => {
-        if (name === 'fullOpPlan'){
-            fileName = file.name.replace(/\s/g, '_');
-            file.path = `Node/PublicResources/OperativePDF/${fileName}`;
-            newOpPlan.fullOpPlan = `OperativePDF/${fileName}`;
-        } else if (name === 'buildingOverview'){
-            fileName = file.name.replace(/\s/g, '_');
-            file.path = `Node/PublicResources/buildingOverview/${fileName}`;
-            newOpPlan.buildingOverview = `buildingOverview/${fileName}`;
-        } else if (name === 'floorPlans'){
-            console.log(newOpPlan.address);
-            let folder = newOpPlan.address.replace(/\s/g, '_').replace('æ','ae').replace('ø','oe').replace('å','aa');
-            let dirName = `Node/PublicResources/floorPlans/${folder}`;
-            if (!fs.existsSync(dirName)){
-                fs.mkdirSync(dirName);
-            }
-            file.path = `${dirName}/floor-${floorPlanIncrement}.png`;
-            newOpPlan.floorPlans = `floorPlans/${folder}/`;
-            newOpPlan.floorPlanAmount = floorPlanIncrement;
-            floorPlanIncrement++;
-            newOpPlan.floorPlanAmount = floorPlanIncrement - 1;
-        }
+        handleFiles(name, file, newOpPlan);
     });
 
     form.on('file', (name, file) => {
@@ -444,23 +427,11 @@ function handleOpPlan(request, response){
      * Each field has a name which is used to update the matching key in the object
      */
     form.on('field', (name, field) => {
-        if (isFirefightingEquipment(name)) {
-            newOpPlan.fireFightingEquipment[name] = true;
-        } else if (isCoordinate(name)) {
-            if (name  === 'ncoordinate'){
-                newOpPlan.coordinates[0] = Number(field);
-            }
-
-            if (name  === 'ecoordinate'){
-                newOpPlan.coordinates[1] = Number(field);
-            }
-        } else {
-            newOpPlan[name] = field;
-        }
+        newOpPlan = handleFields(name, field, newOpPlan);
     });
 
     form.on('end', () => {
-        updateDatabase(newOpPlan, response);
+        newOpPlan = updateDatabase(newOpPlan, response);
     });
     
 
@@ -468,6 +439,47 @@ function handleOpPlan(request, response){
         {location: '/uploadOP'
     });
     response.end('\n');
+}
+
+function handleFiles(name, file, newOpPlan){
+    let floorPlanIncrement = 1;
+    if (name === 'fullOpPlan'){
+        fileName = file.name.replace(/\s/g, '_');
+        file.path = `Node/PublicResources/OperativePDF/${fileName}`;
+        newOpPlan.fullOpPlan = `OperativePDF/${fileName}`;
+    } else if (name === 'buildingOverview'){
+        fileName = file.name.replace(/\s/g, '_');
+        file.path = `Node/PublicResources/buildingOverview/${fileName}`;
+        newOpPlan.buildingOverview = `buildingOverview/${fileName}`;
+    } else if (name === 'floorPlans'){
+        let folder = newOpPlan.address.replace(/\s/g, '_').replace('æ','ae').replace('ø','oe').replace('å','aa');
+        let dirName = `Node/PublicResources/floorPlans/${folder}`;
+        if (!fs.existsSync(dirName)){
+            fs.mkdirSync(dirName);
+        }
+        file.path = `${dirName}/floor-${floorPlanIncrement}.png`;
+        newOpPlan.floorPlans = `floorPlans/${folder}/`;
+        newOpPlan.floorPlanAmount = floorPlanIncrement;
+        floorPlanIncrement++;
+    }
+    return newOpPlan;
+}
+
+function handleFields(name, field, newOpPlan){
+    if (isFirefightingEquipment(name)) {
+        newOpPlan.fireFightingEquipment[name] = true;
+    } else if (isCoordinate(name)) {
+        if (name  === 'ncoordinate'){
+            newOpPlan.coordinates[0] = Number(field);
+        }
+
+        if (name  === 'ecoordinate'){
+            newOpPlan.coordinates[1] = Number(field);
+        }
+    } else {
+        newOpPlan[name] = field;
+    }
+    return newOpPlan;
 }
 
 function isCoordinate (name) {

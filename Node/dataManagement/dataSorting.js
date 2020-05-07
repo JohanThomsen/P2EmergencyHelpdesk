@@ -1,5 +1,3 @@
-let opPlanArray;
-
 //lets other files access these functions
 module.exports = {mergeSort, binarySearch, binaryInput};
 
@@ -12,7 +10,7 @@ function mergeSort (unsortedArray) {
     const middle = Math.floor(unsortedArray.length / 2);
   
     // This is where we will be dividing the array into left and right
-    const left = unsortedArray.slice(0, middle);
+    const left =  unsortedArray.slice(0, middle);
     const right = unsortedArray.slice(middle);
   
     // Using recursion to combine the left and right
@@ -70,15 +68,32 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
     let endIndex = oldOpPlanArray.length - 1;
     let middleIndex;
     let index;
-    let breakCheck = false;
-    let j;
 
-    /*console.log(newOpPlan);
-    console.log(oldOpPlanArray);*/
     /* the array is searched using binary search
      * when the value is found it is not returned
      * the value is approx. the right placement for the new value
      */
+
+    middleIndex = binaryFindPlace(startIndex, endIndex, targetN, targetE, oldOpPlanArray, middleIndex);
+    
+    /* The new operative plan is inputted via the middle index
+     * from there the exact position for the plan is found and it is inputted
+     * the other values the shifts one position to give space
+     */ 
+    if (targetN > oldOpPlanArray[middleIndex].coordinates[0]) {
+        index = lookRight(middleIndex, oldOpPlanArray, targetN);
+    }
+
+    if (targetN < oldOpPlanArray[middleIndex].coordinates[0]) {
+        index = lookLeft(middleIndex, oldOpPlanArray, targetN);
+    }
+
+    oldOpPlanArray[index] = newOpPlan;
+    return oldOpPlanArray;
+}
+
+
+function binaryFindPlace(startIndex, endIndex, targetN, targetE, oldOpPlanArray, middleIndex){
     while (startIndex <= endIndex) {
         middleIndex = Math.floor((startIndex + endIndex) / 2);
 
@@ -94,55 +109,35 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
             endIndex = middleIndex - 1;      
         }
     }
-    //console.log(middleIndex);
-    /* The new operative plan is inputted via the middle index
-     * from there the exact position for the plan is found and it is inputted
-     * the other values the shifts one position to give space
-     */ 
-    if (targetN > oldOpPlanArray[middleIndex].coordinates[0]) {
-        //console.log('Looking Right');
-        for (let i = middleIndex; i < oldOpPlanArray.length; i++) {
-            /*console.log(`Middle index: ${middleIndex}`);
-            console.log(`i: ${i}`);*/
-            if (targetN <= oldOpPlanArray[i].coordinates[0]) {
-                for (j = oldOpPlanArray.length - 1; j >=
-                     i; j--) {
-                    //console.log(`j: ${j}`); 
-                    oldOpPlanArray[j+1] = oldOpPlanArray[j];
-                }
-                breakCheck = true;
-            }
-            if(breakCheck){
-                index = i;
-                break;
-            } 
-        }
-    }
-
-    if (targetN < oldOpPlanArray[middleIndex].coordinates[0]) {
-        //console.log('Lookeing Left')
-        for (let i = middleIndex; i > 0; i--) {
-            /*console.log(`Middle index: ${middleIndex}`);
-            console.log(`i: ${i}`);*/
-            if (targetN >= oldOpPlanArray[i].coordinates[0]) {
-                for (j = oldOpPlanArray.length - 1 ; j > i; j--) {
-                    //console.log(`j: ${j}`); 
-                    oldOpPlanArray[j+1] = oldOpPlanArray[j];
-                }
-                breakCheck = true;
-            }
-            if(breakCheck){
-                index = i + 1;
-                break;
-            }         
-        }
-    }
-    /*console.log(`index: ${index}`);
-    console.log('OldOpland', oldOpPlanArray);*/
-    oldOpPlanArray[index] = newOpPlan;
-    //console.log('NewOplanarra', oldOpPlanArray);
-    return oldOpPlanArray;
-    //console.log(opPlanArray);
+    return middleIndex
 }
 
+function lookRight(middleIndex, oldOpPlanArray, targetN){
+    let breakCheck = false;
+    for (let i = middleIndex; i < oldOpPlanArray.length; i++) {
+        if (targetN <= oldOpPlanArray[i].coordinates[0]) {
+            for (let j = oldOpPlanArray.length - 1; j >= i; j--) {
+                oldOpPlanArray[j+1] = oldOpPlanArray[j];
+            }
+            breakCheck = true;
+        }
+        if(breakCheck){
+            return i;
+        } 
+    }
+}
 
+function lookLeft(middleIndex, oldOpPlanArray, targetN){
+    let breakCheck = false;
+    for (let i = middleIndex; i > 0; i--) {
+        if (targetN >= oldOpPlanArray[i].coordinates[0]) {
+            for (j = oldOpPlanArray.length - 1 ; j > i; j--) {
+                oldOpPlanArray[j+1] = oldOpPlanArray[j];
+            }
+            breakCheck = true;
+        }
+        if(breakCheck){
+            return i + 1;
+        }         
+    }
+}
