@@ -27,8 +27,7 @@ function markerFeatures(feature, layer){
 function displayProperties(feature, layer){
     layer.on('mousedown', (e) => {
         document.getElementById("fireinfo").innerHTML ="";
-        //console.log(feature.geometry.coordinates);
-        // Creates a paragraf for each attribute, with padding depending on the amount of attributes
+        // Creates a paragraph for each attribute, with padding depending on the amount of attributes
         for(property in feature.properties) {
             if (property == 'typeFire'){
                 displayFire(feature.properties[property])
@@ -41,18 +40,21 @@ function displayProperties(feature, layer){
     });
 }
 
+/* Writes out the fire info onto the website */
 function displayFire(fire){
     let p = document.createElement("p");
     p.innerHTML = "Type of fire: " + fire;
     document.getElementById("fireinfo").appendChild(p);
 }
 
+/* Writse out the time on the website */
 function displayTime(time){
     let p = document.createElement("p");
     p.innerHTML = "Time: " + time;
     document.getElementById("fireinfo").appendChild(p);
 }
 
+/* Writes out whether or not the fire swas sent by an automated alarm or not */
 function ifAutomaticAlarm(AlarmTrue){
     let p = document.createElement("p");
     p.innerHTML = AlarmTrue ?"Automatic alarm: Yes" : "";
@@ -93,42 +95,24 @@ function fetchPlan(feature, layer){
 // Make this reload the fires live, websocket maybe?
 fetchFireMarkers();
 
-let geojsonLayer;
+let geoJSONLayer;
+/* Gets the locations of the fires from the server and places icon on the map */
 function fetchFireMarkers(){
     fetch("/fires")
     .then((response) => {
         return response.json();
     })
     .then((data) => {
-        geojsonLayer = new L.geoJSON(data, {
+        geoJSONLayer = new L.geoJSON(data, {
             pointToLayer: function (feature, latlng) {
                 return L.marker(latlng, {icon: fireIcon});
             },
             onEachFeature: markerFeatures
         });
-        geojsonLayer.addTo(primaryMap);
+        geoJSONLayer.addTo(primaryMap);
     });
 };
 
-
-function updateInterface(data, currentViewedCoords, primaryMap){
-    displayPlan(data);
-    initDropDown(currentViewedCoords);
-    poly.removeFrom(primaryMap);
-    displayPolygon(data);
-}
-
-let poly
-poly = L.polygon([[0,0][0,0]]); //0,0 polygon to intialise polylayer to avoid clearing of "undefined" first time fetchPlan is run
-function displayPolygon(data){
-    let polyCoords = data.BuildingMetaData.polygon;
-    polyCoords.forEach(element => {
-        element.reverse();
-    });
-    
-    poly = L.polygon(polyCoords);
-    poly.addTo(primaryMap);
-}
 
 //Not need for the program but useful for developing. Delete before exam
 primaryMap.on('click', function(e){
@@ -138,6 +122,7 @@ primaryMap.on('click', function(e){
     console.log("You clicked the map at latitude: [" + lng[0] + ", " + lat[1] + "]");
 });
 
+/* Posts a fire to the server*/
 async function postFire(location, typeFire, time, automaticAlarm, active, id) {
     fetch('/fireAlert', {
         method: 'POST', body: JSON.stringify({
@@ -149,6 +134,15 @@ async function postFire(location, typeFire, time, automaticAlarm, active, id) {
             id: id
         })
     })
+}
+
+function updateInterface(data, currentViewedCoords, primaryMap){
+    displayPlan(data);
+    initDropDown(currentViewedCoords);
+    poly.removeFrom(primaryMap);
+    if (data.BuildingMetaData.fileIndex != -1){
+        displayPolygon(data);
+    }
 }
 
 //init dropdown with commanders 
@@ -166,7 +160,17 @@ async function initDropDown(currentViewedCoords){
     document.getElementById('dropdownDiv').style.display = "block";
 }
 
-
+let poly
+poly = L.polygon([[0,0][0,0]]); //0,0 polygon to intialise polylayer to avoid clearing of "undefined" first time fetchPlan is run
+function displayPolygon(data){
+    let polyCoords = data.BuildingMetaData.polygon;
+    polyCoords.forEach(element => {
+        element.reverse();
+    });
+    
+    poly = L.polygon(polyCoords);
+    poly.addTo(primaryMap);
+}
 
 function assignCommander(id, fireCoords) {
     fetch('http://127.0.0.1:3000/assignCommander', {
@@ -211,7 +215,7 @@ updateSocket.onopen = function (event) {
 }
 
 updateSocket.onmessage = function (event) {
-    geojsonLayer.removeFrom(primaryMap);
+    geoJSONLayer.removeFrom(primaryMap);
     fetchFireMarkers();
 }
 

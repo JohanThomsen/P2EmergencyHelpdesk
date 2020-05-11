@@ -97,6 +97,22 @@
                     57.046604
                 ]
             }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "TestFire",
+                "time": "13:00",
+                "automaticAlarm": true,
+                "active": true
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.93169,
+                    57.047077
+                ]
+            }
         }
     ]
 }

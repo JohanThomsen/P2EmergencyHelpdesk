@@ -10,18 +10,12 @@ function displayPlan(data){
     opPlanHTML = document.getElementById("opPlan");
     initHTML();
 
+     // Checks whether the data arrived, if true, writes the information, otherwise displays an error message
     if (data) {
-         // Checks whether the data arrived, if true, writes the information, otherwise displays an error message
         displayOpPlanHTML(data, opPlanHTML);
-        // Creates nearby warnings if a special consideration exists for any of the nearby buildings
-        // Prints the address of the warning, and the special consideration
         outerAccordion = document.getElementById("Nearby");
         checkForNearbyWarnings(data);
-
-        // After possibly creating/removing accordions for nearby warnings, all accordions must be event enabled to work
         enableAccordion();
-
-        // Creates the download link for the opPlan
         if (data.opPlan.fullOpPlan){
             createDownloadLink(data.opPlan.fullOpPlan);     
         }
@@ -56,7 +50,6 @@ function displayOpPlanHTML(data, opPlanHTML){
     }
 }
 
-
 //Displays the address of the clicked fire at the top
 function displayAddress(data, outerElement){
     let p = document.createElement("p");
@@ -85,11 +78,15 @@ function displayEquip(data, property){
     p.innerHTML = "Consideration: " + data.opPlan.consideration;
     document.getElementById("Equip").appendChild(p);
 }
-
+// Creates nearby warnings if a special consideration exists for any of the nearby buildings
+// Prints the address of the warning, and the special consideration
 function checkForNearbyWarnings(data){
+    let nearbyconsideration = false;
     data.NearbyWarnings.forEach(warning => {
         for (element in warning){ //this needs to be fixed in another way
-            if (element == "specialConsiderations") {nearbyconsideration = true;}
+            if (element == "specialConsiderations") {
+                nearbyconsideration = true;
+            }
         }
     })
 
@@ -123,7 +120,7 @@ function writeOutWarning(property){
         }
     }
 }
-
+// Creates the download link for the opPlan
 function createDownloadLink(PDFpath){
     let a = document.createElement("a");
     a.href = PDFpath;
@@ -144,6 +141,7 @@ function noDownloadLinkWarning(){
     opPlan.insertBefore(p, opPlan.childNodes[2]);
 }
 
+// After possibly creating/removing accordions for nearby warnings, all accordions must be event enabled to work
 function enableAccordion(){
     let acc = document.getElementsByClassName("accordion");
 

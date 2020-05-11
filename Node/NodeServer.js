@@ -126,13 +126,6 @@ function updateCommanderFile(jsonData) {
     });
 }
 
-function NearbyLocation(path, index, coordinates) {
-    let file = fs.readFileSync(path);
-    let opArray = JSON.parse(file).data; //dobbelt arbejde
-    
-    return checkNext(coordinates, index, opArray).concat(checkPrevious(coordinates, index, opArray));
-}
-
 function checkNext(start, index, opArray) {
     let nextX = opArray[index + 1].coordinates[0];
     let nextY = opArray[index + 1].coordinates[1];
@@ -147,9 +140,6 @@ function checkNext(start, index, opArray) {
     }
     return []; 
 }
-
-
-
 
 function checkPrevious(start, index, opArray) {
     let prevX = opArray[index - 1].coordinates[0];
@@ -166,14 +156,6 @@ function checkPrevious(start, index, opArray) {
     return []; 
 }
 
-function SplitData(data) {
-    let coordinates = data[0].split('_');
-    let result = coordinates.map((element) => {
-        return Number(element.replace(';', '.'));
-    })
-    return(result);
-}
-
 //convert binary message to JSON data
 function BinaryToJson(data) {
     let dataString = data.toString();
@@ -184,7 +166,7 @@ function BinaryToJson(data) {
 function CheckFire(jsonData, path) {
     let file = fs.readFileSync(path);
     let json = JSON.parse(file);  
-    let entryValue = EntryExist(json.features, jsonData.location, 'geometry', 'coordinates');
+    let entryValue = entryExist(json.features, jsonData.location, 'geometry', 'coordinates');
     if (jsonData.active == true) {
         if (entryValue.returnValue != true) {
             UpdateFile(jsonData, path);
@@ -193,14 +175,14 @@ function CheckFire(jsonData, path) {
         return;
     } else if(entryValue.returnValue == true) {
         //if it is not active, but exists in the file, it is deleted  
-        DeleteEntry(path, entryValue.indexValue);
+        deleteEntry(path, entryValue.indexValue);
         updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
         return;
     }
 }
 
 //check if an entry exists in an array. 
-function EntryExist(array, searchKey, valueKey1, valueKey2) {
+function entryExist(array, searchKey, valueKey1, valueKey2) {
     let returnValue = false;
     let indexValue;
     array.forEach((element, index)=>{
@@ -237,7 +219,7 @@ function UpdateFile(jsonData, path) {
 }
 
 //delete object in array
-function DeleteEntry(path, index){
+function deleteEntry(path, index){
     fs.readFile(path, (error, data) => {
         let firesArray = JSON.parse(data);
         firesArray.features.splice(index, 1);
@@ -252,7 +234,7 @@ function DeleteEntry(path, index){
 function sendOperativePlan(path, requestUrl, response) {
     let file = fs.readFileSync(path);
     let opArraySorted = JSON.parse(file).data;
-    let coordinates = SplitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
+    let coordinates = splitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
     let metaData = insideBuilding(coordinates, './Node/Buildings.geojson');
     let resultIndex = search.binarySearch(opArraySorted, metaData.opCoords == null ? coordinates[0] : metaData.opCoords[0], metaData.opCoords == null ? coordinates[1] : metaData.opCoords[1]);
     let result = {
@@ -264,6 +246,14 @@ function sendOperativePlan(path, requestUrl, response) {
     response.setHeader('Content-Type', 'application/json');
     response.write(JSON.stringify(result, null, 4));
     response.end('\n');
+}
+
+function splitData(data) {
+    let coordinates = data[0].split('_');
+    let result = coordinates.map((element) => {
+        return Number(element.replace(';', '.'));
+    })
+    return(result);
 }
 
 function insideBuilding(point, geoJsonPath) {
@@ -284,15 +274,18 @@ function insideBuilding(point, geoJsonPath) {
         }
     });
 
-    if (success == false) {
-        buildingIndex = -1; 
-    }
-
-    if (buildingIndex != -1) {
+    if (success === true) {
         return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type, polygon: geoJsonObject.features[buildingIndex].geometry.coordinates[0][0], fileIndex: buildingIndex, opCoords: geoJsonObject.features[buildingIndex].properties.opPlanCoords};
     } else {
-        return {name: '', type: '', polygon: '', fileIndex: ''};
+        return {name: '', type: '', polygon: '', fileIndex: '-1'};
     }
+}
+
+function NearbyLocation(path, index, coordinates) {
+    let file = fs.readFileSync(path);
+    let opArray = JSON.parse(file).data; //dobbelt arbejde
+    
+    return checkNext(coordinates, index, opArray).concat(checkPrevious(coordinates, index, opArray));
 }
 
 //Server fil ting
@@ -371,13 +364,15 @@ async function writeOpPlanToFile(data, post){
 async function writeBuildingsToFile(buildings, post){
     let buildingArray = await JSON.parse(buildings);
     let buildingIndex = insideBuilding([post.coordinates[0], post.coordinates[1]], './Node/Buildings.geojson').fileIndex;
-    buildingArray.features[buildingIndex].properties.opPlanCoords = [post.coordinates[0], post.coordinates[1]];
-    let updatedArray = JSON.stringify(buildingArray);
-    fs.writeFile('./Node/Buildings.geojson', updatedArray, (err, data) => {
-        if (err){
-            console.log(err);
-        }
-    })
+    if (buildingIndex != -1){
+        buildingArray.features[buildingIndex].properties.opPlanCoords = [post.coordinates[0], post.coordinates[1]];
+        let updatedArray = JSON.stringify(buildingArray);
+        fs.writeFile('./Node/Buildings.geojson', updatedArray, (err, data) => {
+            if (err){
+                console.log(err);
+            }
+        });
+    }
 }
 /* formidable catches the form and parses it
  * then the opPlan object is updated with the values from the form

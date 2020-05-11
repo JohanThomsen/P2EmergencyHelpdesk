@@ -1,6 +1,8 @@
 //lets other files access these functions
 module.exports = {mergeSort, binarySearch, binaryInput};
 
+/* Sorts an array using a recursive mergesort function
+ */
 function mergeSort (unsortedArray) {
     // No need to sort the array if the array only has one element or empty
     if (unsortedArray.length <= 1) {
@@ -68,17 +70,11 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
     let endIndex = oldOpPlanArray.length - 1;
     let middleIndex;
     let index;
-
-    /* the array is searched using binary search
-     * when the value is found it is not returned
-     * the value is approx. the right placement for the new value
-     */
-
     middleIndex = binaryFindPlace(startIndex, endIndex, targetN, targetE, oldOpPlanArray, middleIndex);
     
     /* The new operative plan is inputted via the middle index
      * from there the exact position for the plan is found and it is inputted
-     * the other values the shifts one position to give space
+     * the other values then shifts one position to give space
      */ 
     if (targetN > oldOpPlanArray[middleIndex].coordinates[0]) {
         index = lookRight(middleIndex, oldOpPlanArray, targetN);
@@ -92,7 +88,10 @@ function binaryInput(newOpPlan, oldOpPlanArray, targetN, targetE){
     return oldOpPlanArray;
 }
 
-
+/* the array is searched using binary search
+*  when the value is found it is not returned
+*  the value is approx. the right placement for the new value
+*/
 function binaryFindPlace(startIndex, endIndex, targetN, targetE, oldOpPlanArray, middleIndex){
     while (startIndex <= endIndex) {
         middleIndex = Math.floor((startIndex + endIndex) / 2);
@@ -112,6 +111,11 @@ function binaryFindPlace(startIndex, endIndex, targetN, targetE, oldOpPlanArray,
     return middleIndex
 }
 
+/* If the element at middleIndex is smaller than the new element  
+ * the algorithm looks right in the array to find a number that is smaller than
+ * or equal than the new element. It then shifts the array one place from that point
+ * and inputs the new element.
+ */
 function lookRight(middleIndex, oldOpPlanArray, targetN){
     let breakCheck = false;
     for (let i = middleIndex; i < oldOpPlanArray.length; i++) {
@@ -127,6 +131,11 @@ function lookRight(middleIndex, oldOpPlanArray, targetN){
     }
 }
 
+/* If the element at middleIndex is greater than the new element  
+ * the algorithm looks left in the array to find a number that is greater than
+ * or equal than the new element. It then shifts the array one place from that point
+ * and inputs the new element.
+ */
 function lookLeft(middleIndex, oldOpPlanArray, targetN){
     let breakCheck = false;
     for (let i = middleIndex; i > 0; i--) {
