@@ -20,7 +20,8 @@ let server = http.createServer((request, response) => {
         POSTRequests(request, response);
     };
 });
-  //Cases for GET request 
+
+//Cases for GET request 
 function GETRequests(request, response){
     switch (request.url) {
         case '/': 
@@ -61,7 +62,8 @@ function GETRequests(request, response){
         break;
     }  
 }
-  //Cases for POST request 
+
+//Cases for POST request 
 function POSTRequests(request, response){
     switch(request.url){
         case'/fireAlert':
@@ -113,47 +115,18 @@ updateServer.on('request', (request) => {
     }
 });
 
+/* Updates the commander JSON file with inputted coordinates
+ * and such linking a commder with those coordinates */
 function updateCommanderFile(jsonData) {
     let path = './Node/PublicResources/commanderID.json'
     let file = fs.readFileSync(path);
-    let commanderData = JSON.parse(file); //this looks stupid because of size 1 array in json file.
+    let commanderData = JSON.parse(file);
     commanderData.commanders[jsonData.commanderID].coordinates = jsonData.fireCoordinates;
-    console.log(commanderData.commanders[jsonData.commanderID].coordinates)
     fs.writeFile(path, JSON.stringify(commanderData, null, 4), (error) => {
         if (error) {
             throw error;
         }
     });
-}
-
-function checkNext(start, index, opArray) {
-    let nextX = opArray[index + 1].coordinates[0];
-    let nextY = opArray[index + 1].coordinates[1];
-    if (start[0] > nextX - 0.005) {
-        if (start[1] < nextY + 0.005 && start[1] > nextY - 0.005) {
-            for (element in opArray[index + 1]){
-                if (element == "specialConsiderations"){
-                    return nextArray = [opArray[index + 1]].concat(checkNext(start, index+1, opArray));
-                }
-            }
-        }
-    }
-    return []; 
-}
-
-function checkPrevious(start, index, opArray) {
-    let prevX = opArray[index - 1].coordinates[0];
-    let prevY = opArray[index - 1].coordinates[1];
-    if (start[0] < prevX + 0.005) {
-        if (start[1] < prevY + 0.005 && start[1] > prevY - 0.005) {
-            for (element in opArray[index - 1]){
-                if (element == "specialConsiderations"){
-                    return nextArray = [opArray[index - 1]].concat(checkPrevious(start, index - 1, opArray));
-                }
-            }
-        }
-    }
-    return []; 
 }
 
 //convert binary message to JSON data
@@ -195,7 +168,7 @@ function entryExist(array, searchKey, valueKey1, valueKey2) {
     return {returnValue, indexValue};
 }
 
-//update JSON file 
+//update JSON file with new fire
 function UpdateFile(jsonData, path) {
     fs.readFile(path, (error, data) => {
         let firesObject = JSON.parse(data);
@@ -231,6 +204,8 @@ function deleteEntry(path, index){
     });
 }
 
+/* Collects all the data needed do display the operative plan and packages it up into one object,
+ * then sends it back via a response */
 function sendOperativePlan(path, requestUrl, response) {
     let file = fs.readFileSync(path);
     let opArraySorted = JSON.parse(file).data;
@@ -240,7 +215,7 @@ function sendOperativePlan(path, requestUrl, response) {
     let result = {
         opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
         BuildingMetaData: metaData,
-        NearbyWarnings: resultIndex != -1 ? NearbyLocation(path, resultIndex, opArraySorted[resultIndex].coordinates) : []
+        NearbyWarnings: resultIndex != -1 ? NearbyLocation(opArraySorted, resultIndex, opArraySorted[resultIndex].coordinates) : []
     };
     response.statusCode = 200;
     response.setHeader('Content-Type', 'application/json');
@@ -256,6 +231,8 @@ function splitData(data) {
     return(result);
 }
 
+/* Checks if a given coordinate point is within a building and if it is 
+ * returns an object with with info on a polygon and a link to a given operative plan*/
 function insideBuilding(point, geoJsonPath) {
     point = point.reverse(); //
     let geoJsonFile = fs.readFileSync(geoJsonPath);
@@ -281,14 +258,46 @@ function insideBuilding(point, geoJsonPath) {
     }
 }
 
-function NearbyLocation(path, index, coordinates) {
-    let file = fs.readFileSync(path);
-    let opArray = JSON.parse(file).data; //dobbelt arbejde
-    
+/* Checks nearby locations and returns an array of those neaby locations with special considerations */
+function NearbyLocation(opArray, index, coordinates) {  
     return checkNext(coordinates, index, opArray).concat(checkPrevious(coordinates, index, opArray));
 }
 
-//Server fil ting
+/* Recursiviely looks through all nearby building for special considerations
+ * then returns an array of those nearby warnings */
+function checkNext(start, index, opArray) {
+    let nextX = opArray[index + 1].coordinates[0];
+    let nextY = opArray[index + 1].coordinates[1];
+    if (start[0] > nextX - 0.005) {
+        if (start[1] < nextY + 0.005 && start[1] > nextY - 0.005) {
+            for (element in opArray[index + 1]){
+                if (element == "specialConsiderations"){
+                    return nextArray = [opArray[index + 1]].concat(checkNext(start, index+1, opArray));
+                }
+            }
+        }
+    }
+    return []; 
+}
+
+/* Recursiviely looks through all nearby building for special considerations
+ * then returns an array of those nearby warnings */
+function checkPrevious(start, index, opArray) {
+    let prevX = opArray[index - 1].coordinates[0];
+    let prevY = opArray[index - 1].coordinates[1];
+    if (start[0] < prevX + 0.005) {
+        if (start[1] < prevY + 0.005 && start[1] > prevY - 0.005) {
+            for (element in opArray[index - 1]){
+                if (element == "specialConsiderations"){
+                    return nextArray = [opArray[index - 1]].concat(checkPrevious(start, index - 1, opArray));
+                }
+            }
+        }
+    }
+    return []; 
+}
+
+/* Responds with a file of the name inputted */
 function fileResponse(filename, res) {
     const path = publicResources + filename;
     
@@ -307,13 +316,12 @@ function fileResponse(filename, res) {
     });
 }
 
-//better alternative: use require('mmmagic') library
 function guessMimeType(fileName) {
     const fileExtension = fileName.split('.').pop().toLowerCase();
-    const ext2Mime = { //Aught to check with IANA spec
+    const ext2Mime = {
         "txt": "text/txt",
         "html": "text/html",
-        "ico": "image/ico", // CHECK x-icon vs image/vnd.microsoft.icon
+        "ico": "image/ico",
         "js": "text/javascript",
         "json": "application/json",
         "css": 'text/css',
@@ -350,6 +358,8 @@ async function updateDatabase (post, res) {
     })
 }
 
+/* Takes the inputted operative plan and inputs its into a sorted array
+ * into the correct sorted location */
 async function writeOpPlanToFile(data, post){
     let opPlanArray = await JSON.parse(data);
     opPlanArray.data = search.binaryInput(post, opPlanArray.data, post.coordinates[0], post.coordinates[1]);
@@ -361,6 +371,7 @@ async function writeOpPlanToFile(data, post){
     });
 }
 
+/* Takes the operative plan and links it to a building then updates the building file with that link*/
 async function writeBuildingsToFile(buildings, post){
     let buildingArray = await JSON.parse(buildings);
     let buildingIndex = insideBuilding([post.coordinates[0], post.coordinates[1]], './Node/Buildings.geojson').fileIndex;
@@ -407,9 +418,6 @@ function handleOpPlan(request, response){
     let form = new formidable.IncomingForm();
     form.parse(request);
 
-    /* The file is placed in a specified filepath by using (__dirname) and
-     * The opPlan Object is updated with its location.
-     */
     form.on('fileBegin', (name, file) => {
         handleFiles(name, file, newOpPlan);
     });
@@ -418,9 +426,6 @@ function handleOpPlan(request, response){
         console.log(`Uploaded ${file.name}`);
     });
 
-    /* The opPlan object is updated using the field event
-     * Each field has a name which is used to update the matching key in the object
-     */
     form.on('field', (name, field) => {
         newOpPlan = handleFields(name, field, newOpPlan);
     });
@@ -436,6 +441,9 @@ function handleOpPlan(request, response){
     response.end('\n');
 }
 
+/* The files are placed in a specified filepath by using and
+ * The opPlan Object is updated with its location.
+ */
 function handleFiles(name, file, newOpPlan){
     let floorPlanIncrement = 1;
     if (name === 'fullOpPlan'){
@@ -460,6 +468,9 @@ function handleFiles(name, file, newOpPlan){
     return newOpPlan;
 }
 
+/* The opPlan object is updated using the field event
+* Each field has a name which is used to update the matching key in the object
+*/
 function handleFields(name, field, newOpPlan){
     if (isFirefightingEquipment(name)) {
         newOpPlan.fireFightingEquipment[name] = true;
@@ -477,6 +488,7 @@ function handleFields(name, field, newOpPlan){
     return newOpPlan;
 }
 
+/* Checks if the given name is a coordinate field */
 function isCoordinate (name) {
     if (name ===  'ncoordinate' || name === 'ecoordinate') {
         return true;
@@ -485,6 +497,7 @@ function isCoordinate (name) {
     }
 }
 
+/* Checks if the given name is a fire fighting equipment field */
 function isFirefightingEquipment (name) {
     if (name === 'risers'                || 
         name === 'sprinkler'             || 

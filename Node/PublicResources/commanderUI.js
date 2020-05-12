@@ -27,20 +27,12 @@ function login(data) {
     commander.ID = document.getElementById('logInID').value;
     for(id in data.commanders) {
         if (id === commander.ID){
-            initCommanderHTML();
             commander.coords = data.commanders[id].coordinates;
             commanderFound = true;
         }
     }
 
     getAndShowPlan(commander, commanderFound);   
-}
-
-/* Creates HTML needed to show the commander an operative plan */
-function initCommanderHTML(){
-    document.getElementById('opPlan').style.marginRight="4%";
-    document.getElementsByClassName('slideshow-container')[0].style.display="block";
-    document.getElementsByClassName('buildingOverview-container')[0].style.display="block";
 }
 
 /* Gets the operative plan from the server if commander was found, and if not an error message is displayed on the website */
@@ -72,27 +64,48 @@ function fetchPlan(coordinates){
             } else return response.json();              
         })
         .then((data) => {
-            displayPlan(data);
-            displayImages(data.opPlan);
+            console.log(data.opPlan.address);
+            if (typeof(data.opPlan.address) !== "undefined") {
+                initCommanderHTML();
+                displayPlan(data);
+                displayImages(data.opPlan);
+            } else {
+                document.getElementById("ErrorMessage").innerHTML = "No operative plan found for commander";
+                resetHTML();
+            }
          });
 }
 
+/* Creates HTML needed to show the commander an operative plan */
+function initCommanderHTML(){
+    document.getElementById('opPlan').style.marginRight="4%";
+    document.getElementsByClassName('slideshow-container')[0].style.display="block";
+    document.getElementsByClassName('buildingOverview-container')[0].style.display="block";
+}
+
+/* Resets the HTML if no operative plan was found */
+function resetHTML(){
+    document.getElementById('opPlan').style.marginRight="36.5%";
+    document.getElementsByClassName('slideshow-container')[0].style.display="none";
+    document.getElementsByClassName('buildingOverview-container')[0].style.display="none";
+    document.getElementById("buildingOverviewContainer").innerHTML = "";
+    document.getElementById("slideshowContainer").innerHTML = "";
+    initHTML();
+}
+
 /* Displays the various images used on the website */
-function displayImages(data){
-    if (data.floorPlanAmount != 0) {
+function displayImages(opPlan){
+    if (opPlan.floorPlanAmount != 0) {
         initImageHTML();
         let i;
-        let slideAmount = data.floorPlanAmount;
-        let floorPlanSource = data.floorPlans;
+        let slideAmount = opPlan.floorPlanAmount;
+        let floorPlanSource = opPlan.floorPlans;
         for(i = 1; i <= slideAmount; i++){
             createFloorPlanHTML(i, slideAmount, floorPlanSource);
         }
         showSlides(slideIndex);
-    } else {
-        document.getElementById("slideshowContainer").innerHTML =
-        `<h2> No floor plans found </h2>`
     }
-    createBuildingOverViewHTML(data.buildingOverview);
+    createBuildingOverViewHTML(opPlan.buildingOverview);
 }
 
 /* Creates the empty HTML tags needed to show the slideshow of floorplans images */
@@ -107,16 +120,16 @@ function initImageHTML(){
 /* Fills in the images into the empty tags with the source of the images */
 function createFloorPlanHTML(imageIndex, slideAmount, floorPlanSource){
     document.getElementById("slideshow").innerHTML += 
-            `<div class="mySlides">
-                <div class="numbertext">${imageIndex} / ${slideAmount}</div>
-                <img class="image" src="${floorPlanSource}floor-${imageIndex}.png">
-                <div class="text">Floor Plan:</div>
-            </div>`
+        `<div class="mySlides">
+            <div class="numbertext">${imageIndex} / ${slideAmount}</div>
+            <img class="image" src="${floorPlanSource}floor-${imageIndex}.png">
+            <div class="text">Floor Plan:</div>
+        </div>`
 }
 
 /* Creates the HTML needed to dispaly the buildingOverview */
 function createBuildingOverViewHTML(imageSource){
-    document.getElementById("buildingOverviewContainer").innerHTML += 
+    document.getElementById("buildingOverviewContainer").innerHTML = 
         `<div class="buildingOverview">
             <img class="image" src="buildingOverview/${imageSource}">
         </div>`

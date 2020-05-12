@@ -1,11 +1,6 @@
-/*const functions = {
-    displayPlan: (data) => displayPlan(data),
-    enableAccordion: () => enableAccordion(),
-    toggleActive: () => toggleActive()
-};
-// Details for the icon used on the fires
-module.exports = {displayPlan, enableAccordion, toggleActive};*/
-
+/* Takes in the operative plan from the server.
+ * then displays the information from that operative plan on the website
+ */
 function displayPlan(data){
     opPlanHTML = document.getElementById("opPlan");
     initHTML();
@@ -26,6 +21,8 @@ function displayPlan(data){
 
 }
 
+/* Initializes the needed HTML to show the operative plan,
+ * and cleans up so any previous operative plans shown are removed */
 function initHTML(){
     document.getElementById("Generel").innerHTML = "";
     document.getElementById("Equip").innerHTML = "";
@@ -35,6 +32,7 @@ function initHTML(){
     if (document.getElementById("pdf")) document.getElementById("pdf").remove(); 
 }
 
+/* Displays the text from the operative plan */
 function displayOpPlanHTML(data, opPlanHTML){
     for (property in data.opPlan){
         if (property == "address"){
@@ -66,7 +64,7 @@ function displayGenerel(data, property){
     document.getElementById("Generel").appendChild(p);
 }
 
-// 
+//Displays the various firefihting equipment from the operative plan
 function displayEquip(data, property){
     for (item in data.opPlan[property]){
         if (data.opPlan[property][item] == true){
@@ -78,12 +76,13 @@ function displayEquip(data, property){
     p.innerHTML = "Consideration: " + data.opPlan.consideration;
     document.getElementById("Equip").appendChild(p);
 }
+
 // Creates nearby warnings if a special consideration exists for any of the nearby buildings
 // Prints the address of the warning, and the special consideration
 function checkForNearbyWarnings(data){
     let nearbyconsideration = false;
     data.NearbyWarnings.forEach(warning => {
-        for (element in warning){ //this needs to be fixed in another way
+        for (element in warning){
             if (element == "specialConsiderations") {
                 nearbyconsideration = true;
             }
@@ -95,6 +94,7 @@ function checkForNearbyWarnings(data){
     }
 }
 
+/* Takes in the nearby warnings and creates the html for them */
 function displayNearbyWarnings(NearbyWarnings){
     for (property in NearbyWarnings){
         let button = document.createElement("button");
@@ -111,6 +111,7 @@ function displayNearbyWarnings(NearbyWarnings){
     }
 }
 
+/* Writes out the nearbywarning to the website */
 function writeOutWarning(property){
     for (element in property){
         if (element == "specialConsiderations"){
@@ -120,6 +121,7 @@ function writeOutWarning(property){
         }
     }
 }
+
 // Creates the download link for the opPlan
 function createDownloadLink(PDFpath){
     let a = document.createElement("a");
@@ -130,6 +132,7 @@ function createDownloadLink(PDFpath){
     opPlan.insertBefore(a, opPlan.childNodes[3]);
 }  
 
+/* Displays a warning on the website if no operative plans download is available */
 function noDownloadLinkWarning(){
     if (document.getElementById("warning")){
         document.getElementById("warning").remove();
@@ -151,9 +154,9 @@ function enableAccordion(){
     }
 }
 
+/* Toggle between adding and removing the "active" class,
+ * to highlight the button that controls the panel */
 function toggleActive() {
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
     this.classList.toggle("active");
     /* Toggle between hiding and showing the active panel */
     let panel = this.nextElementSibling;
@@ -165,7 +168,8 @@ function toggleActive() {
 }
 enableAccordion();
 
-// From stackoverflow by Steve Hansell
+/* From stackoverflow by Steve Hansell
+ * Function added to the string prototype that capitalizes a string */
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }

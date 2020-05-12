@@ -92,11 +92,10 @@ function fetchPlan(feature, layer){
     });
 }
 // Gets the current fires, loads them onto the map with the display function on click
-// Make this reload the fires live, websocket maybe?
 fetchFireMarkers();
 
 let geoJSONLayer;
-/* Gets the locations of the fires from the server and places icon on the map */
+/* Gets the locations of the fires from the server and places icons on the map */
 function fetchFireMarkers(){
     fetch("/fires")
     .then((response) => {
@@ -136,6 +135,9 @@ async function postFire(location, typeFire, time, automaticAlarm, active, id) {
     })
 }
 
+/* Updates the interface by displaying the operative plan,
+ * initializing the dropdown menu for commanders and if possible,
+ * displays a polygon for current building */
 function updateInterface(data, currentViewedCoords, primaryMap){
     displayPlan(data);
     initDropDown(currentViewedCoords);
@@ -162,6 +164,9 @@ async function initDropDown(currentViewedCoords){
 
 let poly
 poly = L.polygon([[0,0][0,0]]); //0,0 polygon to intialise polylayer to avoid clearing of "undefined" first time fetchPlan is run
+/* Creates the polygon the inputted data exists in 
+ * then displays it on the map.
+ */
 function displayPolygon(data){
     let polyCoords = data.BuildingMetaData.polygon;
     polyCoords.forEach(element => {
@@ -172,6 +177,8 @@ function displayPolygon(data){
     poly.addTo(primaryMap);
 }
 
+/* Sends the operative plan to a commander, by linking fire coordinates
+ * with the coordinates of the fire */
 function assignCommander(id, fireCoords) {
     fetch('http://127.0.0.1:3000/assignCommander', {
         method: 'POST', body: JSON.stringify({
@@ -207,7 +214,7 @@ window.onclick = function(event) {
 
 
 /*Websocket code*/
-/*   for chat   */
+/* Opening a websocket that allows for live updating of the map, when a new fire comes in */
 let updateSocket = new WebSocket('ws://127.0.0.1:3000/update');
 
 updateSocket.onopen = function (event) {
@@ -220,10 +227,10 @@ updateSocket.onmessage = function (event) {
 }
 
 updateSocket.onclose = function(event) {
-    if (document.getElementById("warning")) document.getElementById("warning").remove();
+    if (document.getElementById("connectionWarning")) document.getElementById("connectionWarning").remove();
     let p = document.createElement("p");
     p.innerHTML = "CONNECTION TO SERVER LOST";
-    p.id = "warning";
+    p.id = "connectionWarning";
     p.style.textAlign = "center";
     opPlan.insertBefore(p, opPlan.childNodes[2]);
   };
