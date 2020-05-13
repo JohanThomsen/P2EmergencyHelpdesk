@@ -5,7 +5,7 @@
         {
             "type": "Feature",
             "properties": {
-                "typeFire": "type of fire",
+                "typeFire": "House fire",
                 "time": "10:00",
                 "automaticAlarm": true,
                 "active": true
@@ -21,7 +21,7 @@
         {
             "type": "Feature",
             "properties": {
-                "typeFire": "type of fire",
+                "typeFire": "House fire",
                 "time": "10:00",
                 "automaticAlarm": true,
                 "active": true
@@ -37,7 +37,7 @@
         {
             "type": "Feature",
             "properties": {
-                "typeFire": "type of fire",
+                "typeFire": "House fire",
                 "time": "10:00",
                 "automaticAlarm": true,
                 "active": true
@@ -53,7 +53,7 @@
         {
             "type": "Feature",
             "properties": {
-                "typeFire": "type of fire",
+                "typeFire": "House fire",
                 "time": "10:00",
                 "automaticAlarm": true,
                 "active": true
@@ -69,7 +69,7 @@
         {
             "type": "Feature",
             "properties": {
-                "typeFire": "type of fire",
+                "typeFire": "House fire",
                 "time": "10:00",
                 "automaticAlarm": true,
                 "active": true
@@ -85,7 +85,7 @@
         {
             "type": "Feature",
             "properties": {
-                "typeFire": "type of fire",
+                "typeFire": "House fire",
                 "time": "10:00",
                 "automaticAlarm": true,
                 "active": true
