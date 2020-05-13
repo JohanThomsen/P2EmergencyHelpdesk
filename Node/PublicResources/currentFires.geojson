@@ -8,23 +8,9 @@
                 "typeFire": "type of fire",
                 "time": "10:00",
                 "automaticAlarm": true,
-                "active": true
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    9.93207,
-                    57.046799
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "typeFire": "type of fire",
-                "time": "10:00",
-                "automaticAlarm": true,
-                "active": true
+                "active": true,
+                "id": 2,
+                "assignedCommanders": []
             },
             "geometry": {
                 "type": "Point",
@@ -40,7 +26,9 @@
                 "typeFire": "type of fire",
                 "time": "10:00",
                 "automaticAlarm": true,
-                "active": true
+                "active": true,
+                "id": 3,
+                "assignedCommanders": []
             },
             "geometry": {
                 "type": "Point",
@@ -56,7 +44,13 @@
                 "typeFire": "type of fire",
                 "time": "10:00",
                 "automaticAlarm": true,
-                "active": true
+                "active": true,
+                "id": 4,
+                "assignedCommanders": [
+                    23,
+                    42,
+                    23
+                ]
             },
             "geometry": {
                 "type": "Point",
@@ -72,7 +66,9 @@
                 "typeFire": "type of fire",
                 "time": "10:00",
                 "automaticAlarm": true,
-                "active": true
+                "active": true,
+                "id": 5,
+                "assignedCommanders": []
             },
             "geometry": {
                 "type": "Point",
@@ -88,7 +84,9 @@
                 "typeFire": "type of fire",
                 "time": "10:00",
                 "automaticAlarm": true,
-                "active": true
+                "active": true,
+                "id": 6,
+                "assignedCommanders": []
             },
             "geometry": {
                 "type": "Point",
@@ -104,7 +102,9 @@
                 "typeFire": "TestFire",
                 "time": "13:00",
                 "automaticAlarm": true,
-                "active": true
+                "active": true,
+                "id": 7,
+                "assignedCommanders": []
             },
             "geometry": {
                 "type": "Point",
@@ -120,13 +120,33 @@
                 "typeFire": "type of fire",
                 "time": "10:00",
                 "automaticAlarm": true,
-                "active": true
+                "active": true,
+                "id": 8,
+                "assignedCommanders": []
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
                     9.931135,
                     57.048107
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "type of fire",
+                "time": "10:00",
+                "automaticAlarm": true,
+                "active": true,
+                "id": 9,
+                "assignedCommanders": []
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.93207,
+                    57.046799
                 ]
             }
         }

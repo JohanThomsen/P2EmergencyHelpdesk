@@ -91,8 +91,9 @@ function POSTRequests(request, response){
             })
             .then((jsonData) => {
                 updateCommanderFile(jsonData);
-            }) 
-            
+            });
+            response.statusCode = 200;
+            response.end('\n'); 
         }
 }
 //server listen for requests 
@@ -108,7 +109,7 @@ let updateServer = new webSocketServer.server({
 });
   
 updateServer.on('request', (request) => {
-    let conenction = request.accept(null, request.origin);
+    let connection = request.accept(null, request.origin);
     
     updatePing = function(){
         updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
@@ -119,13 +120,28 @@ updateServer.on('request', (request) => {
 /* Updates the commander JSON file with inputted coordinates
  * and such linking a commder with those coordinates */
 function updateCommanderFile(jsonData) {
-    let path = './Node/PublicResources/commanderID.json'
-    let file = fs.readFileSync(path);
-    let commanderData = JSON.parse(file);
+    let commanderPath = './Node/PublicResources/commanderID.json'
+    let firePath      = './Node/PublicResources/currentFires.geojson'
+    let commanderFile = fs.readFileSync(commanderPath);
+    let fireFile      = fs.readFileSync(firePath);
+    let commanderData = JSON.parse(commanderFile);
+    let fireData      = JSON.parse(fireFile);
     commanderData.commanders[jsonData.commanderID].coordinates = jsonData.fireCoordinates;
-    fs.writeFile(path, JSON.stringify(commanderData, null, 4), (error) => {
+    fs.writeFile(commanderPath, JSON.stringify(commanderData, null, 4), (error) => {
         if (error) {
             throw error;
+        }
+    });
+
+    fireData.features.forEach(element => {
+        if (element.properties.id === jsonData.fireID) {
+            element.properties.assignedCommanders.push(jsonData.commanderID);
+            fs.writeFile(firePath, JSON.stringify(fireData, null, 4), (error) =>{
+                if(error) {
+                    throw error;
+                }
+            })
+            updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
         }
     });
 }
@@ -175,10 +191,12 @@ function UpdateFile(jsonData, path) {
         let firesObject = JSON.parse(data);
         firesObject.features.push({ "type": "Feature",
                                     "properties": {
-                                        "typeFire"      : jsonData.typeFire, 
-                                        "time"          : jsonData.time, 
-                                        "automaticAlarm": jsonData.automaticAlarm, 
-                                        "active"        : jsonData.active
+                                        "typeFire"           : jsonData.typeFire, 
+                                        "time"               : jsonData.time, 
+                                        "automaticAlarm"     : jsonData.automaticAlarm, 
+                                        "active"             : jsonData.active,
+                                        "id"                 : firesObject.features[firesObject.features.length-1].properties.id + 1,
+                                        "assignedCommanders" : []
                                     }, 
                                     "geometry": {
                                         "type"       : "Point", 

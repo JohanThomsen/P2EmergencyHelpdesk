@@ -64,7 +64,6 @@ function fetchPlan(coordinates){
             } else return response.json();              
         })
         .then((data) => {
-            console.log(data.opPlan.address);
             if (typeof(data.opPlan.address) !== "undefined") {
                 initCommanderHTML();
                 displayPlan(data);
