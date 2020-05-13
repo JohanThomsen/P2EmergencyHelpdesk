@@ -109,7 +109,16 @@ function fetchFireMarkers(){
             onEachFeature: markerFeatures
         });
         geoJSONLayer.addTo(primaryMap);
-    });
+    })
+    .then(() => {
+        let markers = document.getElementsByClassName("leaflet-marker-pane")[0].children;
+        markerArray = Array.from(markers);
+        console.log(markerArray);
+        markerArray.forEach((element, index)=>{
+            element.setAttribute("id", "fire"+index);
+        });
+    })
+   
 };
 
 
