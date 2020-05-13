@@ -98,6 +98,7 @@ function POSTRequests(request, response){
 //server listen for requests 
 server.listen(port, hostName, () =>{
 });
+console.log('server running');
 
 /*  Websocket code      */
 /*   for map update     */
