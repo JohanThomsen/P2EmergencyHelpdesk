@@ -161,9 +161,14 @@ function toggleActive() {
     /* Toggle between hiding and showing the active panel */
     let panel = this.nextElementSibling;
     if (panel.style.display === "none") {
-    panel.style.display = "block";
+        panel.style.display = "block";
+        if (this.innerHTML[0] == "+") this.innerHTML = "- " + this.innerHTML.slice(2);
     } else {
-    panel.style.display = "none";
+        panel.style.display = "none";
+        if (this.innerHTML[0] == "-") this.innerHTML = "+ " + this.innerHTML.slice(2);
+    }
+    if (panel.innerHTML == true){
+        this.innerHTML = this.innerHTML.slice(2);
     }
 }
 enableAccordion();
