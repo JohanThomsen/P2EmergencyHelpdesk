@@ -60,7 +60,19 @@ function displayAddress(data, outerElement){
 // Displays all the generel data for the fire in the relevant accordion
 function displayGenerel(data, property){
     let p = document.createElement("p");
-    p.innerHTML = property.capitalize() + ": " + data.opPlan[property];
+    switch (property) {
+        case "buildingDefinition":
+            p.innerHTML = "Building Definition: " + data.opPlan[property];
+            break;
+        case "usage":
+            p.innerHTML = "Building Usage: " + data.opPlan[property];
+            break;
+        case "height":
+            p.innerHTML = "Building Height (meters): " + data.opPlan[property];
+            break;
+        case "specialConsiderations":
+            p.innerHTML = "Special Considerations: " + data.opPlan[property];
+    }
     document.getElementById("Generel").appendChild(p);
 }
 
@@ -69,12 +81,34 @@ function displayEquip(data, property){
     for (item in data.opPlan[property]){
         if (data.opPlan[property][item] == true){
         let p = document.createElement("p");
-        p.innerHTML = item.capitalize();
+        p.innerHTML = findEquipmentName(item);
         document.getElementById("Equip").appendChild(p);
     }}
     let p = document.createElement("p");
-    p.innerHTML = "Consideration: " + data.opPlan.consideration;
+    p.innerHTML = "Details: " + data.opPlan.consideration;
     document.getElementById("Equip").appendChild(p);
+}
+
+// Finds the equipment name based on the property
+function findEquipmentName(equipment){
+    let equipmentName;
+    switch (equipment) {
+        case "risers": 
+        case "sprinkler": 
+        case "markers":
+            equipmentName = equipment.capitalize();
+            break;
+        case "escapeStairs":
+            equipmentName = "Escape Stairs";
+            break;
+        case "fireLift":
+            equipmentName = "Fire Lift";
+            break;
+        case "smokeDetectors":
+            equipmentName = "Smoke Detectors";
+            break;
+    }
+    return equipmentName;
 }
 
 // Creates nearby warnings if a special consideration exists for any of the nearby buildings
@@ -116,7 +150,7 @@ function writeOutWarning(property){
     for (element in property){
         if (element == "specialConsiderations"){
             let p = document.createElement("p");
-            p.innerHTML = element.capitalize() + ": " + property[element];
+            p.innerHTML = "Special Considerations: " + property[element];
             document.getElementById(property.address).appendChild(p);
         }
     }
