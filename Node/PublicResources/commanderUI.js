@@ -96,9 +96,9 @@ function resetHTML(){
 /* Displays the various images used on the website */
 function displayImages(opPlan){
     if (opPlan.floorPlanAmount != 0) {
-        initImageHTML();
         let i;
         let slideAmount = opPlan.floorPlanAmount;
+        initImageHTML(slideAmount);
         let floorPlanSource = opPlan.floorPlans;
         for(i = 1; i <= slideAmount; i++){
             createFloorPlanHTML(i, slideAmount, floorPlanSource);
@@ -109,12 +109,15 @@ function displayImages(opPlan){
 }
 
 /* Creates the empty HTML tags needed to show the slideshow of floorplans images */
-function initImageHTML(){
+function initImageHTML(slideAmount){
     document.getElementById("slideshowContainer").innerHTML = 
     `<div class="imageContainer" id = "slideshow">
-    </div>
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>`
+    </div>`
+    if (slideAmount != 1) {
+        document.getElementById("slideshowContainer").innerHTML += 
+        `<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>`
+    }
 }
 
 /* Fills in the images into the empty tags with the source of the images */
