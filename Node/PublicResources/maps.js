@@ -40,9 +40,11 @@ function markerFeatures(feature, layer){
     displayProperties(feature, layer);
     markerView(feature, layer);
     fetchPlan(feature, layer, feature.properties.id);
+    
 }
 // Gets the building properties from the marker and displays them in the box
 function displayProperties(feature, layer){
+
     layer.on('mousedown', (e) => {
         document.getElementById("fireinfo").innerHTML ="";
         // Creates a paragraph for each attribute, with padding depending on the amount of attributes
@@ -67,7 +69,7 @@ function displayFire(fire){
     document.getElementById("fireinfo").appendChild(p);
 }
 
-/* Writse out the time on the website */
+/* Writes out the time on the website */
 function displayTime(time){
     let p = document.createElement("p");
     p.innerHTML = "Time: " + time;
@@ -82,13 +84,14 @@ function ifAutomaticAlarm(AlarmTrue){
 }
 
 async function displayAssignedCommander(commanderArray){
+    console.log('display assigned commander');
     let response = await fetch("/commanderID.json");
     let data = await response.json();
     let commanderList = data.commanders;
-
+    document.getElementById("assignedCommanders").innerHTML = "";
     for (let index = 0; index < commanderArray.length; index++) {
         document.getElementById('assignedCommanders').innerHTML += 
-        `${commanderList.commanderID.commanderName} <br>`
+        `${commanderList[commanderArray[index]].commanderName} <br>`
         
     }
 }
@@ -134,19 +137,6 @@ primaryMap.on('click', function(e){
     console.log("You clicked the map at latitude: [" + lng[0] + ", " + lat[1] + "]");
 });
 
-/* Posts a fire to the server*/
-async function postFire(location, typeFire, time, automaticAlarm, active) {
-    fetch('/fireAlert', {
-        method: 'POST', body: JSON.stringify({
-            location: location,
-            typeFire: typeFire,
-            time: time,
-            automaticAlarm: automaticAlarm,
-            active: active
-        })
-    })
-}
-
 /* Updates the interface by displaying the operative plan,
  * initializing the dropdown menu for commanders and if possible,
  * displays a polygon for current building */
@@ -168,24 +158,16 @@ async function initDropDown(currentViewedCoords, fireID){
     dropDownElement = document.getElementById('myDropdown');
     htmlString = '';
     keys.forEach((element) => {
-        htmlString += `<a href="#" onclick="assignCommander(${element}, [${currentViewedCoords}], ${fireID})">${commanderList[element].commanderName}</a>`;
+        htmlString += `<a href="#" onclick="assignCommander(${element},
+                                               [${currentViewedCoords}], 
+                                                ${fireID}, 
+                                                '${commanderList[element].commanderName}')">
+                                                ${commanderList[element].commanderName}</a>`;
     })
     dropDownElement.innerHTML = htmlString;
     document.getElementById('dropdownDiv').style.display = "block";
 }
 
-
-/* Sends the operative plan to a commander, by linking fire coordinates
- * with the coordinates of the fire */
-function assignCommander(id, fireCoords, fireID) {
-    fetch('http://127.0.0.1:3000/assignCommander', {
-        method: 'POST', body: JSON.stringify({
-            commanderID: id,
-            fireCoordinates: fireCoords,
-            fireID: fireID
-        })
-    });
-}
 
 let poly
 poly = L.polygon([[0,0][0,0]]); 

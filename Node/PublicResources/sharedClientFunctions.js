@@ -168,6 +168,45 @@ function toggleActive() {
 }
 enableAccordion();
 
+/* Posts a fire to the server*/
+async function postFire(location, typeFire, time, automaticAlarm, active) {
+    console.log(location);
+    fetch('/fireAlert', {
+        method: 'POST', body: JSON.stringify({
+            location: location,
+            typeFire: typeFire,
+            time: time,
+            automaticAlarm: automaticAlarm,
+            active: active
+        })
+    })
+}
+
+/* Sends the operative plan to a commander, by linking fire coordinates
+ * with the coordinates of the fire */
+function assignCommander(id, fireCoords, fireID, name) {
+    document.getElementById('assignedCommanders').innerHTML += 
+        `${name} <br>`
+    fetch('http://127.0.0.1:3000/assignCommander', {
+        method: 'POST', body: JSON.stringify({
+            commanderID: id,
+            fireCoordinates: fireCoords,
+            fireID: fireID
+        })
+    });
+}
+
+function removeFireFromCommander(id) {
+    console.log(id);
+    fetch('http://127.0.0.1:3000/assignCommander', {
+        method: 'POST', body: JSON.stringify({
+            commanderID: id,
+            fireCoordinates: [0,0],
+            fireID: 0
+        })
+    });
+}
+
 /* From stackoverflow by Steve Hansell
  * Function added to the string prototype that capitalizes a string */
 String.prototype.capitalize = function() {

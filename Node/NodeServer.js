@@ -134,9 +134,10 @@ function updateCommanderFile(jsonData) {
     });
 
     fireData.features.forEach(element => {
-        if (element.properties.id === jsonData.fireID) {
+        if (element.properties.id === jsonData.fireID &&
+            !element.properties.assignedCommanders.includes(jsonData.commanderID)) {
             element.properties.assignedCommanders.push(jsonData.commanderID);
-            fs.writeFile(firePath, JSON.stringify(fireData, null, 4), (error) =>{
+            fs.writeFileSync(firePath, JSON.stringify(fireData, null, 4), (error) =>{
                 if(error) {
                     throw error;
                 }
@@ -195,7 +196,7 @@ function UpdateFile(jsonData, path) {
                                         "time"               : jsonData.time, 
                                         "automaticAlarm"     : jsonData.automaticAlarm, 
                                         "active"             : jsonData.active,
-                                        "id"                 : firesObject.features[firesObject.features.length-1].properties.id + 1,
+                                        "id"                 : ifEmptyID(firesObject.features[firesObject.features.length-1])+ 1,
                                         "assignedCommanders" : []
                                     }, 
                                     "geometry": {
@@ -210,6 +211,13 @@ function UpdateFile(jsonData, path) {
     });
 }
 
+function ifEmptyID(id){
+    if (id == undefined){
+        return 0;
+    } else {
+        return id;
+    }
+}
 //delete object in array
 function deleteEntry(path, index){
     fs.readFile(path, (error, data) => {
@@ -271,7 +279,11 @@ function insideBuilding(point, geoJsonPath) {
     });
 
     if (success === true) {
-        return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type, polygon: geoJsonObject.features[buildingIndex].geometry.coordinates[0][0], fileIndex: buildingIndex, opCoords: geoJsonObject.features[buildingIndex].properties.opPlanCoords};
+        return {name     : geoJsonObject.features[buildingIndex].properties.name,
+                type     : geoJsonObject.features[buildingIndex].properties.type,
+                polygon  : geoJsonObject.features[buildingIndex].geometry.coordinates[0][0], 
+                fileIndex: buildingIndex, 
+                opCoords : geoJsonObject.features[buildingIndex].properties.opPlanCoords};
     } else {
         return {name: '', type: '', polygon: '', fileIndex: '-1'};
     }

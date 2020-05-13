@@ -4,6 +4,8 @@
 /* Calls the server for a list of all commanders.
  * Then passes that information on to the rest of the program
  */
+let errorCode;
+let commanderID;
 function fetchCommanders(){
     fetch("/commanderList")
         .then((response) => {
@@ -25,10 +27,16 @@ function login(data) {
         coords: []
     };
     commander.ID = document.getElementById('logInID').value;
+    commanderID = commander.ID;
     for(id in data.commanders) {
         if (id === commander.ID){
             commander.coords = data.commanders[id].coordinates;
-            commanderFound = true;
+            if(commander.coords[0] == 0){
+                commanderFound = false;
+                errorCode = 0;
+            } else {
+                commanderFound = true;
+            }
         }
     }
 
@@ -41,7 +49,11 @@ function getAndShowPlan(commander, commanderFound){
         fetchPlan(commander.coords);
         document.getElementById("ErrorMessage").innerHTML = ``;
     } else {
-        document.getElementById("ErrorMessage").innerHTML = `Commander ID not found`;
+        if (errorCode != 0){
+            printErrors(1);
+        } else {
+            printErrors(0);
+        }
     } 
 }
 
@@ -68,8 +80,10 @@ function fetchPlan(coordinates){
                 initCommanderHTML();
                 displayPlan(data);
                 displayImages(data.opPlan);
+                console.log(data.BuildingMetaData.opCoords);
+                displayResolveButton(data.BuildingMetaData.opCoords);
             } else {
-                document.getElementById("ErrorMessage").innerHTML = "No operative plan found for commander";
+                printErrors(2);
                 resetHTML();
             }
          });
@@ -137,6 +151,20 @@ function createBuildingOverViewHTML(imageSource){
         </div>`
 }
 
+function displayResolveButton(coordinates){
+    console.log(coordinates);
+    document.getElementById("resolveFire").innerHTML = 
+    `<button type="button" id = "resolveButton" onclick="resolveFire([${coordinates}])">Resolve Fire</button>`
+}
+
+function resolveFire(coordinates){
+    console.log(coordinates);
+    let flippedCoordinates = coordinates.reverse();
+    postFire(flippedCoordinates, null, null, null, false);
+    removeFireFromCommander(commanderID);
+    location.reload();
+}
+
 // Next/previous controls
 function plusSlides(n) {
     showSlides(slideIndex += n);
@@ -157,4 +185,22 @@ function showSlides(n) {
         slides[i].style.display = "none";
     }
     slides[slideIndex-1].style.display = "block";
+}
+
+function printErrors(errorCode){
+    switch (errorCode) {
+        case 0:
+            document.getElementById("ErrorMessage").innerHTML = `Operative Plan Resolved`;
+            break;
+        
+        case 1:
+            document.getElementById("ErrorMessage").innerHTML = `Commander ID not found`;
+            break;
+    
+        case 2:
+            document.getElementById("ErrorMessage").innerHTML = "No operative plan found for commander";
+            break;
+        default:
+            break;
+    }
 }
