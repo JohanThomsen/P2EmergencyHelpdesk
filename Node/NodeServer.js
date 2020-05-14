@@ -240,7 +240,7 @@ function UpdateFile(jsonData, path) {
                                         "time"               : jsonData.time, 
                                         "automaticAlarm"     : jsonData.automaticAlarm, 
                                         "active"             : jsonData.active,
-                                        "id"                 : incrementID(firesObject.features[firesObject.features.length-1].properties.id) + 1,
+                                        "id"                 : incrementID(firesObject),
                                         "assignedCommanders" : []
                                     }, 
                                     "geometry": {
@@ -255,11 +255,11 @@ function UpdateFile(jsonData, path) {
     });
 }
 
-function incrementID(id){
-    if (id == undefined){
+function incrementID(firesObject){
+    if (firesObject.features[0] == undefined) {
         return 0;
     } else {
-        return id;
+        return firesObject.features[firesObject.features.length-1].properties.id + 1;
     }
 }
 //delete object in array

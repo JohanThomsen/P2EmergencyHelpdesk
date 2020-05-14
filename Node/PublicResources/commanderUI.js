@@ -55,7 +55,7 @@ function getAndShowPlan(commander, commanderFound){
         if (errorCode != 0){
             printErrors(1);
         } else {
-            printErrors(0);
+            printErrors(0, commander.commanderName);
         }
     } 
 }

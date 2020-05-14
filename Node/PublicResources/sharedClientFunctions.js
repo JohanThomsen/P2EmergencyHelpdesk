@@ -209,10 +209,10 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-function printErrors(errorCode){
+function printErrors(errorCode, name){
     switch (errorCode) {
         case 0:
-            document.getElementById("ErrorMessage").innerHTML = `Operative Plan Resolved`;
+            document.getElementById("ErrorMessage").innerHTML = `${name} is not assigned to any fires`;
             break;
         
         case 1:
@@ -220,7 +220,7 @@ function printErrors(errorCode){
             break;
     
         case 2:
-            document.getElementById("ErrorMessage").innerHTML = "No operative plan found for commander";
+            document.getElementById("ErrorMessage").innerHTML = `No operative plan found for commander`;
             break;
         
         case 3:
