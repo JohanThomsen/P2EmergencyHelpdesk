@@ -149,3 +149,5 @@ input[type=number], select {
     width: 12em;
     float: left;
 }
+
+#mapArea { height: 180px; }

@@ -102,7 +102,42 @@ function POSTRequests(request, response){
             })
             .then((jsonData) => {
                 removeFireFromCommander(jsonData, response);
-            });   
+            }); 
+        break;
+            
+        case ('/validateInside'):
+            let buildingIndex;
+            new Promise((resolve, reject) => {
+                request.on('data', (data) => {
+                    resolve(BinaryToJson(data));
+                });
+            })
+            .then((jsonData) => {
+                console.log(jsonData.coords)
+                buildingIndex = insideBuilding(jsonData.coords, './Node/Buildings.geojson').fileIndex;
+                
+                console.log(buildingIndex)
+
+                if (buildingIndex != -1){
+                    response.statusCode = 200;
+                    //response.setHeader('Content-Type', );
+                    response.write(JSON.stringify({result: true}));
+                    response.end('\n');
+                }
+                else{
+                    response.statusCode = 200;
+                    //response.setHeader('Content-Type', );
+                    response.write(JSON.stringify({result: false}));
+                    response.end('\n');
+                }
+            });
+            // response.statusCode = 200;
+            // //response.setHeader('Content-Type', );
+            // response.write(JSON.stringify({result: false}));
+            // response.end('\n');
+
+        break;
+
         }
 }
 
