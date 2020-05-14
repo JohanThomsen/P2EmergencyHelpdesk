@@ -202,13 +202,6 @@ function assignCommander(id, fireCoords, fireID, name) {
     })) 
 }
 
-function removeFireFromCommander(fireCoordinates) {
-    fetch('http://127.0.0.1:3000/removeFireFromCommander', {
-        method: 'POST', body: JSON.stringify({
-            fireCoordinates: fireCoordinates
-        })
-    });
-}
 
 /* From stackoverflow by Steve Hansell
  * Function added to the string prototype that capitalizes a string */
