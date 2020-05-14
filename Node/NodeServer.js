@@ -110,10 +110,7 @@ function removeFireFromCommander(jsonData, response){
     let commanderPath = './Node/PublicResources/commanderID.json'
     let commanderFile = fs.readFileSync(commanderPath);
     let commanderData = JSON.parse(commanderFile);
-    console.log(jsonData.fireCoordinates);
     Object.keys(commanderData.commanders).forEach((key) => {
-        console.log(key);
-        console.log(commanderData.commanders[key].coordinates);
         if(commanderData.commanders[key].coordinates[0] == jsonData.fireCoordinates[0]) {
             commanderData.commanders[key].coordinates = [0,0];
         }
