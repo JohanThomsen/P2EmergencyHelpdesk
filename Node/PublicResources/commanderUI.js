@@ -4,6 +4,9 @@
 /* Calls the server for a list of all commanders.
  * Then passes that information on to the rest of the program
  */
+let errorCode;
+let commanderID;
+let fireCoordinates;
 function fetchCommanders(){
     fetch("/commanderList")
         .then((response) => {
@@ -19,16 +22,24 @@ function fetchCommanders(){
  * If one is found HTML is created to show an operative plan
  */
 function login(data) {
+    errorCode = -1;
     let commanderFound = false;
     let commander = {
         ID: "",
         coords: []
     };
     commander.ID = document.getElementById('logInID').value;
+    commanderID = commander.ID;
     for(id in data.commanders) {
         if (id === commander.ID){
             commander.coords = data.commanders[id].coordinates;
-            commanderFound = true;
+            fireCoordinates = commander.coords;
+            if(commander.coords[0] === 0){
+                commanderFound = false;
+                errorCode = 0;
+            } else {
+                commanderFound = true;
+            }
         }
     }
 
@@ -41,7 +52,11 @@ function getAndShowPlan(commander, commanderFound){
         fetchPlan(commander.coords);
         document.getElementById("ErrorMessage").innerHTML = ``;
     } else {
-        document.getElementById("ErrorMessage").innerHTML = `Commander ID not found`;
+        if (errorCode != 0){
+            printErrors(1);
+        } else {
+            printErrors(0);
+        }
     } 
 }
 
@@ -64,13 +79,13 @@ function fetchPlan(coordinates){
             } else return response.json();              
         })
         .then((data) => {
-            console.log(data.opPlan.address);
             if (typeof(data.opPlan.address) !== "undefined") {
                 initCommanderHTML();
                 displayPlan(data);
                 displayImages(data.opPlan);
+                displayResolveButton();
             } else {
-                document.getElementById("ErrorMessage").innerHTML = "No operative plan found for commander";
+                printErrors(2);
                 resetHTML();
             }
          });
@@ -136,6 +151,17 @@ function createBuildingOverViewHTML(imageSource){
         `<div class="buildingOverview">
             <img class="image" src="buildingOverview/${imageSource}">
         </div>`
+}
+
+function displayResolveButton(){
+    document.getElementById("resolveFire").innerHTML = 
+    `<button type="button" id = "resolveButton" onclick="resolveFire([${fireCoordinates}])">Resolve Fire</button>`
+}
+
+function resolveFire(coordinates){
+    postFire(coordinates, null, null, null, false);
+    removeFireFromCommander(coordinates);
+    location.reload();
 }
 
 // Next/previous controls

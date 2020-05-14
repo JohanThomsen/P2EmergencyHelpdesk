@@ -207,8 +207,71 @@ function toggleActive() {
 }
 enableAccordion();
 
+/* Posts a fire to the server*/
+async function postFire(location, typeFire, time, automaticAlarm, active) {
+    console.log(location);
+    fetch('/fireAlert', {
+        method: 'POST', body: JSON.stringify({
+            location: location,
+            typeFire: typeFire,
+            time: time,
+            automaticAlarm: automaticAlarm,
+            active: active
+        })
+    })
+}
+
+/* Sends the operative plan to a commander, by linking fire coordinates
+ * with the coordinates of the fire */
+function assignCommander(id, fireCoords, fireID, name) {
+    fetch('http://127.0.0.1:3000/assignCommander', {
+        method: 'POST', body: JSON.stringify({
+            commanderID: id,
+            fireCoordinates: fireCoords,
+            fireID: fireID
+        })
+    })
+    .then((response => {
+        if (response.status == 405) {
+            printErrors(3);
+        } else {
+            document.getElementById('assignedCommanders').innerHTML += 
+            `${name} <br>`
+        }
+    })) 
+}
+
+function removeFireFromCommander(fireCoordinates) {
+    fetch('http://127.0.0.1:3000/removeFireFromCommander', {
+        method: 'POST', body: JSON.stringify({
+            fireCoordinates: fireCoordinates
+        })
+    });
+}
+
 /* From stackoverflow by Steve Hansell
  * Function added to the string prototype that capitalizes a string */
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+function printErrors(errorCode){
+    switch (errorCode) {
+        case 0:
+            document.getElementById("ErrorMessage").innerHTML = `Operative Plan Resolved`;
+            break;
+        
+        case 1:
+            document.getElementById("ErrorMessage").innerHTML = `Commander ID not found`;
+            break;
+    
+        case 2:
+            document.getElementById("ErrorMessage").innerHTML = "No operative plan found for commander";
+            break;
+        
+        case 3:
+            document.getElementById("assignedCommanders").innerHTML += " Commander already dispatched";
+        default:
+            break;
+    }
 }

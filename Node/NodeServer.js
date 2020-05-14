@@ -90,10 +90,44 @@ function POSTRequests(request, response){
                 });
             })
             .then((jsonData) => {
-                updateCommanderFile(jsonData);
-            }) 
-            
+                updateCommanderFile(jsonData, response);
+            });
+        break;     
+
+        case '/removeFireFromCommander':
+            new Promise((resolve, reject) => {
+                request.on('data', (data) => {
+                    resolve(BinaryToJson(data));
+                });
+            })
+            .then((jsonData) => {
+                removeFireFromCommander(jsonData, response);
+            });   
         }
+}
+
+function removeFireFromCommander(jsonData, response){
+    let commanderPath = './Node/PublicResources/commanderID.json'
+    let commanderFile = fs.readFileSync(commanderPath);
+    let commanderData = JSON.parse(commanderFile);
+
+    
+
+    console.log(commanderData);
+    for (element in commanderData.commanders) {
+        console.log(element);
+        console.log(element.coordinates);
+        if (element.coordinates == jsonData.fireCoordinates) {
+            commanderData.commanders[jsonData.fireCoordinates].coordinates = [0,0];
+        }
+    } 
+    fs.writeFile(commanderPath, JSON.stringify(commanderData, null, 4), (error) => {
+        if (error) {
+            throw error;
+        }
+    });
+    response.statusCode = 200;
+    response.end('\n')    
 }
 //server listen for requests 
 server.listen(port, hostName, () =>{
@@ -108,7 +142,7 @@ let updateServer = new webSocketServer.server({
 });
   
 updateServer.on('request', (request) => {
-    let conenction = request.accept(null, request.origin);
+    let connection = request.accept(null, request.origin);
     
     updatePing = function(){
         updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
@@ -118,14 +152,43 @@ updateServer.on('request', (request) => {
 
 /* Updates the commander JSON file with inputted coordinates
  * and such linking a commder with those coordinates */
-function updateCommanderFile(jsonData) {
-    let path = './Node/PublicResources/commanderID.json'
-    let file = fs.readFileSync(path);
-    let commanderData = JSON.parse(file);
-    commanderData.commanders[jsonData.commanderID].coordinates = jsonData.fireCoordinates;
-    fs.writeFile(path, JSON.stringify(commanderData, null, 4), (error) => {
-        if (error) {
-            throw error;
+function updateCommanderFile(jsonData, response) {
+    let commanderPath = './Node/PublicResources/commanderID.json'
+    let firePath      = './Node/PublicResources/currentFires.geojson'
+    let commanderFile = fs.readFileSync(commanderPath);
+    let fireFile      = fs.readFileSync(firePath);
+    let commanderData = JSON.parse(commanderFile);
+    let fireData      = JSON.parse(fireFile);
+    if  (commanderData.commanders[jsonData.commanderID].coordinates[0] === 0) {
+        commanderData.commanders[jsonData.commanderID].coordinates = jsonData.fireCoordinates;
+        fs.writeFile(commanderPath, JSON.stringify(commanderData, null, 4), (error) => {
+            if (error) {
+                throw error;
+            }
+        });
+    
+        assignFire(fireData, jsonData, firePath);
+        response.statusCode = 200;
+        response.end('\n')
+    } else {
+        response.statusCode = 405;
+        response.end('\n');
+    }
+    
+    
+}
+
+function assignFire(fireData, jsonData, firePath) {
+    fireData.features.forEach(element => {
+        if (element.properties.id === jsonData.fireID &&
+            !element.properties.assignedCommanders.includes(jsonData.commanderID)) {
+            element.properties.assignedCommanders.push(jsonData.commanderID);
+            fs.writeFileSync(firePath, JSON.stringify(fireData, null, 4), (error) => {
+                if (error) {
+                    throw error;
+                }
+            });
+            updateServer.broadcastUTF(JSON.stringify({ message: "update ping" }));
         }
     });
 }
@@ -175,10 +238,12 @@ function UpdateFile(jsonData, path) {
         let firesObject = JSON.parse(data);
         firesObject.features.push({ "type": "Feature",
                                     "properties": {
-                                        "typeFire"      : jsonData.typeFire, 
-                                        "time"          : jsonData.time, 
-                                        "automaticAlarm": jsonData.automaticAlarm, 
-                                        "active"        : jsonData.active
+                                        "typeFire"           : jsonData.typeFire, 
+                                        "time"               : jsonData.time, 
+                                        "automaticAlarm"     : jsonData.automaticAlarm, 
+                                        "active"             : jsonData.active,
+                                        "id"                 : incrementID(firesObject.features[firesObject.features.length-1].properties.id) + 1,
+                                        "assignedCommanders" : []
                                     }, 
                                     "geometry": {
                                         "type"       : "Point", 
@@ -192,6 +257,13 @@ function UpdateFile(jsonData, path) {
     });
 }
 
+function incrementID(id){
+    if (id == undefined){
+        return 0;
+    } else {
+        return id;
+    }
+}
 //delete object in array
 function deleteEntry(path, index){
     fs.readFile(path, (error, data) => {
@@ -204,6 +276,9 @@ function deleteEntry(path, index){
         });
     });
 }
+
+
+
 
 /* Collects all the data needed do display the operative plan and packages it up into one object,
  * then sends it back via a response */
@@ -253,7 +328,11 @@ function insideBuilding(point, geoJsonPath) {
     });
 
     if (success === true) {
-        return {name: geoJsonObject.features[buildingIndex].properties.name, type: geoJsonObject.features[buildingIndex].properties.type, polygon: geoJsonObject.features[buildingIndex].geometry.coordinates[0][0], fileIndex: buildingIndex, opCoords: geoJsonObject.features[buildingIndex].properties.opPlanCoords};
+        return {name     : geoJsonObject.features[buildingIndex].properties.name,
+                type     : geoJsonObject.features[buildingIndex].properties.type,
+                polygon  : geoJsonObject.features[buildingIndex].geometry.coordinates[0][0], 
+                fileIndex: buildingIndex, 
+                opCoords : geoJsonObject.features[buildingIndex].properties.opPlanCoords};
     } else {
         return {name: '', type: '', polygon: '', fileIndex: '-1'};
     }

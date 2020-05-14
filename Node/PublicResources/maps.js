@@ -17,83 +17,6 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: 'pk.eyJ1Ijoia3Jpczk3M2EiLCJhIjoiY2s3eGFtM2hiMDlnbjNmcHByNXBocWE1ZSJ9.AC0zZ0OWIjPa70_crBl-qQ'
 }).addTo(primaryMap);
 
-// Defines all the marker features
-function markerFeatures(feature, layer){
-    displayProperties(feature, layer);
-    markerView(feature, layer);
-    fetchPlan(feature, layer);
-}
-// Gets the building properties from the marker and displays them in the box
-function displayProperties(feature, layer){
-    layer.on('mousedown', (e) => {
-        document.getElementById("fireinfo").innerHTML ="";
-        // Creates a paragraph for each attribute, with padding depending on the amount of attributes
-        for(property in feature.properties) {
-            if (property == 'typeFire'){
-                displayFire(feature.properties[property])
-            } else if (property == "time"){
-                displayTime(feature.properties[property])
-            } else if (property == "automaticAlarm"){
-                ifAutomaticAlarm(feature.properties[property])
-            }
-        }
-    });
-}
-
-/* Writes out the fire info onto the website */
-function displayFire(fire){
-    let p = document.createElement("p");
-    p.innerHTML = "Type of fire: " + fire;
-    document.getElementById("fireinfo").appendChild(p);
-}
-
-/* Writse out the time on the website */
-function displayTime(time){
-    let p = document.createElement("p");
-    p.innerHTML = "Time: " + time;
-    document.getElementById("fireinfo").appendChild(p);
-}
-
-/* Writes out whether or not the fire swas sent by an automated alarm or not */
-function ifAutomaticAlarm(AlarmTrue){
-    let p = document.createElement("p");
-    p.innerHTML = AlarmTrue ?"Automatic alarm: Yes" : "";
-    document.getElementById("fireinfo").appendChild(p);
-}
-
-// Zooms in on the marker when it is clicked on
-function markerView(feature, layer){
-    layer.on("mousedown", (e) => {
-        let coordX = feature.geometry.coordinates[0];
-        let coordY = feature.geometry.coordinates[1];
-        primaryMap.flyTo([coordY,coordX], scale+3);
-    });
-}
-
-//Gets the operative plan data, and calls displayPlan with the appropriate response
-function fetchPlan(feature, layer){
-    layer.on("mousedown", (e) => {
-        let tempCoordX = feature.geometry.coordinates[0];
-        let tempCoordY = feature.geometry.coordinates[1];
-        let currentViewedCoords = [tempCoordX, tempCoordY];
-        let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
-        stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
-
-        //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
-        fetch(`/operativePlans=${stringedCoord}`)
-            .then((response) => {
-                if (response.status == 404) {
-                    return false;
-                } else return response.json();              
-            })
-            .then((data) => {
-                updateInterface(data, currentViewedCoords, primaryMap)
-            });
-    });
-}
-// Gets the current fires, loads them onto the map with the display function on click
-fetchFireMarkers();
-
 let geoJSONLayer;
 /* Gets the locations of the fires from the server and places icons on the map */
 function fetchFireMarkers(){
@@ -112,6 +35,99 @@ function fetchFireMarkers(){
     });
 };
 
+// Defines all the marker features
+function markerFeatures(feature, layer){
+    displayProperties(feature, layer);
+    markerView(feature, layer);
+    fetchPlan(feature, layer, feature.properties.id);
+    
+}
+// Gets the building properties from the marker and displays them in the box
+function displayProperties(feature, layer){
+
+    layer.on('mousedown', (e) => {
+        document.getElementById("fireinfo").innerHTML ="";
+        // Creates a paragraph for each attribute, with padding depending on the amount of attributes
+        for(property in feature.properties) {
+            if (property === 'typeFire'){
+                displayFire(feature.properties[property])
+            } else if (property === "time"){
+                displayTime(feature.properties[property])
+            } else if (property === "automaticAlarm"){
+                ifAutomaticAlarm(feature.properties[property])
+            } else if (property === "assignedCommanders") {
+                displayAssignedCommander(feature.properties[property])
+            }
+        }
+    });
+}
+
+/* Writes out the fire info onto the website */
+function displayFire(fire){
+    let p = document.createElement("p");
+    p.innerHTML = "Type of fire: " + fire;
+    document.getElementById("fireinfo").appendChild(p);
+}
+
+/* Writes out the time on the website */
+function displayTime(time){
+    let p = document.createElement("p");
+    p.innerHTML = "Time: " + time;
+    document.getElementById("fireinfo").appendChild(p);
+}
+
+/* Writes out whether or not the fire swas sent by an automated alarm or not */
+function ifAutomaticAlarm(AlarmTrue){
+    let p = document.createElement("p");
+    p.innerHTML = AlarmTrue ?"Automatic alarm: Yes" : "";
+    document.getElementById("fireinfo").appendChild(p);
+}
+
+async function displayAssignedCommander(commanderArray){
+    console.log('display assigned commander');
+    let response = await fetch("/commanderID.json");
+    let data = await response.json();
+    let commanderList = data.commanders;
+    document.getElementById("assignedCommanders").innerHTML = "";
+    for (let index = 0; index < commanderArray.length; index++) {
+        document.getElementById('assignedCommanders').innerHTML += 
+        `${commanderList[commanderArray[index]].commanderName} <br>`
+        
+    }
+}
+
+// Zooms in on the marker when it is clicked on
+function markerView(feature, layer){
+    layer.on("mousedown", (e) => {
+        let coordX = feature.geometry.coordinates[0];
+        let coordY = feature.geometry.coordinates[1];
+        primaryMap.flyTo([coordY,coordX], scale+3);
+    });
+}
+
+//Gets the operative plan data, and calls displayPlan with the appropriate response
+function fetchPlan(feature, layer, fireID){
+    layer.on("mousedown", (e) => {
+        let tempCoordX = feature.geometry.coordinates[0];
+        let tempCoordY = feature.geometry.coordinates[1];
+        let currentViewedCoords = [tempCoordX, tempCoordY];
+        let stringedCoord = String(tempCoordY) + "_" + String(tempCoordX);
+        stringedCoord = stringedCoord.replace(/[.]/g,";");//replaces ALL . with ;
+
+        //Checks whether data was present, otherwise returns false, could maybe be done with error handling, but seems unnecessary
+        fetch(`/operativePlans=${stringedCoord}`)
+            .then((response) => {
+                if (response.status == 404) {
+                    return false;
+                } else return response.json();              
+            })
+            .then((data) => {
+                updateInterface(data, currentViewedCoords, primaryMap, fireID)
+            });
+    });
+}
+// Gets the current fires, loads them onto the map with the display function on click
+fetchFireMarkers();
 
 //Not need for the program but useful for developing. Delete before exam
 primaryMap.on('click', function(e){
@@ -121,26 +137,12 @@ primaryMap.on('click', function(e){
     console.log("You clicked the map at latitude: [" + lng[0] + ", " + lat[1] + "]");
 });
 
-/* Posts a fire to the server*/
-async function postFire(location, typeFire, time, automaticAlarm, active, id) {
-    fetch('/fireAlert', {
-        method: 'POST', body: JSON.stringify({
-            location: location,
-            typeFire: typeFire,
-            time: time,
-            automaticAlarm: automaticAlarm,
-            active: active,
-            id: id
-        })
-    })
-}
-
 /* Updates the interface by displaying the operative plan,
  * initializing the dropdown menu for commanders and if possible,
  * displays a polygon for current building */
-function updateInterface(data, currentViewedCoords, primaryMap){
+function updateInterface(data, currentViewedCoords, primaryMap, fireID){
     displayPlan(data);
-    initDropDown(currentViewedCoords);
+    initDropDown(currentViewedCoords, fireID);
     poly.removeFrom(primaryMap);
     if (data.BuildingMetaData.fileIndex != -1){
         displayPolygon(data);
@@ -148,7 +150,7 @@ function updateInterface(data, currentViewedCoords, primaryMap){
 }
 
 //init dropdown with commanders 
-async function initDropDown(currentViewedCoords){
+async function initDropDown(currentViewedCoords, fireID){
     let response = await fetch("/commanderID.json");
     let data = await response.json();
     let commanderList = data.commanders;
@@ -156,14 +158,20 @@ async function initDropDown(currentViewedCoords){
     dropDownElement = document.getElementById('myDropdown');
     htmlString = '';
     keys.forEach((element) => {
-        htmlString += `<a href="#" onclick="assignCommander(${element}, [${currentViewedCoords}])">${commanderList[element].commanderName}</a>`;
+        htmlString += `<a href="#" onclick="assignCommander(${element},
+                                               [${currentViewedCoords}], 
+                                                ${fireID}, 
+                                                '${commanderList[element].commanderName}')">
+                                                ${commanderList[element].commanderName}</a>`;
     })
     dropDownElement.innerHTML = htmlString;
     document.getElementById('dropdownDiv').style.display = "block";
 }
 
+
 let poly
-poly = L.polygon([[0,0][0,0]]); //0,0 polygon to intialise polylayer to avoid clearing of "undefined" first time fetchPlan is run
+poly = L.polygon([[0,0][0,0]]); 
+//0,0 polygon to intialise polylayer to avoid clearing of "undefined" first time fetchPlan is run
 /* Creates the polygon the inputted data exists in 
  * then displays it on the map.
  */
@@ -176,18 +184,6 @@ function displayPolygon(data){
     poly = L.polygon(polyCoords);
     poly.addTo(primaryMap);
 }
-
-/* Sends the operative plan to a commander, by linking fire coordinates
- * with the coordinates of the fire */
-function assignCommander(id, fireCoords) {
-    fetch('http://127.0.0.1:3000/assignCommander', {
-        method: 'POST', body: JSON.stringify({
-            commanderID: id,
-            fireCoordinates: fireCoords
-        })
-    })
-}
-
 
 //drop down menu control 
 /* When the user clicks on the button, 
@@ -205,7 +201,7 @@ window.onclick = function(event) {
         for (i = 0; i < dropdowns.length; i++) {
             let openDropdown = dropdowns[i];
             if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
+                openDropdown.classList.remove('show');
             }
         }
     }
