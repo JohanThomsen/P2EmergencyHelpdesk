@@ -1,4 +1,3 @@
 node_modules/
 /package-lock.json
-Node/PublicResources/currentFires.geojson
-Node/PublicResources/currentFires.geojson
+*.geojson
