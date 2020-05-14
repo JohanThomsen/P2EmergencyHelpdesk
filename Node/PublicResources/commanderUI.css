@@ -64,13 +64,8 @@ h2, h3{
     width: fit-content;
     margin: auto;
     position: relative;
-    align
 }
 
-.logIndDiv{
-
-    
-}
 
 /* .textbox p{
     margin-left: 2%;
@@ -102,6 +97,21 @@ h2, h3{
     text-decoration: none;
   }
 
+.commanderNameDiv {
+    float: left;
+    overflow: hidden;
+    height: 67.03px;/*To make the dropdown box the same size as the headerbar*/
+}  
+#commanderName {
+    font-size: 1.5em;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 20.5px 16px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+}
 /* The dropdown container */
 .dropdown {
     float: right;

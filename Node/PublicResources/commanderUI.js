@@ -21,12 +21,14 @@ function fetchCommanders(){
 function login(data) {
     let commanderFound = false;
     let commander = {
+        name: "",
         ID: "",
         coords: []
     };
     commander.ID = document.getElementById('logInID').value;
     for(id in data.commanders) {
         if (id === commander.ID){
+            commander.name = data.commanders[id].commanderName;
             commander.coords = data.commanders[id].coordinates;
             commanderFound = true;
         }
@@ -40,6 +42,7 @@ function getAndShowPlan(commander, commanderFound){
     if(commanderFound === true){
         fetchPlan(commander.coords);
         document.getElementById("ErrorMessage").innerHTML = ``;
+        document.getElementById("commanderName").innerHTML = commander.name;
     } else {
         document.getElementById("ErrorMessage").innerHTML = `Commander ID not found`;
     } 

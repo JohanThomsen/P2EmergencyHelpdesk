@@ -57,6 +57,10 @@ h2, h3{
     height: 100%;
   }
 
+  .prev{
+    right: 94%;
+  }
+
   .next {
     right: 0%;
     border-radius: 3px 0 0 3px;
