@@ -25,7 +25,16 @@ describe('Assign commander test', () => {
 
     it("assign commander", () => {
         cy.get('.commanderdropbtn').click()
-        cy.get('[onclick="assignCommander(23, [9.932207,57.046674])"]').click()
+        cy.get('#Karin').click()
+    })
+    
+    it("Check all commanders", () => {
+        cy.request('/commanderList').then((data) => {
+            let commanderList = data.body.commanders;
+            const keys = Object.keys(commanderList);
+            let lengthOfKey = keys.length;
+            cy.get('#myDropdown').children().should('have.length', lengthOfKey)
+        })
     })
 
     it("Go to commander page", () => {

@@ -129,7 +129,7 @@ function fetchPlan(feature, layer, fireID){
 // Gets the current fires, loads them onto the map with the display function on click
 fetchFireMarkers();
 
-let geoJSONLayer;
+// let geoJSONLayer;
 /* Gets the locations of the fires from the server and places icons on the map */
 function fetchFireMarkers(){
     fetch("/fires")
@@ -186,7 +186,7 @@ async function initDropDown(currentViewedCoords, fireID){
     dropDownElement = document.getElementById('myDropdown');
     htmlString = '';
     keys.forEach((element) => {
-        htmlString += `<a href="#" onclick="assignCommander(${element},
+        htmlString += `<a href="#" id="${commanderList[element].commanderName}" onclick="assignCommander(${element},
                                                [${currentViewedCoords}], 
                                                 ${fireID}, 
                                                 '${commanderList[element].commanderName}')">

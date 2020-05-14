@@ -103,7 +103,19 @@ function POSTRequests(request, response){
             })
             .then((jsonData) => {
                 removeFireFromCommander(jsonData, response);
-            });   
+            });
+        break; 
+
+        case '/clearFires':
+            fs.writeFileSync('./Node/PublicResources/currentFires.geojson',
+                `{
+                "type": "FeatureCollection",
+                "name": "currentFires",
+                "features": []
+                }`)
+            response.statusCode = 200;
+            response.end('\n');
+        break;  
         }
 }
 
@@ -241,7 +253,7 @@ function UpdateFile(jsonData, path) {
                                         "time"               : jsonData.time, 
                                         "automaticAlarm"     : jsonData.automaticAlarm, 
                                         "active"             : jsonData.active,
-                                        "id"                 : incrementID(firesObject.features[firesObject.features.length-1].properties.id) + 1,
+                                        "id"                 : incrementID(firesObject),
                                         "assignedCommanders" : []
                                     }, 
                                     "geometry": {
@@ -256,11 +268,11 @@ function UpdateFile(jsonData, path) {
     });
 }
 
-function incrementID(id){
-    if (id == undefined){
+function incrementID(firesObject){
+    if (firesObject.features[0] == undefined) {
         return 0;
     } else {
-        return id;
+        return firesObject.features[firesObject.features.length-1].properties.id + 1;
     }
 }
 //delete object in array
