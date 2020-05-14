@@ -9,16 +9,14 @@
                 "time": "13:00",
                 "automaticAlarm": true,
                 "active": true,
-                "id": 1,
-                "assignedCommanders": [
-                    42
-                ]
+                "id": 2,
+                "assignedCommanders": []
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    9.920657,
-                    57.041522
+                    9.904978,
+                    57.039168
                 ]
             }
         }

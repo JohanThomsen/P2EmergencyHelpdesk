@@ -6,6 +6,7 @@
  */
 let errorCode;
 let commanderID;
+let fireCoordinates;
 function fetchCommanders(){
     fetch("/commanderList")
         .then((response) => {
@@ -21,6 +22,7 @@ function fetchCommanders(){
  * If one is found HTML is created to show an operative plan
  */
 function login(data) {
+    errorCode = -1;
     let commanderFound = false;
     let commander = {
         ID: "",
@@ -31,7 +33,8 @@ function login(data) {
     for(id in data.commanders) {
         if (id === commander.ID){
             commander.coords = data.commanders[id].coordinates;
-            if(commander.coords[0] == 0){
+            fireCoordinates = commander.coords;
+            if(commander.coords[0] === 0){
                 commanderFound = false;
                 errorCode = 0;
             } else {
@@ -80,8 +83,7 @@ function fetchPlan(coordinates){
                 initCommanderHTML();
                 displayPlan(data);
                 displayImages(data.opPlan);
-                console.log(data.BuildingMetaData.opCoords);
-                displayResolveButton(data.BuildingMetaData.opCoords);
+                displayResolveButton();
             } else {
                 printErrors(2);
                 resetHTML();
@@ -151,17 +153,14 @@ function createBuildingOverViewHTML(imageSource){
         </div>`
 }
 
-function displayResolveButton(coordinates){
-    console.log(coordinates);
+function displayResolveButton(){
     document.getElementById("resolveFire").innerHTML = 
-    `<button type="button" id = "resolveButton" onclick="resolveFire([${coordinates}])">Resolve Fire</button>`
+    `<button type="button" id = "resolveButton" onclick="resolveFire([${fireCoordinates}])">Resolve Fire</button>`
 }
 
 function resolveFire(coordinates){
-    console.log(coordinates);
-    let flippedCoordinates = coordinates.reverse();
-    postFire(flippedCoordinates, null, null, null, false);
-    removeFireFromCommander(commanderID);
+    postFire(coordinates, null, null, null, false);
+    removeFireFromCommander(coordinates);
     location.reload();
 }
 
@@ -185,22 +184,4 @@ function showSlides(n) {
         slides[i].style.display = "none";
     }
     slides[slideIndex-1].style.display = "block";
-}
-
-function printErrors(errorCode){
-    switch (errorCode) {
-        case 0:
-            document.getElementById("ErrorMessage").innerHTML = `Operative Plan Resolved`;
-            break;
-        
-        case 1:
-            document.getElementById("ErrorMessage").innerHTML = `Commander ID not found`;
-            break;
-    
-        case 2:
-            document.getElementById("ErrorMessage").innerHTML = "No operative plan found for commander";
-            break;
-        default:
-            break;
-    }
 }

@@ -90,11 +90,44 @@ function POSTRequests(request, response){
                 });
             })
             .then((jsonData) => {
-                updateCommanderFile(jsonData);
+                updateCommanderFile(jsonData, response);
             });
-            response.statusCode = 200;
-            response.end('\n'); 
+        break;     
+
+        case '/removeFireFromCommander':
+            new Promise((resolve, reject) => {
+                request.on('data', (data) => {
+                    resolve(BinaryToJson(data));
+                });
+            })
+            .then((jsonData) => {
+                removeFireFromCommander(jsonData, response);
+            });   
         }
+}
+
+function removeFireFromCommander(jsonData, response){
+    let commanderPath = './Node/PublicResources/commanderID.json'
+    let commanderFile = fs.readFileSync(commanderPath);
+    let commanderData = JSON.parse(commanderFile);
+
+    
+
+    console.log(commanderData);
+    for (element in commanderData.commanders) {
+        console.log(element);
+        console.log(element.coordinates);
+        if (element.coordinates == jsonData.fireCoordinates) {
+            commanderData.commanders[jsonData.fireCoordinates].coordinates = [0,0];
+        }
+    } 
+    fs.writeFile(commanderPath, JSON.stringify(commanderData, null, 4), (error) => {
+        if (error) {
+            throw error;
+        }
+    });
+    response.statusCode = 200;
+    response.end('\n')    
 }
 //server listen for requests 
 server.listen(port, hostName, () =>{
@@ -119,30 +152,43 @@ updateServer.on('request', (request) => {
 
 /* Updates the commander JSON file with inputted coordinates
  * and such linking a commder with those coordinates */
-function updateCommanderFile(jsonData) {
+function updateCommanderFile(jsonData, response) {
     let commanderPath = './Node/PublicResources/commanderID.json'
     let firePath      = './Node/PublicResources/currentFires.geojson'
     let commanderFile = fs.readFileSync(commanderPath);
     let fireFile      = fs.readFileSync(firePath);
     let commanderData = JSON.parse(commanderFile);
     let fireData      = JSON.parse(fireFile);
-    commanderData.commanders[jsonData.commanderID].coordinates = jsonData.fireCoordinates;
-    fs.writeFile(commanderPath, JSON.stringify(commanderData, null, 4), (error) => {
-        if (error) {
-            throw error;
-        }
-    });
+    if  (commanderData.commanders[jsonData.commanderID].coordinates[0] === 0) {
+        commanderData.commanders[jsonData.commanderID].coordinates = jsonData.fireCoordinates;
+        fs.writeFile(commanderPath, JSON.stringify(commanderData, null, 4), (error) => {
+            if (error) {
+                throw error;
+            }
+        });
+    
+        assignFire(fireData, jsonData, firePath);
+        response.statusCode = 200;
+        response.end('\n')
+    } else {
+        response.statusCode = 405;
+        response.end('\n');
+    }
+    
+    
+}
 
+function assignFire(fireData, jsonData, firePath) {
     fireData.features.forEach(element => {
         if (element.properties.id === jsonData.fireID &&
             !element.properties.assignedCommanders.includes(jsonData.commanderID)) {
             element.properties.assignedCommanders.push(jsonData.commanderID);
-            fs.writeFileSync(firePath, JSON.stringify(fireData, null, 4), (error) =>{
-                if(error) {
+            fs.writeFileSync(firePath, JSON.stringify(fireData, null, 4), (error) => {
+                if (error) {
                     throw error;
                 }
-            })
-            updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));
+            });
+            updateServer.broadcastUTF(JSON.stringify({ message: "update ping" }));
         }
     });
 }
@@ -196,7 +242,7 @@ function UpdateFile(jsonData, path) {
                                         "time"               : jsonData.time, 
                                         "automaticAlarm"     : jsonData.automaticAlarm, 
                                         "active"             : jsonData.active,
-                                        "id"                 : ifEmptyID(firesObject.features[firesObject.features.length-1])+ 1,
+                                        "id"                 : incrementID(firesObject.features[firesObject.features.length-1].properties.id) + 1,
                                         "assignedCommanders" : []
                                     }, 
                                     "geometry": {
@@ -211,7 +257,7 @@ function UpdateFile(jsonData, path) {
     });
 }
 
-function ifEmptyID(id){
+function incrementID(id){
     if (id == undefined){
         return 0;
     } else {
@@ -230,6 +276,9 @@ function deleteEntry(path, index){
         });
     });
 }
+
+
+
 
 /* Collects all the data needed do display the operative plan and packages it up into one object,
  * then sends it back via a response */

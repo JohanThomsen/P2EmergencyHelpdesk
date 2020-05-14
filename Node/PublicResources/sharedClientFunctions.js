@@ -185,24 +185,27 @@ async function postFire(location, typeFire, time, automaticAlarm, active) {
 /* Sends the operative plan to a commander, by linking fire coordinates
  * with the coordinates of the fire */
 function assignCommander(id, fireCoords, fireID, name) {
-    document.getElementById('assignedCommanders').innerHTML += 
-        `${name} <br>`
     fetch('http://127.0.0.1:3000/assignCommander', {
         method: 'POST', body: JSON.stringify({
             commanderID: id,
             fireCoordinates: fireCoords,
             fireID: fireID
         })
-    });
+    })
+    .then((response => {
+        if (response.status == 405) {
+            printErrors(3);
+        } else {
+            document.getElementById('assignedCommanders').innerHTML += 
+            `${name} <br>`
+        }
+    })) 
 }
 
-function removeFireFromCommander(id) {
-    console.log(id);
-    fetch('http://127.0.0.1:3000/assignCommander', {
+function removeFireFromCommander(fireCoordinates) {
+    fetch('http://127.0.0.1:3000/removeFireFromCommander', {
         method: 'POST', body: JSON.stringify({
-            commanderID: id,
-            fireCoordinates: [0,0],
-            fireID: 0
+            fireCoordinates: fireCoordinates
         })
     });
 }
@@ -211,4 +214,25 @@ function removeFireFromCommander(id) {
  * Function added to the string prototype that capitalizes a string */
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+function printErrors(errorCode){
+    switch (errorCode) {
+        case 0:
+            document.getElementById("ErrorMessage").innerHTML = `Operative Plan Resolved`;
+            break;
+        
+        case 1:
+            document.getElementById("ErrorMessage").innerHTML = `Commander ID not found`;
+            break;
+    
+        case 2:
+            document.getElementById("ErrorMessage").innerHTML = "No operative plan found for commander";
+            break;
+        
+        case 3:
+            document.getElementById("assignedCommanders").innerHTML += " Commander already dispatched";
+        default:
+            break;
+    }
 }
