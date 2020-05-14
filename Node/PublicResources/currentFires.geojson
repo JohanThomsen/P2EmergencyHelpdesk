@@ -1,24 +1,5 @@
 {
     "type": "FeatureCollection",
     "name": "currentFires",
-    "features": [
-        {
-            "type": "Feature",
-            "properties": {
-                "typeFire": "HouseFire",
-                "time": "13:00",
-                "automaticAlarm": true,
-                "active": true,
-                "id": 2,
-                "assignedCommanders": []
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    9.904978,
-                    57.039168
-                ]
-            }
-        }
-    ]
+    "features": []
 }
