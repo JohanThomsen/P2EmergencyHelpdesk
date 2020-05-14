@@ -1,42 +1,5 @@
 {
     "type": "FeatureCollection",
     "name": "currentFires",
-    "features": [
-        {
-            "type": "Feature",
-            "properties": {
-                "typeFire": "HouseFire",
-                "time": "13:00",
-                "automaticAlarm": true,
-                "active": true,
-                "id": 0,
-                "assignedCommanders": []
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    9.931141,
-                    57.048145
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "typeFire": "HouseFire",
-                "time": "13:00",
-                "automaticAlarm": true,
-                "active": true,
-                "id": 1,
-                "assignedCommanders": []
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    9.931141,
-                    57.48145
-                ]
-            }
-        }
-    ]
+    "features": []
 }

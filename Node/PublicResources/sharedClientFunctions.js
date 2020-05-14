@@ -196,6 +196,7 @@ function assignCommander(id, fireCoords, fireID, name) {
         if (response.status == 405) {
             printErrors(3);
         } else {
+            document.getElementById("commanderWarning").innerHTML = "";
             document.getElementById('assignedCommanders').innerHTML += 
             `${name} <br>`
         }
@@ -212,7 +213,7 @@ String.prototype.capitalize = function() {
 function printErrors(errorCode, name){
     switch (errorCode) {
         case 0:
-            document.getElementById("ErrorMessage").innerHTML = `${name} is not assigned to any fires`;
+            document.getElementById("ErrorMessage").innerHTML = `Commander is not assigned to any fires`;
             break;
         
         case 1:
@@ -224,7 +225,7 @@ function printErrors(errorCode, name){
             break;
         
         case 3:
-            document.getElementById("assignedCommanders").innerHTML += " Commander already dispatched";
+            document.getElementById("commanderWarning").innerHTML = " Commander already dispatched";
         default:
             break;
     }
