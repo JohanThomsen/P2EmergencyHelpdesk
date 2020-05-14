@@ -231,6 +231,7 @@ updateSocket.onopen = function (event) {
 }
 
 updateSocket.onmessage = function (event) {
+    console.log("websocket ping");
     geoJSONLayer.removeFrom(primaryMap);
     fetchFireMarkers();
 }

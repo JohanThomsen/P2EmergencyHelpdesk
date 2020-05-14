@@ -67,6 +67,7 @@ function GETRequests(request, response){
 function POSTRequests(request, response){
     switch(request.url){
         case'/fireAlert':
+            console.log("got request");
             new Promise((resolve, reject) => {
                 request.on('data', (data) => {
                     resolve(BinaryToJson(data));
@@ -92,7 +93,18 @@ function POSTRequests(request, response){
             .then((jsonData) => {
                 updateCommanderFile(jsonData);
             }) 
-            
+        break; 
+
+        case '/clearFires':
+            fs.writeFileSync('./Node/PublicResources/currentFires.geojson',
+                `{
+                "type": "FeatureCollection",
+                "name": "currentFires",
+                "features": []
+                }`)
+            response.statusCode = 200;
+            response.end('\n');
+        break;    
         }
 }
 //server listen for requests 
@@ -108,7 +120,7 @@ let updateServer = new webSocketServer.server({
 });
   
 updateServer.on('request', (request) => {
-    let conenction = request.accept(null, request.origin);
+    let connection = request.accept(null, request.origin);
     
     updatePing = function(){
         updateServer.broadcastUTF(JSON.stringify({message: "update ping" }));

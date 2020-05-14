@@ -1,46 +1,11 @@
-describe('Map test', () => {
-    it("Delete marker", () => {
-        cy.request('POST', 'http://127.0.0.1:3000/fireAlert', {
-                    location: [ 9.932207, 57.046674],
-                    typeFire: "big fire",
-                    time: "10:45",
-                    automaticAlarm: true,
-                    active: false,
-                    id: 22
-        })
+describe('Marker test', () => {
+    it("clear fires", () => {
+        cy.request('POST', 'http://127.0.0.1:3000/clearFires')
     })
-    it("Delete marker", () => {
-        cy.request('POST', 'http://127.0.0.1:3000/fireAlert', {
-                    location: [ 9.932731, 57.046396],
-                    typeFire: "big fire",
-                    time: "10:45",
-                    automaticAlarm: true,
-                    active: false,
-                    id: 22
-        })
-    })
-    it("Delete marker", () => {
-        cy.request('POST', 'http://127.0.0.1:3000/fireAlert', {
-                    location: [ 9.93209, 57.046302],
-                    typeFire: "big fire",
-                    time: "10:45",
-                    automaticAlarm: true,
-                    active: false,
-                    id: 22
-        })
-    })
-    it("Delete marker", () => {
-        cy.request('POST', 'http://127.0.0.1:3000/fireAlert', {
-                    location: [ 9.932496, 57.04754],
-                    typeFire: "big fire",
-                    time: "10:45",
-                    automaticAlarm: true,
-                    active: false,
-                    id: 22
-        })
-    })
+
     it("Create marker", () => {
         cy.visit("http://127.0.0.1:3000")
+        cy.wait(1500)
         cy.request('POST', 'http://127.0.0.1:3000/fireAlert', {
                     location: [ 9.932207, 57.046674],
                     typeFire: "big fire",

@@ -1,6 +1,11 @@
 describe('Map test', () => {
+    it("clear fires", () => {
+        cy.request('POST', 'http://127.0.0.1:3000/clearFires')
+    })
+
     it("Create marker", () => {
         cy.visit("http://127.0.0.1:3000")
+        cy.wait(1500)
         cy.request('POST', 'http://127.0.0.1:3000/fireAlert', {
                     location: [ 9.932207, 57.046674],
                     typeFire: "big fire",
