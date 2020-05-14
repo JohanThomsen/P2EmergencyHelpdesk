@@ -86,22 +86,26 @@ describe('Map test', () => {
     let address;
     it("click marker", () => {
         cy.get("#fire0").click()
+        cy.wait(1000)
         cy.get("#address").then(($span) => {
             address = $span.text();
         })
-        cy.get("#address").to.have.text(address)
-        console.log(address);
+        // cy.get("#address").to.have.text(address)
+        // console.log(address);
     })
     it("click marker", () => {
         cy.get("#fire1").click()
-        cy.get("#address").should("have.value", address)
+        cy.wait(1000)
+        cy.get("#address").should("contain", address)
     })
     it("click marker", () => {
         cy.get("#fire2").click()
-        cy.get("#address").should("have.value", address)
+        cy.wait(1000)
+        cy.get("#address").should("contain", address)
     })
     it("click marker", () => {
         cy.get("#fire3").click()
-        cy.get("#address").should("have.value", address)
+        cy.wait(1000)
+        cy.get("#address").should("not.contain", address)
     })
 })
