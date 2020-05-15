@@ -1,4 +1,5 @@
 const scale = 13;
+let theMarker = {};
 
 // Leaflet copy-paste job, creates the map then gets the map from mapbox
 let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
@@ -13,18 +14,28 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 //let selectedCoords;
 
-primaryMap.on('click', function(e){
+primaryMap.on('click', async function(e){
     let latlng = e.latlng
-    let coord = e.latlng.toString().split(',');
-    let lat = coord[0].split('(');
-    let lng = coord[1].split(')');
     let selectedCoord = [latlng.lat, latlng.lng];
-    validateInsideBuilding(selectedCoord);
-    console.log("You clicked the map at latitude: [" + lng[0] + ", " + lat[1] + "]");
+    if (theMarker != undefined) {
+        primaryMap.removeLayer(theMarker);
+    };
+    if (await validateInsideBuilding(selectedCoord) === true){
+        let coordX = latlng.lat.toString().replace(',', '.');
+        let coordY = latlng.lng.toString().replace(',', '.');
+        inputToField(coordY, coordX);
+        document.getElementById("coordError").setAttribute('style', 'opacity: 0;');
+        theMarker = L.marker([latlng.lat,latlng.lng]).addTo(primaryMap); 
+    }
+    else{
+        inputToField(null, null);
+        document.getElementById("coordError").setAttribute('style', 'opacity: 1;');
+    }
 });
 
-function validateInsideBuilding(coords){
-    let test = fetch('/validateInside', {
+async function validateInsideBuilding(coords){
+    let validationSuccess; 
+    let test = await fetch('/validateInside', {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json'
@@ -35,15 +46,24 @@ function validateInsideBuilding(coords){
     .then((json) => {
         console.log(json);
         if (json.result === true){
-            return true; 
+            validationSuccess = true; 
         }
-        return false; 
+        else{
+            validationSuccess = false; 
+        }        
     })
 
-    if (test){
-        console.log("true");
+    if (validationSuccess){
         return true;
     }
-    console.log("false");
     return false; 
+}
+
+function inputToField(coordX, coordY){
+    coordYField = document.getElementById('ncoordinate');
+    coordXField = document.getElementById('ecoordinate');
+
+    coordYField.value = coordY;
+    coordXField.value = coordX;
+
 }
