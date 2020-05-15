@@ -15,7 +15,10 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 primaryMap.whenReady(() => {
     console.log("map done loading");
-    primaryMap.invalidateSize()
+    primaryMap.invalidateSize();
+    primaryMap.fitWorld();
+    primaryMap.invalidateSize();
+    primaryMap.setView([57.05, 9.92], scale);
 });
 
 
