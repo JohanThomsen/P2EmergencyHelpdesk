@@ -15,7 +15,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 primaryMap.whenReady(() => {
     console.log("map done loading");
-    primaryMap.invalidateSize()});
+    primaryMap.invalidateSize()
+});
 
 
 coordXField = document.getElementById('ecoordinate');
