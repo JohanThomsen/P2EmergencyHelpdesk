@@ -1,11 +1,24 @@
 {
     "type": "FeatureCollection",
     "name": "currentFires",
-<<<<<<< HEAD
     "features": [
-
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "HouseFire",
+                "time": "13:00",
+                "automaticAlarm": true,
+                "active": true,
+                "id": 0,
+                "assignedCommanders": []
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.918933,
+                    57.043096
+                ]
+            }
+        }
     ]
-=======
-    "features": []
->>>>>>> Refactoring
 }

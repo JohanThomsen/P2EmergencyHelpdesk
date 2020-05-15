@@ -3,8 +3,8 @@
         "16": {
             "commanderName": "Lisa Jensen",
             "coordinates": [
-                9.932545,
-                57.046401
+                0,
+                0
             ]
         },
         "23": {
@@ -23,7 +23,10 @@
         },
         "54": {
             "commanderName": "Marcus Fry",
-            "coordinates": []
+            "coordinates": [
+                0,
+                0
+            ]
         }
     }
 }
