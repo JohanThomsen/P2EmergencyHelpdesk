@@ -41,5 +41,8 @@ describe('Assign commander test', () => {
         cy.get('.dropdown-content').invoke('show')
         cy.get('[href="/commanders"]').click()
     })
+    it("clear fires", () => {
+        cy.request('POST', 'http://127.0.0.1:3000/clearFires')
+    })
 
 })

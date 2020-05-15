@@ -86,4 +86,7 @@ describe('Marker test', () => {
         cy.wait(1000)
         cy.get("#address").should("not.contain", address)
     })
+    it("clear fires", () => {
+        cy.request('POST', 'http://127.0.0.1:3000/clearFires')
+    })
 })

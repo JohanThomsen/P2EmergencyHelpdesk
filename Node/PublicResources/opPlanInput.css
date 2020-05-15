@@ -7,7 +7,7 @@ html, body {
 }
 
 .headerBar{
-  overflow-y: visible;
+  overflow-y: none;
   background-color: rgb(42, 42, 43);
   color: azure;
   position: absolute;

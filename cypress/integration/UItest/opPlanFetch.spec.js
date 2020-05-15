@@ -49,4 +49,7 @@ describe('Check nearby hazards', () => {
         cy.get("#fire1").click()
         cy.get('#Nearby').children().should("not.exist")
     })
+    it("clear fires", () => {
+        cy.request('POST', 'http://127.0.0.1:3000/clearFires')
+    })
 })

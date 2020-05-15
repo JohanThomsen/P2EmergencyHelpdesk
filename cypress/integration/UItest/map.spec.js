@@ -46,5 +46,7 @@ describe('Map test', () => {
         cy.wait(500)
         cy.get('.leaflet-control-zoom-out').click()
     })
-    
+    it("clear fires", () => {
+        cy.request('POST', 'http://127.0.0.1:3000/clearFires')
+    })
 })

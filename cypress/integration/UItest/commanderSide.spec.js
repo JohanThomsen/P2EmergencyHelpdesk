@@ -75,4 +75,7 @@ describe('uncheck commander', () => {
         cy.get('.logIndDiv > button').click()
         cy.get('.logIndDiv > #ErrorMessage').should("be.visible")
     })
+    it("clear fires", () => {
+        cy.request('POST', 'http://127.0.0.1:3000/clearFires')
+    })
 })
