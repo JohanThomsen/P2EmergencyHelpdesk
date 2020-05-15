@@ -115,18 +115,49 @@ function POSTRequests(request, response){
                 }`)
             response.statusCode = 200;
             response.end('\n');
-        break;  
-        }
+        break;
+            
+        case ('/validateInside'):
+            let buildingIndex;
+            new Promise((resolve, reject) => {
+                request.on('data', (data) => {
+                    resolve(BinaryToJson(data));
+                });
+            })
+            .then((jsonData) => {
+                console.log(jsonData.coords)
+                buildingIndex = insideBuilding(jsonData.coords, './Node/Buildings.geojson').fileIndex;
+                
+                console.log(buildingIndex)
+
+                if (buildingIndex != -1){
+                    response.statusCode = 200;
+                    //response.setHeader('Content-Type', );
+                    response.write(JSON.stringify({result: true}));
+                    response.end('\n');
+                }
+                else{
+                    response.statusCode = 200;
+                    //response.setHeader('Content-Type', );
+                    response.write(JSON.stringify({result: false}));
+                    response.end('\n');
+                }
+            });
+            // response.statusCode = 200;
+            // //response.setHeader('Content-Type', );
+            // response.write(JSON.stringify({result: false}));
+            // response.end('\n');
+
+        break;
+
+    }
 }
 
 function removeFireFromCommander(jsonData, response){
     let commanderPath = './Node/PublicResources/commanderID.json'
     let commanderFile = fs.readFileSync(commanderPath);
     let commanderData = JSON.parse(commanderFile);
-    console.log(jsonData.fireCoordinates);
     Object.keys(commanderData.commanders).forEach((key) => {
-        console.log(key);
-        console.log(commanderData.commanders[key].coordinates);
         if(commanderData.commanders[key].coordinates[0] == jsonData.fireCoordinates[0]) {
             commanderData.commanders[key].coordinates = [0,0];
         }

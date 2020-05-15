@@ -60,7 +60,7 @@
             "buildingDefinition": "Shoppen and Bio City",
             "usage": "Mall and cinema",
             "height": "20",
-            "specialConsiderations": "person counter",
+            "specialConsiderations": "Large amount of people present",
             "fireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
@@ -84,9 +84,9 @@
             ],
             "address": "Mølleparkvej 4, 9000",
             "buildingDefinition": "Hospital",
-            "usage": "bed and treatment ward",
+            "usage": "Bed and treatment ward",
             "height": "34",
-            "specialConsiderations": "floor 5 is an tech floor only",
+            "specialConsiderations": "Floor 5 is a tech floor only",
             "fireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
@@ -108,11 +108,11 @@
                 57.046642,
                 9.93099
             ],
-            "address": "nearby adress",
-            "buildingDefinition": "testing",
-            "usage": "tests",
+            "address": "Happy street 2",
+            "buildingDefinition": "Appartment building",
+            "usage": "Residents",
             "height": "114",
-            "specialConsiderations": "Test of nearby",
+            "specialConsiderations": "Large amount of people",
             "fireFightingEquipment": {
                 "fireLift": true,
                 "escapeStairs": true,
@@ -123,7 +123,7 @@
                 "automaticFireDetector": false,
                 "internalAlert": false
             },
-            "consideration": "Test of nearby warning",
+            "consideration": "Large amount of people",
             "fullOpPlan": "OperativePDF/MusikkenshusPlaceholder.pdf",
             "buildingOverview": "buildingOverview/httpdiagramnew.png",
             "floorPlans": "floorPlans/nearby_adress/",
@@ -136,9 +136,9 @@
             ],
             "address": "Kjellerups Torv 1",
             "buildingDefinition": "Nordkraft",
-            "usage": "offices. sports and activities. classrooms. assembly rooms",
+            "usage": "Offices, sports and activities, Classrooms, assembly rooms",
             "height": "42",
-            "specialConsiderations": "split evacuation.firstfloor1-8,then8minlaterfloor9-13",
+            "specialConsiderations": "Split evacuation. First floor 1-8, then 8 min later floor 9-13.",
             "fireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
@@ -151,7 +151,7 @@
             },
             "consideration": "A spare key is located at the fire central",
             "fullOpPlan": "OperativePDF/001.Nordkraft_KjellerupsTorv.pdf",
-            "buildingOverview": "NordkraftOverview.png",
+            "buildingOverview": "buildingOverviewNordkraft.jpg",
             "floorPlans": "floorPlans/Kjellerups_Torv_1/",
             "floorPlanAmount": 1
         },
@@ -162,9 +162,9 @@
             ],
             "address": "Rendsburggade 28",
             "buildingDefinition": "Larsen Waterfront",
-            "usage": "living",
+            "usage": "Living",
             "height": "42",
-            "specialConsiderations": "common room for 150 people on 15. floor",
+            "specialConsiderations": "Common room for 150 people on 15th floor",
             "FireFightingEquipment": {
                 "risers": true,
                 "sprinkler": true,
@@ -175,7 +175,7 @@
                 "fireLift": true,
                 "smokeDetectors": true
             },
-            "consideration": "A guide to interrupt electricity from the PV system, is found in the tech room",
+            "consideration": "A guide to interrupt electricity from the PV system is found in the tech room",
             "fullOpPlan": "OperativePDF/002.LarsenWaterfront.pdf",
             "buildingOverview": "LarsenOverView.png",
             "floorPlans": "floorPlans/Rendsburggade_28/",
@@ -190,7 +190,7 @@
             "buildingDefinition": "Party Street",
             "usage": "Bar street",
             "height": "15",
-            "specialConsiderations": "Keybox is located in building 16 , max 8475 people. 6574 inside and 1900 on the street",
+            "specialConsiderations": "Keybox is located in building 16, max 8475 people. 6574 inside and 1900 on the street",
             "fireFightingEquipment": {
                 "fireLift": false,
                 "escapeStairs": false,

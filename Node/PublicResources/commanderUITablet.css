@@ -57,6 +57,10 @@ h2, h3{
     height: 100%;
   }
 
+  .prev{
+    right: 91%;
+  }
+
   .next {
     right: 0%;
     border-radius: 3px 0 0 3px;
@@ -107,6 +111,22 @@ h2, h3{
     padding: 14px 16px;
     text-decoration: none;
   }
+
+.commanderNameDiv {
+    float: left;
+    overflow: hidden;
+    height: 67.03px;/*To make the dropdown box the same size as the headerbar*/
+}  
+#commanderName {
+    font-size: 1.5em;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 20.5px 16px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+}
 
 /* The dropdown container */
 .dropdown {

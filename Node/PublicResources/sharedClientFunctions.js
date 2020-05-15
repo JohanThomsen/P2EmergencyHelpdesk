@@ -60,7 +60,19 @@ function displayAddress(data, outerElement){
 // Displays all the generel data for the fire in the relevant accordion
 function displayGenerel(data, property){
     let p = document.createElement("p");
-    p.innerHTML = property.capitalize() + ": " + data.opPlan[property];
+    switch (property) {
+        case "buildingDefinition":
+            p.innerHTML = "Building Definition: " + data.opPlan[property];
+            break;
+        case "usage":
+            p.innerHTML = "Building Usage: " + data.opPlan[property];
+            break;
+        case "height":
+            p.innerHTML = "Building Height (meters): " + data.opPlan[property];
+            break;
+        case "specialConsiderations":
+            p.innerHTML = "Special Considerations: " + data.opPlan[property];
+    }
     document.getElementById("Generel").appendChild(p);
 }
 
@@ -69,12 +81,34 @@ function displayEquip(data, property){
     for (item in data.opPlan[property]){
         if (data.opPlan[property][item] == true){
         let p = document.createElement("p");
-        p.innerHTML = item.capitalize();
+        p.innerHTML = findEquipmentName(item);
         document.getElementById("Equip").appendChild(p);
     }}
     let p = document.createElement("p");
-    p.innerHTML = "Consideration: " + data.opPlan.consideration;
+    p.innerHTML = "Details: " + data.opPlan.consideration;
     document.getElementById("Equip").appendChild(p);
+}
+
+// Finds the equipment name based on the property
+function findEquipmentName(equipment){
+    let equipmentName;
+    switch (equipment) {
+        case "risers": 
+        case "sprinkler": 
+        case "markers":
+            equipmentName = equipment.capitalize();
+            break;
+        case "escapeStairs":
+            equipmentName = "Escape Stairs";
+            break;
+        case "fireLift":
+            equipmentName = "Fire Lift";
+            break;
+        case "smokeDetectors":
+            equipmentName = "Smoke Detectors";
+            break;
+    }
+    return equipmentName;
 }
 
 // Creates nearby warnings if a special consideration exists for any of the nearby buildings
@@ -116,7 +150,7 @@ function writeOutWarning(property){
     for (element in property){
         if (element == "specialConsiderations"){
             let p = document.createElement("p");
-            p.innerHTML = element.capitalize() + ": " + property[element];
+            p.innerHTML = "Special Considerations: " + property[element];
             document.getElementById(property.address).appendChild(p);
         }
     }
@@ -161,9 +195,14 @@ function toggleActive() {
     /* Toggle between hiding and showing the active panel */
     let panel = this.nextElementSibling;
     if (panel.style.display === "none") {
-    panel.style.display = "block";
+        panel.style.display = "block";
+        if (this.innerHTML[0] == "+") this.innerHTML = "- " + this.innerHTML.slice(2);
     } else {
-    panel.style.display = "none";
+        panel.style.display = "none";
+        if (this.innerHTML[0] == "-") this.innerHTML = "+ " + this.innerHTML.slice(2);
+    }
+    if (panel.innerHTML == true){
+        this.innerHTML = this.innerHTML.slice(2);
     }
 }
 enableAccordion();
@@ -196,6 +235,7 @@ function assignCommander(id, fireCoords, fireID, name) {
         if (response.status == 405) {
             printErrors(3);
         } else {
+            document.getElementById("commanderWarning").innerHTML = "";
             document.getElementById('assignedCommanders').innerHTML += 
             `${name} <br>`
         }
@@ -209,10 +249,10 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-function printErrors(errorCode){
+function printErrors(errorCode, name){
     switch (errorCode) {
         case 0:
-            document.getElementById("ErrorMessage").innerHTML = `Operative Plan Resolved`;
+            document.getElementById("ErrorMessage").innerHTML = `Commander is not assigned to any fires`;
             break;
         
         case 1:
@@ -220,11 +260,11 @@ function printErrors(errorCode){
             break;
     
         case 2:
-            document.getElementById("ErrorMessage").innerHTML = "No operative plan found for commander";
+            document.getElementById("ErrorMessage").innerHTML = `No operative plan found for commander`;
             break;
         
         case 3:
-            document.getElementById("assignedCommanders").innerHTML += " Commander already dispatched";
+            document.getElementById("commanderWarning").innerHTML = " Commander already dispatched";
         default:
             break;
     }

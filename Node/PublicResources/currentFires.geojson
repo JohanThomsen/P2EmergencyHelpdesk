@@ -2,41 +2,6 @@
     "type": "FeatureCollection",
     "name": "currentFires",
     "features": [
-        {
-            "type": "Feature",
-            "properties": {
-                "typeFire": "big fire",
-                "time": "10:45",
-                "automaticAlarm": true,
-                "active": true,
-                "id": 0,
-                "assignedCommanders": []
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    9.932207,
-                    57.046674
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "typeFire": "big fire",
-                "time": "10:45",
-                "automaticAlarm": true,
-                "active": true,
-                "id": 1,
-                "assignedCommanders": []
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    9.932493,
-                    57.047372
-                ]
-            }
-        }
+        
     ]
 }

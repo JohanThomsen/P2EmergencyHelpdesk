@@ -1,14 +1,28 @@
 {
     "commanders": {
+        "16": {
+            "commanderName": "Lisa Jensen",
+            "coordinates": [
+                0,
+                0
+            ]
+        },
         "23": {
-            "commanderName": "Karin",
+            "commanderName": "Steven Smith",
             "coordinates": [
                 0,
                 0
             ]
         },
         "42": {
-            "commanderName": "Nanna",
+            "commanderName": "Anna Johnson",
+            "coordinates": [
+                0,
+                0
+            ]
+        },
+        "54": {
+            "commanderName": "Marcus Fry",
             "coordinates": [
                 0,
                 0

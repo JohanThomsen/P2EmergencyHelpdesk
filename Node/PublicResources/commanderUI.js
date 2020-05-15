@@ -25,6 +25,7 @@ function login(data) {
     errorCode = -1;
     let commanderFound = false;
     let commander = {
+        name: "",
         ID: "",
         coords: []
     };
@@ -32,6 +33,7 @@ function login(data) {
     commanderID = commander.ID;
     for(id in data.commanders) {
         if (id === commander.ID){
+            commander.name = data.commanders[id].commanderName;
             commander.coords = data.commanders[id].coordinates;
             fireCoordinates = commander.coords;
             if(commander.coords[0] === 0){
@@ -51,6 +53,7 @@ function getAndShowPlan(commander, commanderFound){
     if(commanderFound === true){
         fetchPlan(commander.coords);
         document.getElementById("ErrorMessage").innerHTML = ``;
+        document.getElementById("commanderName").innerHTML = commander.name;
     } else {
         if (errorCode != 0){
             printErrors(1);
