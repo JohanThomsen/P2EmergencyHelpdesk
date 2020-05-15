@@ -106,28 +106,25 @@ function POSTRequests(request, response){
         break;
             
         case ('/validateInside'):
-            let buildingIndex;
+            let building;
             new Promise((resolve, reject) => {
                 request.on('data', (data) => {
                     resolve(BinaryToJson(data));
                 });
             })
             .then((jsonData) => {
-                console.log(jsonData.coords)
-                buildingIndex = insideBuilding(jsonData.coords, './Node/Buildings.geojson').fileIndex;
-                
-                console.log(buildingIndex)
-
-                if (buildingIndex != -1){
+                building = insideBuilding(jsonData.coords, './Node/Buildings.geojson');
+                if (building.fileIndex != -1){
                     response.statusCode = 200;
                     //response.setHeader('Content-Type', );
-                    response.write(JSON.stringify({result: true}));
+                    response.write(JSON.stringify({result: true,
+                                                   polygon: building.polygon}));
                     response.end('\n');
                 }
                 else{
                     response.statusCode = 200;
                     //response.setHeader('Content-Type', );
-                    response.write(JSON.stringify({result: false}));
+                    response.write(JSON.stringify({result : false}));
                     response.end('\n');
                 }
             });
