@@ -48,6 +48,16 @@ describe('Marker test', () => {
                     id: 22
         })
     })
+    it("Create marker", () => {
+        cy.request('POST', 'http://127.0.0.1:3000/fireAlert', {
+                    location: [ 9.933083, 57.048411],
+                    typeFire: "big fire",
+                    time: "10:45",
+                    automaticAlarm: true,
+                    active: true,
+                    id: 22
+        })
+    })
     let address;
     it("click marker", () => {
         cy.get("#fire0").click()
@@ -55,8 +65,6 @@ describe('Marker test', () => {
         cy.get("#address").then(($span) => {
             address = $span.text();
         })
-        // cy.get("#address").to.have.text(address)
-        // console.log(address);
     })
     it("click marker", () => {
         cy.get("#fire1").click()
@@ -70,6 +78,11 @@ describe('Marker test', () => {
     })
     it("click marker", () => {
         cy.get("#fire3").click()
+        cy.wait(1000)
+        cy.get("#address").should("not.contain", address)
+    })
+    it("click marker", () => {
+        cy.get("#fire4").click()
         cy.wait(1000)
         cy.get("#address").should("not.contain", address)
     })

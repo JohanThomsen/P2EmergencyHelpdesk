@@ -7,7 +7,7 @@ describe('Map test', () => {
         cy.visit("http://127.0.0.1:3000")
         cy.wait(1500)
         cy.request('POST', 'http://127.0.0.1:3000/fireAlert', {
-                    location: [ 9.932207, 57.046674],
+                    location: [9.932207, 57.046674],
                     typeFire: "big fire",
                     time: "10:45",
                     automaticAlarm: true,
@@ -36,6 +36,15 @@ describe('Map test', () => {
     })
     it("Click deletet marker", () => {
         cy.get(".leaflet-marker-icon").should("not.be.visible")
+    })
+    it("Zoom map", () => {
+        cy.get('.leaflet-control-zoom-in').click()
+        cy.wait(500)
+        cy.get('.leaflet-control-zoom-in').click()
+        cy.wait(500)
+        cy.get('.leaflet-control-zoom-out').click()
+        cy.wait(500)
+        cy.get('.leaflet-control-zoom-out').click()
     })
     
 })
