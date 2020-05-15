@@ -129,6 +129,34 @@ function fetchPlan(feature, layer, fireID){
 // Gets the current fires, loads them onto the map with the display function on click
 fetchFireMarkers();
 
+// let geoJSONLayer;
+/* Gets the locations of the fires from the server and places icons on the map */
+function fetchFireMarkers(){
+    fetch("/fires")
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        geoJSONLayer = new L.geoJSON(data, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, {icon: fireIcon});
+            },
+            onEachFeature: markerFeatures
+        });
+        geoJSONLayer.addTo(primaryMap);
+    })
+    .then(() => {
+        let markers = document.getElementsByClassName("leaflet-marker-pane")[0].children;
+        markerArray = Array.from(markers);
+        console.log(markerArray);
+        markerArray.forEach((element, index)=>{
+            element.setAttribute("id", "fire"+index);
+        });
+    })
+   
+};
+
+
 //Not need for the program but useful for developing. Delete before exam
 primaryMap.on('click', function(e){
     let coord = e.latlng.toString().split(',');
@@ -158,7 +186,7 @@ async function initDropDown(currentViewedCoords, fireID){
     dropDownElement = document.getElementById('myDropdown');
     htmlString = '';
     keys.forEach((element) => {
-        htmlString += `<a href="#" onclick="assignCommander(${element},
+        htmlString += `<a href="#" id="${commanderList[element].commanderName}" onclick="assignCommander(${element},
                                                [${currentViewedCoords}], 
                                                 ${fireID}, 
                                                 '${commanderList[element].commanderName}')">
@@ -218,6 +246,7 @@ updateSocket.onopen = function (event) {
 }
 
 updateSocket.onmessage = function (event) {
+    console.log("websocket ping");
     geoJSONLayer.removeFrom(primaryMap);
     fetchFireMarkers();
 }

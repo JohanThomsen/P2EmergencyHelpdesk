@@ -67,6 +67,7 @@ function GETRequests(request, response){
 function POSTRequests(request, response){
     switch(request.url){
         case'/fireAlert':
+            console.log("got request");
             new Promise((resolve, reject) => {
                 request.on('data', (data) => {
                     resolve(BinaryToJson(data));
@@ -102,7 +103,18 @@ function POSTRequests(request, response){
             })
             .then((jsonData) => {
                 removeFireFromCommander(jsonData, response);
-            }); 
+            });
+        break; 
+
+        case '/clearFires':
+            fs.writeFileSync('./Node/PublicResources/currentFires.geojson',
+                `{
+                "type": "FeatureCollection",
+                "name": "currentFires",
+                "features": []
+                }`)
+            response.statusCode = 200;
+            response.end('\n');
         break;
             
         case ('/validateInside'):
@@ -135,7 +147,7 @@ function POSTRequests(request, response){
 
         break;
 
-        }
+    }
 }
 
 function removeFireFromCommander(jsonData, response){

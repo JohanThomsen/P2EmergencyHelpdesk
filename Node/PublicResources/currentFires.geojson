@@ -1,5 +1,11 @@
 {
     "type": "FeatureCollection",
     "name": "currentFires",
+<<<<<<< HEAD
     "features": []
+=======
+    "features": [
+        
+    ]
+>>>>>>> 765faab4d06321bef619b0ceee7702a93ccf2eba
 }
