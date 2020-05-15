@@ -145,17 +145,12 @@ function removeFireFromCommander(jsonData, response){
     let commanderPath = './Node/PublicResources/commanderID.json'
     let commanderFile = fs.readFileSync(commanderPath);
     let commanderData = JSON.parse(commanderFile);
-
-    
-
-    console.log(commanderData);
-    for (element in commanderData.commanders) {
-        console.log(element);
-        console.log(element.coordinates);
-        if (element.coordinates == jsonData.fireCoordinates) {
-            commanderData.commanders[jsonData.fireCoordinates].coordinates = [0,0];
+    Object.keys(commanderData.commanders).forEach((key) => {
+        if(commanderData.commanders[key].coordinates[0] == jsonData.fireCoordinates[0]) {
+            commanderData.commanders[key].coordinates = [0,0];
         }
-    } 
+    })
+
     fs.writeFile(commanderPath, JSON.stringify(commanderData, null, 4), (error) => {
         if (error) {
             throw error;
@@ -277,7 +272,7 @@ function UpdateFile(jsonData, path) {
                                         "time"               : jsonData.time, 
                                         "automaticAlarm"     : jsonData.automaticAlarm, 
                                         "active"             : jsonData.active,
-                                        "id"                 : incrementID(firesObject.features[firesObject.features.length-1].properties.id) + 1,
+                                        "id"                 : incrementID(firesObject),
                                         "assignedCommanders" : []
                                     }, 
                                     "geometry": {
@@ -292,11 +287,11 @@ function UpdateFile(jsonData, path) {
     });
 }
 
-function incrementID(id){
-    if (id == undefined){
+function incrementID(firesObject){
+    if (firesObject.features[0] == undefined) {
         return 0;
     } else {
-        return id;
+        return firesObject.features[firesObject.features.length-1].properties.id + 1;
     }
 }
 //delete object in array

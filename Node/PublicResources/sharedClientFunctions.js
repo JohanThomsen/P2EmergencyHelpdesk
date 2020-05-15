@@ -235,19 +235,13 @@ function assignCommander(id, fireCoords, fireID, name) {
         if (response.status == 405) {
             printErrors(3);
         } else {
+            document.getElementById("commanderWarning").innerHTML = "";
             document.getElementById('assignedCommanders').innerHTML += 
             `${name} <br>`
         }
     })) 
 }
 
-function removeFireFromCommander(fireCoordinates) {
-    fetch('http://127.0.0.1:3000/removeFireFromCommander', {
-        method: 'POST', body: JSON.stringify({
-            fireCoordinates: fireCoordinates
-        })
-    });
-}
 
 /* From stackoverflow by Steve Hansell
  * Function added to the string prototype that capitalizes a string */
@@ -255,10 +249,10 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-function printErrors(errorCode){
+function printErrors(errorCode, name){
     switch (errorCode) {
         case 0:
-            document.getElementById("ErrorMessage").innerHTML = `Operative Plan Resolved`;
+            document.getElementById("ErrorMessage").innerHTML = `Commander is not assigned to any fires`;
             break;
         
         case 1:
@@ -266,11 +260,11 @@ function printErrors(errorCode){
             break;
     
         case 2:
-            document.getElementById("ErrorMessage").innerHTML = "No operative plan found for commander";
+            document.getElementById("ErrorMessage").innerHTML = `No operative plan found for commander`;
             break;
         
         case 3:
-            document.getElementById("assignedCommanders").innerHTML += " Commander already dispatched";
+            document.getElementById("commanderWarning").innerHTML = " Commander already dispatched";
         default:
             break;
     }

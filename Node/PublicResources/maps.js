@@ -46,6 +46,7 @@ function markerFeatures(feature, layer){
 function displayProperties(feature, layer){
 
     layer.on('mousedown', (e) => {
+        document.getElementById("commanderWarning").innerHTML = "";
         document.getElementById("fireinfo").innerHTML ="";
         // Creates a paragraph for each attribute, with padding depending on the amount of attributes
         for(property in feature.properties) {

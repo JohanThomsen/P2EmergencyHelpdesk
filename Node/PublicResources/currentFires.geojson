@@ -1,7 +1,11 @@
 {
     "type": "FeatureCollection",
     "name": "currentFires",
+<<<<<<< HEAD
     "features": [
 
     ]
+=======
+    "features": []
+>>>>>>> Refactoring
 }

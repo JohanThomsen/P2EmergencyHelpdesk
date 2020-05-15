@@ -88,6 +88,7 @@ function fetchPlan(coordinates){
                 displayImages(data.opPlan);
                 displayResolveButton();
             } else {
+                displayResolveButton();
                 printErrors(2);
                 resetHTML();
             }
@@ -165,6 +166,15 @@ function resolveFire(coordinates){
     postFire(coordinates, null, null, null, false);
     removeFireFromCommander(coordinates);
     location.reload();
+}
+
+function removeFireFromCommander(coordinates) {
+    console.log(coordinates);
+    fetch('http://127.0.0.1:3000/removeFireFromCommander', {
+        method: 'POST', body: JSON.stringify({
+            fireCoordinates: coordinates
+        })
+    });
 }
 
 // Next/previous controls
