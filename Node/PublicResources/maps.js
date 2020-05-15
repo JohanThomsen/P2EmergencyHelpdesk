@@ -85,7 +85,6 @@ function ifAutomaticAlarm(AlarmTrue){
 }
 
 async function displayAssignedCommander(commanderArray){
-    console.log('display assigned commander');
     let response = await fetch("/commanderID.json");
     let data = await response.json();
     let commanderList = data.commanders;

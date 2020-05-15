@@ -3,6 +3,7 @@ let theMarker = {};
 
 // Leaflet copy-paste job, creates the map then gets the map from mapbox
 let primaryMap = L.map("mapArea").setView([57.05016, 9.9189], scale);
+
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
@@ -11,6 +12,12 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: 'pk.eyJ1Ijoia3Jpczk3M2EiLCJhIjoiY2s3eGFtM2hiMDlnbjNmcHByNXBocWE1ZSJ9.AC0zZ0OWIjPa70_crBl-qQ'
 }).addTo(primaryMap);
+
+primaryMap.whenReady(() => {
+    console.log("map done loading");
+    primaryMap.invalidateSize()
+});
+
 
 coordXField = document.getElementById('ecoordinate');
 coordYField = document.getElementById('ncoordinate');
@@ -31,6 +38,7 @@ primaryMap.on('click', function(e){
 async function markerUpdate(coords, fromClick){
 
     if (await validateInsideBuilding(coords) === true){
+        
         if (fromClick === true){
             inputToField(coords[1].toFixed(7), coords[0].toFixed(7));
         }
@@ -58,6 +66,22 @@ async function markerUpdate(coords, fromClick){
     }
 }
 
+let poly
+poly = L.polygon([[0,0][0,0]]); 
+//0,0 polygon to intialise polylayer to avoid clearing of "undefined" first time fetchPlan is run
+/* Creates the polygon the inputted data exists in 
+ * then displays it on the map.
+ */
+function displayPolygon(polygon){
+    let polyCoords = polygon;
+    polyCoords.forEach(element => {
+        element.reverse();
+    });
+    
+    poly = L.polygon(polyCoords);
+    poly.addTo(primaryMap);
+}
+
 async function validateInsideBuilding(coords){
     let validationSuccess; 
     let test = await fetch('/validateInside', {
@@ -69,11 +93,13 @@ async function validateInsideBuilding(coords){
       })
     .then((response) => response.json())
     .then((json) => {
-        console.log(json);
         if (json.result === true){
+            poly.removeFrom(primaryMap);
+            displayPolygon(json.polygon);
             validationSuccess = true; 
         }
         else{
+            poly.removeFrom(primaryMap);
             validationSuccess = false; 
         }        
     })
