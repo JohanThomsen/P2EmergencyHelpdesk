@@ -12,26 +12,51 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: 'pk.eyJ1Ijoia3Jpczk3M2EiLCJhIjoiY2s3eGFtM2hiMDlnbjNmcHByNXBocWE1ZSJ9.AC0zZ0OWIjPa70_crBl-qQ'
 }).addTo(primaryMap);
 
-//let selectedCoords;
+coordXField = document.getElementById('ecoordinate');
+coordYField = document.getElementById('ncoordinate');
+// Execute a function when the user releases a key on the keyboard
+coordXField.addEventListener("keyup", function(event) {
+    markerUpdate([Number(coordYField.value), Number(coordXField.value)], false);
+});
+coordYField.addEventListener("keyup", function(event) {
+    markerUpdate([Number(coordYField.value), Number(coordXField.value)], false);
+});
 
-primaryMap.on('click', async function(e){
+primaryMap.on('click', function(e){
     let latlng = e.latlng
     let selectedCoord = [latlng.lat, latlng.lng];
-    if (theMarker != undefined) {
-        primaryMap.removeLayer(theMarker);
-    };
-    if (await validateInsideBuilding(selectedCoord) === true){
-        let coordX = latlng.lat.toString().replace(',', '.');
-        let coordY = latlng.lng.toString().replace(',', '.');
-        inputToField(coordY, coordX);
-        document.getElementById("coordError").setAttribute('style', 'opacity: 0;');
-        theMarker = L.marker([latlng.lat,latlng.lng]).addTo(primaryMap); 
+    markerUpdate(selectedCoord, true);
+});
+
+async function markerUpdate(coords, fromClick){
+
+    if (await validateInsideBuilding(coords) === true){
+        if (fromClick === true){
+            inputToField(coords[1].toFixed(7), coords[0].toFixed(7));
+        }
+        document.getElementById('coordError').setAttribute('style', 'opacity: 0;');
+        document.getElementById('submitButton').disabled = false;
+        if (theMarker != undefined) {
+            await primaryMap.removeLayer(theMarker);
+            theMarker = L.marker([coords[0], coords[1]]).addTo(primaryMap); 
+        }
+        else{
+            theMarker = L.marker([coords[0], coords[1]]).addTo(primaryMap); 
+        }
+        primaryMap.flyTo([coords[0], coords[1]], scale+4);
     }
     else{
-        inputToField(null, null);
-        document.getElementById("coordError").setAttribute('style', 'opacity: 1;');
+        if (theMarker != undefined) {
+            await primaryMap.removeLayer(theMarker);
+        }
+
+        if (fromClick === true){
+            inputToField(null, null);
+        }
+        document.getElementById('coordError').setAttribute('style', 'opacity: 1;');
+        document.getElementById('submitButton').disabled = true;
     }
-});
+}
 
 async function validateInsideBuilding(coords){
     let validationSuccess; 
