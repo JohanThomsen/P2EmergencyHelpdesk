@@ -1,7 +1,5 @@
 {
     "type": "FeatureCollection",
     "name": "currentFires",
-    "features": [
-        
-    ]
+    "features": []
 }

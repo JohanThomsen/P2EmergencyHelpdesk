@@ -25,11 +25,11 @@ let server = http.createServer((request, response) => {
 function GETRequests(request, response){
     switch (request.url) {
         case '/': 
-            fileResponse('index.html', response);
+            fileResponse('HTML/index.html', response);
         break; 
 
         case '/uploadOP': 
-            fileResponse('opPlanInput.html', response);
+            fileResponse('HTML/opPlanInput.html', response);
         break; 
 
         case '/fires':
@@ -50,7 +50,7 @@ function GETRequests(request, response){
         break;
         
         case ('/commanders'):
-            fileResponse('commanderUI.html', response);
+            fileResponse('HTML/commanderUI.html', response);
         break;
 
         case ('/commanderList'):
