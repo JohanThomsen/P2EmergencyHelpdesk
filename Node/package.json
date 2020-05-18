@@ -10,7 +10,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "jest",
-    "start": "cd .. && node Node/server.js"
+    "start": "cd .. && node Node/NodeServer.js"
   },
   "author": "",
   "license": "ISC"
