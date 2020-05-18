@@ -5,7 +5,8 @@
   "main": "NodeServer.js",
   "dependencies": {
     "formidable": "^1.2.2",
-    "jest": "^25.3.0"
+    "jest": "^25.3.0",
+    "websocket": "^1.0.31"
   },
   "devDependencies": {},
   "scripts": {
