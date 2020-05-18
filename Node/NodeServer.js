@@ -420,9 +420,10 @@ function checkPrevious(start, index, opArray) {
 /* Responds with a file of the name inputted */
 function fileResponse(filename, res) {
     const path = publicResources + filename;
-    
+    console.log(path);
     fs.readFile(path, (err, data) => {
         if (err) {
+            console.log('File Error');
             res.statusCode = 404;
             res.setHeader('Content-Type', 'text/txt');
             res.write("File Error:" + String(err));
