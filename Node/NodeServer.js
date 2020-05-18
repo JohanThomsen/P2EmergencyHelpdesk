@@ -10,6 +10,7 @@ const port = 3000;
 const hostName = '127.0.0.1';
 const publicResources = './Node/PublicResources/';
 
+console.log(publicResources);
 //HTTP server
 let server = http.createServer((request, response) => {
     if (request.method == 'GET') {
@@ -41,7 +42,7 @@ function GETRequests(request, response){
         break;
 
         case ('/buildings'):
-            fs.readFile('./Node/Buildingsgeojson', (err, data) => {
+            fs.readFile('./Node/Buildings.geojson', (err, data) => {
                 response.statusCode = 200;
                 response.setHeader('Content-Type', 'application/json');
                 response.write(data);
