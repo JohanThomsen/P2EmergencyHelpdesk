@@ -8,7 +8,7 @@ const webSocketServer = require('websocket');
 //server setup variables
 const port = 3000;
 const hostName = '127.0.0.1';
-const publicResources = './Node/PublicResources/';
+const publicResources = './PublicResources/';
 
 console.log(publicResources);
 //HTTP server
