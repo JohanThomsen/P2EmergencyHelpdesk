@@ -75,7 +75,7 @@ function POSTRequests(request, response){
                 });
             })
             .then((jsonData) => {
-                CheckFire(jsonData, './Node/PublicResources/currentFires.geojson');
+                CheckFire(jsonData, './PublicResources/currentFires.geojson');
             });
             response.statusCode = 200;
             response.end('\n');
