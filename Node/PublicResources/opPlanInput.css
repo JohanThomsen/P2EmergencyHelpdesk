@@ -151,6 +151,6 @@ input[type=number], select {
     float: left;
 }
 
-#mapArea { height: 400px; z-index: 0;}
+#mapArea { height: 700px; z-index: 0;}
 
 #coordError {opacity: 0; color: red;}
