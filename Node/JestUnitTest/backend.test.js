@@ -1,4 +1,4 @@
-const checkPolygon = require('./checkPolygon.js');
+const checkPolygon = require('../checkPolygon.js');
 
 test('onSegment', ()=>{
     expect(checkPolygon.onSegment({x: -1.78, y: -0.36}, {x: 5.44, y: 4.85}, {x: 14.01, y: 11.04})).toBeTruthy();
