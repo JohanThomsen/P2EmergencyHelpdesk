@@ -170,7 +170,7 @@ function resolveFire(coordinates){
 
 function removeFireFromCommander(coordinates) {
     console.log(coordinates);
-    fetch('http://127.0.0.1:3000/removeFireFromCommander', {
+    fetch('/removeFireFromCommander', {
         method: 'POST', body: JSON.stringify({
             fireCoordinates: coordinates
         })

@@ -224,7 +224,7 @@ async function postFire(location, typeFire, time, automaticAlarm, active) {
 /* Sends the operative plan to a commander, by linking fire coordinates
  * with the coordinates of the fire */
 function assignCommander(id, fireCoords, fireID, name) {
-    fetch('http://127.0.0.1:3000/assignCommander', {
+    fetch('/assignCommander', {
         method: 'POST', body: JSON.stringify({
             commanderID: id,
             fireCoordinates: fireCoords,
