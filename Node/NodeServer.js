@@ -1,3 +1,8 @@
+//  Made by group SW2B2-20 from Aalborg unversity 
+//  
+//  Server file that handles all requests and file editing. 
+//  
+
 const http =            require('http');
 const fs =              require('fs');
 const formidable =      require('formidable');

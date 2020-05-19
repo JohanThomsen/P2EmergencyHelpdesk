@@ -1,3 +1,9 @@
+//  Made by group SW2B2-20 from Aalborg unversity 
+//  
+//  Module for checking if a point is indside a polygon. 
+//  The Module is used by NodeServer.js
+
+
 module.exports = {checkPolygon, onSegment, orientation};
 
 function checkPolygon(polygon, point) {
