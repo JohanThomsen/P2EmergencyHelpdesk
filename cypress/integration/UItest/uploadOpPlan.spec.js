@@ -1,6 +1,6 @@
 describe('Opplan upload test', () => {
-    const longitude = 9.93207
-    const latitude = 57.046799
+    const longitude = 9.92012
+    const latitude = 57.051885
     it("Input coordinates", () => {
         /*cy.viewport(1920,3000)*/
         cy.visit("http://127.0.0.1:3000/uploadOP")
@@ -28,5 +28,17 @@ describe('Opplan upload test', () => {
 
         cy.get('#fullOpPlan').attachFile("OPtest.txt");
         cy.get('#buildingOverview').attachFile("OPtest.txt");
+
+        cy.get('#submitButton').click();
     })
+    it("Test for correct OP plan", () => {
+        let stringedCoord = String(longitude) + "_" + String(latitude);
+        stringedCoord = stringedCoord.replace(/[.]/g,";");
+        cy.request('/operativePlans=' + stringedCoord).then((data) => {
+            let realPath = data.address;
+            if(realPath === "gadevej 10"){
+                return true
+            }
+        });
+    }) 
 })

@@ -209,6 +209,58 @@
         },
         {
             "coordinates": [
+                57.051885,
+                9.92012
+            ],
+            "address": "gadevej 10",
+            "buildingDefinition": "Bolig",
+            "usage": "Bolig",
+            "height": "5",
+            "specialConsiderations": "oily",
+            "fireFightingEquipment": {
+                "fireLift": false,
+                "escapeStairs": false,
+                "risers": true,
+                "sprinkler": false,
+                "smokeDetectors": false,
+                "markers": false,
+                "automaticFireDetector": false,
+                "internalAlert": true
+            },
+            "consideration": "Oil tanks",
+            "fullOpPlan": "OperativePDF/OPtest.txt",
+            "buildingOverview": "buildingOverview/OPtest.txt",
+            "floorPlans": "floorPlans/gadevej_10/",
+            "floorPlanAmount": 1
+        },
+        {
+            "coordinates": [
+                57.051886,
+                9.92012
+            ],
+            "address": "gadevej 10",
+            "buildingDefinition": "Bolig",
+            "usage": "Bolig",
+            "height": "5",
+            "specialConsiderations": "oily",
+            "fireFightingEquipment": {
+                "fireLift": false,
+                "escapeStairs": false,
+                "risers": true,
+                "sprinkler": false,
+                "smokeDetectors": false,
+                "markers": false,
+                "automaticFireDetector": false,
+                "internalAlert": true
+            },
+            "consideration": "Oil tanks",
+            "fullOpPlan": "OperativePDF/OPtest.txt",
+            "buildingOverview": "buildingOverview/OPtest.txt",
+            "floorPlans": "floorPlans/gadevej_10/",
+            "floorPlanAmount": 1
+        },
+        {
+            "coordinates": [
                 90,
                 90
             ],
