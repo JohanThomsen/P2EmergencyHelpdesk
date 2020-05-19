@@ -232,7 +232,7 @@ window.onclick = function(event) {
 
 /*Websocket code*/
 /* Opening a websocket that allows for live updating of the map, when a new fire comes in */
-let updateSocket = new WebSocket('ws://127.0.0.1:3000/update');
+let updateSocket = new WebSocket('wss://emergencyhelpdeskp2.herokuapp.com/update');
 
 updateSocket.onopen = function (event) {
    
