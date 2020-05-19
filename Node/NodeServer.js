@@ -169,7 +169,7 @@ function removeFireFromCommander(jsonData, response){
     response.end('\n')    
 }
 //server listen for requests 
-server.listen(port, hostName, () =>{
+server.listen(process.env.port || 3000, () =>{
 });
 console.log('server running');
 
