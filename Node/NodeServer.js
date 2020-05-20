@@ -1,12 +1,12 @@
 //  Made by group SW2B2-20 from Aalborg unversity 
 //  
 //  Server file that handles all requests and file editing. 
-//  Written as part of a 2nd semester project on AAU
+//  
 
 const http =            require('http');
 const fs =              require('fs');
 const formidable =      require('formidable');
-const search =          require('./dataManagement/dataSorting.js');
+const search =          require('./dataSorting.js');
 const checkPolygon =    require('./checkPolygon.js');
 const webSocketServer = require('websocket');
 
@@ -38,7 +38,7 @@ function GETRequests(request, response){
         break; 
 
         case '/fires':
-            fileResponse('currentFires.geojson', response);
+            fileResponse('../Data/currentFires.geojson', response);
         break;
 
         case (request.url.match(/^\/operativePlans=\d{1,};\d{1,}_\d{1,};\d{1,}$/) || {}).input:
@@ -46,7 +46,7 @@ function GETRequests(request, response){
         break;
 
         case ('/buildings'):
-            fs.readFile('./Node/Buildingsgeojson', (err, data) => {
+            fs.readFile('./Node/Data/Buildings.geojson', (err, data) => {
                 response.statusCode = 200;
                 response.setHeader('Content-Type', 'application/json');
                 response.write(data);
@@ -59,7 +59,7 @@ function GETRequests(request, response){
         break;
 
         case ('/commanderList'):
-            fileResponse('commanderID.json', response);
+            fileResponse('../Data/commanderID.json', response);
         break;
 
         default:
@@ -79,7 +79,7 @@ function POSTRequests(request, response){
                 });
             })
             .then((jsonData) => {
-                CheckFire(jsonData, './Node/PublicResources/currentFires.geojson');
+                CheckFire(jsonData, './Node/Data/currentFires.geojson');
             });
             response.statusCode = 200;
             response.end('\n');
@@ -112,7 +112,7 @@ function POSTRequests(request, response){
         break; 
 
         case '/clearFires':
-            fs.writeFileSync('./Node/PublicResources/currentFires.geojson',
+            fs.writeFileSync('./Node/Data/currentFires.geojson',
                 `{
                 "type": "FeatureCollection",
                 "name": "currentFires",
@@ -130,25 +130,19 @@ function POSTRequests(request, response){
                 });
             })
             .then((jsonData) => {
-                building = insideBuilding(jsonData.coords, './Node/Buildings.geojson');
+                building = insideBuilding(jsonData.coords, './Node/Data/Buildings.geojson');
                 if (building.fileIndex != -1){
                     response.statusCode = 200;
-                    //response.setHeader('Content-Type', );
                     response.write(JSON.stringify({result: true,
                                                    polygon: building.polygon}));
                     response.end('\n');
                 }
                 else{
                     response.statusCode = 200;
-                    //response.setHeader('Content-Type', );
                     response.write(JSON.stringify({result : false}));
                     response.end('\n');
                 }
             });
-            // response.statusCode = 200;
-            // //response.setHeader('Content-Type', );
-            // response.write(JSON.stringify({result: false}));
-            // response.end('\n');
 
         break;
 
@@ -156,7 +150,7 @@ function POSTRequests(request, response){
 }
 
 function removeFireFromCommander(jsonData, response){
-    let commanderPath = './Node/PublicResources/commanderID.json'
+    let commanderPath = './Node/Data/commanderID.json'
     let commanderFile = fs.readFileSync(commanderPath);
     let commanderData = JSON.parse(commanderFile);
     Object.keys(commanderData.commanders).forEach((key) => {
@@ -197,8 +191,8 @@ updateServer.on('request', (request) => {
 /* Updates the commander JSON file with inputted coordinates
  * and such linking a commder with those coordinates */
 function updateCommanderFile(jsonData, response) {
-    let commanderPath = './Node/PublicResources/commanderID.json'
-    let firePath      = './Node/PublicResources/currentFires.geojson'
+    let commanderPath = './Node/Data/commanderID.json'
+    let firePath      = './Node/Data/currentFires.geojson'
     let commanderFile = fs.readFileSync(commanderPath);
     let fireFile      = fs.readFileSync(firePath);
     let commanderData = JSON.parse(commanderFile);
@@ -330,7 +324,7 @@ function sendOperativePlan(path, requestUrl, response) {
     let file = fs.readFileSync(path);
     let opArraySorted = JSON.parse(file).data;
     let coordinates = splitData(requestUrl.match(/\d{1,};\d{1,}_\d{1,};\d{1,}$/));
-    let metaData = insideBuilding(coordinates, './Node/Buildings.geojson');
+    let metaData = insideBuilding(coordinates, './Node/Data/Buildings.geojson');
     let resultIndex = search.binarySearch(opArraySorted, metaData.opCoords == null ? coordinates[0] : metaData.opCoords[0], metaData.opCoords == null ? coordinates[1] : metaData.opCoords[1]);
     let result = {
         opPlan: resultIndex != -1 ? opArraySorted[resultIndex] : {},
@@ -424,7 +418,7 @@ function checkPrevious(start, index, opArray) {
 /* Responds with a file of the name inputted */
 function fileResponse(filename, res) {
     const path = publicResources + filename;
-    
+    console.log(path);
     fs.readFile(path, (err, data) => {
         if (err) {
             res.statusCode = 404;
@@ -473,7 +467,7 @@ async function updateDatabase (post, res) {
             writeOpPlanToFile(data, post);
         }
     });
-    fs.readFile('./Node/Buildings.geojson', (err, buildings) => {
+    fs.readFile('./Node/Data/Buildings.geojson', (err, buildings) => {
         if (err){
             console.log(err);
         } else {
@@ -498,11 +492,11 @@ async function writeOpPlanToFile(data, post){
 /* Takes the operative plan and links it to a building then updates the building file with that link*/
 async function writeBuildingsToFile(buildings, post){
     let buildingArray = await JSON.parse(buildings);
-    let buildingIndex = insideBuilding([post.coordinates[0], post.coordinates[1]], './Node/Buildings.geojson').fileIndex;
+    let buildingIndex = insideBuilding([post.coordinates[0], post.coordinates[1]], './Node/Data/Buildings.geojson').fileIndex;
     if (buildingIndex != -1){
         buildingArray.features[buildingIndex].properties.opPlanCoords = [post.coordinates[0], post.coordinates[1]];
         let updatedArray = JSON.stringify(buildingArray);
-        fs.writeFile('./Node/Buildings.geojson', updatedArray, (err, data) => {
+        fs.writeFile('./Node/Data/Buildings.geojson', updatedArray, (err, data) => {
             if (err){
                 console.log(err);
             }

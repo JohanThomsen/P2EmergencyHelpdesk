@@ -82,7 +82,7 @@ function ifAutomaticAlarm(AlarmTrue){
 }
 
 async function displayAssignedCommander(commanderArray){
-    let response = await fetch("/commanderID.json");
+    let response = await fetch("/commanderList");
     let data = await response.json();
     let commanderList = data.commanders;
     document.getElementById("assignedCommanders").innerHTML = "";
@@ -175,17 +175,19 @@ function updateInterface(data, currentViewedCoords, primaryMap, fireID){
 
 //init dropdown with commanders 
 async function initDropDown(currentViewedCoords, fireID){
-    let response = await fetch("/commanderID.json");
+    let response = await fetch("/commanderList");
     let data = await response.json();
     let commanderList = data.commanders;
     const keys = Object.keys(commanderList);
     dropDownElement = document.getElementById('myDropdown');
     htmlString = '';
     keys.forEach((element) => {
+        console.log(element);
         htmlString += `<a href="#" id="${commanderList[element].commanderName}" onclick="assignCommander(${element},
                                                [${currentViewedCoords}], 
                                                 ${fireID}, 
-                                                '${commanderList[element].commanderName}')">
+                                                '${commanderList[element].commanderName}',
+                                                 ${element})">
                                                 ${commanderList[element].commanderName}</a>`;
     })
     dropDownElement.innerHTML = htmlString;

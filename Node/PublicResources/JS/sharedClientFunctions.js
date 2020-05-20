@@ -251,7 +251,7 @@ async function postFire(location, typeFire, time, automaticAlarm, active) {
 
 /* Sends the operative plan to a commander, by linking fire coordinates
  * with the coordinates of the fire */
-function assignCommander(id, fireCoords, fireID, name) {
+function assignCommander(id, fireCoords, fireID, name, id) {
     fetch('http://127.0.0.1:3000/assignCommander', {
         method: 'POST', body: JSON.stringify({
             commanderID: id,
@@ -265,7 +265,7 @@ function assignCommander(id, fireCoords, fireID, name) {
         } else {
             document.getElementById("commanderWarning").innerHTML = "";
             document.getElementById('assignedCommanders').innerHTML += 
-            `${name} <br>`
+            `${name} ${id} <br>`
         }
     })) 
 }
