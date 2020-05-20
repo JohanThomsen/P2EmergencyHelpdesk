@@ -25,7 +25,7 @@ describe('Assign commander test', () => {
 
     it("assign commander", () => {
         cy.get('.commanderdropbtn').click()
-        cy.get('#Karin').click()
+        cy.get('#Steven\\ Smith').click()
     })
     
     it("Check all commanders", () => {
