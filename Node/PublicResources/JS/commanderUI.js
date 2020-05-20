@@ -1,4 +1,4 @@
-// Intro blurb, Code for Operative Plan GIS site, using leaflet
+// Code for Commander overview page with ability to resolve fires
 // Written as part of a 2nd semester project on AAU
 
 /* Calls the server for a list of all commanders.

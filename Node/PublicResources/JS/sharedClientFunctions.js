@@ -1,4 +1,5 @@
-
+// Collection file for javascript functions used on multiple pages
+// Written as part of a 2nd semester project on AAU
 
 /* initialises the leaflet map
  * creates the map then gets the map tiles from mapbox
