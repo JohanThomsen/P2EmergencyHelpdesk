@@ -1,3 +1,8 @@
+//  Made by group SW2B2-20 from Aalborg unversity 
+//  
+//  Handles the map used to input the operative plans. 
+//  
+
 const scale = 13;
 let theMarker = {};
 

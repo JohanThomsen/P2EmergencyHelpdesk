@@ -5,11 +5,11 @@
                 0,
                 0
             ],
-            "address": "Fyldeplads 0, 9200",
-            "buildingDefinition": "Ghetto",
+            "address": "",
+            "buildingDefinition": "",
             "usage": "Last point",
-            "height": "69",
-            "specialConsiderations": "Johans ghetto løsning",
+            "height": "0",
+            "specialConsiderations": "",
             "fireFightingEquipment": {
                 "risers": false,
                 "sprinkler": false,
@@ -20,8 +20,8 @@
                 "fireLift": false,
                 "smokeDetectors": false
             },
-            "consideration": "Locker 5 has a plastic depot. Care for dangerous smoke",
-            "fullOpPlan": "Not Available",
+            "consideration": "0",
+            "fullOpPlan": "",
             "buildingOverview": "",
             "floorPlans": ""
         },
@@ -212,11 +212,11 @@
                 90,
                 90
             ],
-            "address": "Fyldeplads 90, 9200",
-            "buildingDefinition": "Ghetto",
-            "usage": "Last point",
-            "height": "69",
-            "specialConsiderations": "Johans ghetto løsning",
+            "address": "",
+            "buildingDefinition": "",
+            "usage": "",
+            "height": "",
+            "specialConsiderations": "",
             "fireFightingEquipment": {
                 "risers": false,
                 "sprinkler": false,
@@ -228,7 +228,7 @@
                 "smokeDetectors": false
             },
             "consideration": "",
-            "fullOpPlan": "alt",
+            "fullOpPlan": "",
             "buildingOverview": "",
             "floorPlans": ""
         }

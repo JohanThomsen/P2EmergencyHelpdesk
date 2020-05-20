@@ -1,3 +1,9 @@
+//  Made by group SW2B2-20 from Aalborg unversity 
+//  
+//  Collection of functions that are used on more than one site. 
+//  
+
+
 
 
 /* initialises the leaflet map
