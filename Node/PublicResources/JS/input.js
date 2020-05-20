@@ -1,7 +1,7 @@
 //  Made by group SW2B2-20 from Aalborg unversity 
 //  
 //  Handles the map used to input the operative plans. 
-//  
+//  Written as part of a 2nd semester project on AAU
 
 const scale = 13;
 let theMarker = {};

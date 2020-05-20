@@ -32,7 +32,7 @@
     </div>
     <form class = "inputField" action = "http://127.0.0.1:3000/addOpPlan" method = "post" enctype = "multipart/form-data" id = "uploadFile">
         <label  for = "ncoordinate"> <h1 class = "CoordHeader">Coordinates*</h1> </label>
-        <input type = "number" id = "ncoordinate" step="0.0000001"   name = "ncoordinate"           placeholder = "North*" required>
+        <input class = "cypressCoord" type = "number" id = "ncoordinate" step="0.0000001"   name = "ncoordinate"           placeholder = "North*" required>
         <input type = "number" id = "ecoordinate" step="0.0000001"  name = "ecoordinate"            placeholder = "East*"  required>
         <br>
         <p id="coordError">Please select a building</p>
@@ -86,7 +86,7 @@
         <input type = "file"     id = "buildingOverview"     name = "buildingOverview" accept = ".png" required>
         <br>
         <p>In order to selct more than one floor plan, Ctrl click all the images you want to upload</p>
-        <label for "fullOpPlan"> Floor plans*</label>
+        <label for "fullOpPlan"> Floor plans</label>
         <input type = "file"     id = "floorPlans"           name = "floorPlans"       accept = ".png" multiple>
         <input type = "submit"   id = "submitButton">
     </form>

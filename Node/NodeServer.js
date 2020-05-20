@@ -1,7 +1,7 @@
 //  Made by group SW2B2-20 from Aalborg unversity 
 //  
 //  Server file that handles all requests and file editing. 
-//  
+//  Written as part of a 2nd semester project on AAU
 
 const http =            require('http');
 const fs =              require('fs');

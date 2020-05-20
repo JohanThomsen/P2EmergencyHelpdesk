@@ -1,5 +1,9 @@
-// Intro blurb, Code for Operative Plan GIS site, using leaflet
-// Written as part of a 2nd semester project on AAU
+//  Made by group SW2B2-20 from Aalborg unversity 
+//  
+//  Interactive GIS leaflet map for the operator page.
+//  Written as part of a 2nd semester project on AAU
+
+
 const scale = 13;
 const fireIcon = L.icon({
       iconUrl: 'fireMarker.png',
