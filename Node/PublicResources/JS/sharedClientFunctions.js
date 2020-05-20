@@ -1,5 +1,10 @@
-// Collection file for javascript functions used on multiple pages
-// Written as part of a 2nd semester project on AAU
+//  Made by group SW2B2-20 from Aalborg unversity 
+//  
+//  Collection of functions that are used on more than one site. 
+//  
+
+
+
 
 /* initialises the leaflet map
  * creates the map then gets the map tiles from mapbox

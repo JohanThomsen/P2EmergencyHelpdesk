@@ -1,3 +1,8 @@
+//  Made by group SW2B2-20 from Aalborg unversity 
+//  
+//  Collection of all functions used to manage data on the website.
+//  
+
 //lets other files access these functions
 module.exports = {mergeSort, binarySearch, binaryInput};
 
