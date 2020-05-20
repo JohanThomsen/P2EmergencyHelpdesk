@@ -144,7 +144,6 @@ function fetchFireMarkers(){
     .then(() => {
         let markers = document.getElementsByClassName("leaflet-marker-pane")[0].children;
         markerArray = Array.from(markers);
-        console.log(markerArray);
         markerArray.forEach((element, index)=>{
             element.setAttribute("id", "fire"+index);
         });
@@ -182,7 +181,6 @@ async function initDropDown(currentViewedCoords, fireID){
     dropDownElement = document.getElementById('myDropdown');
     htmlString = '';
     keys.forEach((element) => {
-        console.log(element);
         htmlString += `<a href="#" id="${commanderList[element].commanderName}" onclick="assignCommander(${element},
                                                [${currentViewedCoords}], 
                                                 ${fireID}, 
@@ -244,9 +242,14 @@ updateSocket.onopen = function (event) {
 }
 
 updateSocket.onmessage = function (event) {
-    console.log("websocket ping");
+    let updateData = JSON.parse(event.data);
+    console.log(updateData.message);
     geoJSONLayer.removeFrom(primaryMap);
     fetchFireMarkers();
+    if (updateData.message === "resolved fire") {
+        clearOpPlan()
+    }
+    
 }
 
 updateSocket.onclose = function(event) {
@@ -259,3 +262,9 @@ updateSocket.onclose = function(event) {
   };
 
   
+function clearOpPlan(){
+    initHTML();
+    document.getElementById("assignedCommanders").innerHTML = "";
+    document.getElementById("fireinfo").innerHTML           = "";
+    poly.removeFrom(primaryMap);
+}

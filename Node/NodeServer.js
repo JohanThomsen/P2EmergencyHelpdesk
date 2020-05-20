@@ -164,6 +164,7 @@ function removeFireFromCommander(jsonData, response){
             throw error;
         }
     });
+    updateServer.broadcastUTF(JSON.stringify({message: "resolved fire" }));
     response.statusCode = 200;
     response.end('\n')    
 }
