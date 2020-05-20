@@ -84,8 +84,7 @@ async function displayAssignedCommander(commanderArray){
     document.getElementById("assignedCommanders").innerHTML = "";
     for (let index = 0; index < commanderArray.length; index++) {
         document.getElementById('assignedCommanders').innerHTML += 
-        `${commanderList[commanderArray[index]].commanderName} <br>`
-        
+        `${commanderList[commanderArray[index]].commanderName}  ${commanderArray[index]}<br>`  
     }
 }
 
