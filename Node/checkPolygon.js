@@ -2,6 +2,7 @@
 //  
 //  Module for checking if a point is indside a polygon. 
 //  The Module is used by NodeServer.js
+//  Written as part of a 2nd semester project on AAU
 
 
 module.exports = {checkPolygon, onSegment, orientation};

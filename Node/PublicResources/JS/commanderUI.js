@@ -1,3 +1,5 @@
+//  Made by group SW2B2-20 from Aalborg unversity 
+//  
 // Code for Commander overview page with ability to resolve fires
 // Written as part of a 2nd semester project on AAU
 
