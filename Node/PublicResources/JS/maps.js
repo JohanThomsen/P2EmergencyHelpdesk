@@ -246,10 +246,6 @@ updateSocket.onmessage = function (event) {
     console.log(updateData.message);
     geoJSONLayer.removeFrom(primaryMap);
     fetchFireMarkers();
-    if (updateData.message === "resolved fire") {
-        clearOpPlan()
-    }
-    
 }
 
 updateSocket.onclose = function(event) {
@@ -260,11 +256,3 @@ updateSocket.onclose = function(event) {
     p.style.textAlign = "center";
     opPlan.insertBefore(p, opPlan.childNodes[2]);
   };
-
-  
-function clearOpPlan(){
-    initHTML();
-    document.getElementById("assignedCommanders").innerHTML = "";
-    document.getElementById("fireinfo").innerHTML           = "";
-    poly.removeFrom(primaryMap);
-}
