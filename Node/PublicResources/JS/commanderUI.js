@@ -151,7 +151,7 @@ function createFloorPlanHTML(imageIndex, slideAmount, floorPlanSource){
         </div>`
 }
 
-/* Creates the HTML needed to dispaly the buildingOverview */
+/* Creates the HTML needed to display the buildingOverview */
 function createBuildingOverViewHTML(imageSource){
     document.getElementById("buildingOverviewContainer").innerHTML = 
         `<div class="buildingOverview">

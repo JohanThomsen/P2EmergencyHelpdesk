@@ -11,7 +11,7 @@ let theMarker = {};
 let primaryMap = mapInit(scale);
 
 primaryMap.whenReady(() => {
-    console.log("map done loading");
+    //attempt to fix grey box error cause by the leaflet api code.
     primaryMap.invalidateSize();
     primaryMap.fitWorld();
     primaryMap.invalidateSize();
@@ -83,16 +83,19 @@ function displayPolygon(polygon){
 }
 
 async function validateInsideBuilding(coords){
+
     let validationSuccess; 
-    let test = await fetch('/validateInside', {
+
+    let validation = await fetch('/validateInside', {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({coords: coords}) // body data type must match "Content-Type" header
+        body: JSON.stringify({coords: coords})
       })
     .then((response) => response.json())
     .then((json) => {
+        //either shows or removes polygon depending on fetch result. 
         if (json.result === true){
             poly.removeFrom(primaryMap);
             displayPolygon(json.polygon);
@@ -104,6 +107,7 @@ async function validateInsideBuilding(coords){
         }        
     })
 
+    //returns validation 
     if (validationSuccess){
         return true;
     }

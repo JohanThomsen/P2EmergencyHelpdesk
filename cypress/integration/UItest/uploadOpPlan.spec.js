@@ -2,7 +2,6 @@ describe('Opplan upload test', () => {
     const longitude = 9.92012
     const latitude = 57.051885
     it("Input coordinates", () => {
-        /*cy.viewport(1920,3000)*/
         cy.visit("http://127.0.0.1:3000/uploadOP")
         cy.get('#ncoordinate').should("be.empty")
         cy.get('#ecoordinate').should("be.empty")
@@ -10,9 +9,7 @@ describe('Opplan upload test', () => {
         cy.get('#ncoordinate').type(latitude, {force: true})
         cy.get('#ecoordinate').type(longitude, {force: true})
         cy.wait(3500);
-       /*  cy.get('body').scrollTo(0, 1000) */
-     
-        /* scrollIntoView('#address') */
+
         cy.get('#address').type("gadevej 10", {force: true})
         cy.get('#buildingDefinition').type("Bolig", {force: true})
         cy.get('#usage').type("Bolig", {force: true})
