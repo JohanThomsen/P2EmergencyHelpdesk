@@ -11,7 +11,7 @@ let theMarker = {};
 let primaryMap = mapInit(scale);
 
 primaryMap.whenReady(() => {
-    console.log("map done loading");
+    //attempt to fix grey box error cause by the leaflet api code.
     primaryMap.invalidateSize();
     primaryMap.fitWorld();
     primaryMap.invalidateSize();
