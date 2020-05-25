@@ -84,7 +84,7 @@ function displayPolygon(polygon){
 
 async function validateInsideBuilding(coords){
     let validationSuccess; 
-    let test = await fetch('/validateInside', {
+    let validation = await fetch('/validateInside', {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json'
