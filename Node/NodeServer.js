@@ -219,14 +219,16 @@ function updateCommanderFile(jsonData, response) {
 
 function assignFire(fireData, jsonData, firePath) {
     fireData.features.forEach(element => {
-        if (element.properties.id === jsonData.fireID &&
-            !element.properties.assignedCommanders.includes(jsonData.commanderID)) {
+        if (element.properties.id === jsonData.fireID && 
+        !element.properties.assignedCommanders.includes(jsonData.commanderID)) {
+
             element.properties.assignedCommanders.push(jsonData.commanderID);
             fs.writeFileSync(firePath, JSON.stringify(fireData, null, 4), (error) => {
                 if (error) {
                     throw error;
                 }
             });
+            
             updateServer.broadcastUTF(JSON.stringify({ message: "update ping" }));
         }
     });
