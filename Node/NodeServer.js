@@ -149,6 +149,8 @@ function POSTRequests(request, response){
     }
 }
 
+/* Removes a given fire from all comaders assigned to that fire, then updates the commander file,
+ * And refreshes the operator site */
 function removeFireFromCommander(jsonData, response){
     let commanderPath = './Node/Data/commanderID.json'
     let commanderFile = fs.readFileSync(commanderPath);
@@ -217,6 +219,8 @@ function updateCommanderFile(jsonData, response) {
     
 }
 
+
+/* Assigns a fire to a commander using the fire ID, then updates the commander JSON file */
 function assignFire(fireData, jsonData, firePath) {
     fireData.features.forEach(element => {
         if (element.properties.id === jsonData.fireID && 
