@@ -35,6 +35,7 @@ primaryMap.on('click', function(e){
     markerUpdate(selectedCoord, true);
 });
 
+//fromClick is true if the coordinates are from clicking the map
 async function markerUpdate(coords, fromClick){
 
     if (await validateInsideBuilding(coords) === true){
@@ -42,6 +43,7 @@ async function markerUpdate(coords, fromClick){
         if (fromClick === true){
             inputToField(coords[1].toFixed(7), coords[0].toFixed(7));
         }
+        //displays error message and disables submit button if coordinates are invalid
         document.getElementById('coordError').setAttribute('style', 'opacity: 0;');
         document.getElementById('submitButton').disabled = false;
         if (theMarker != undefined) {
