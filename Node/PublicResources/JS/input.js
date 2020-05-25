@@ -115,6 +115,7 @@ async function validateInsideBuilding(coords){
 }
 
 function inputToField(coordX, coordY){
+    //inputs coordinates from clicking map into text fields
     coordYField = document.getElementById('ncoordinate');
     coordXField = document.getElementById('ecoordinate');
 
