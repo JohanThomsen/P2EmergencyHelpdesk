@@ -1,4 +1,4 @@
-const search = require('../dataManagement/dataSorting.js');
+const search = require('../dataSorting.js');
 
 let mergeTestArraySorted = {
     data:  [
