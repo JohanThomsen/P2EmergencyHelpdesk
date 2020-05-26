@@ -98,36 +98,10 @@
                 "smokeDetectors": false
             },
             "consideration": "",
-            "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Moelleparkvej4,Aalborg.pdf",
-            "buildingOverview": "MoelleParkVejOverview.png",
-            "floorPlans": "floorPlans/Moelleparkvej_4,_9000/",
+            "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf",
+            "buildingOverview": "MølleParkVejOverview.png",
+            "floorPlans": "floorPlans/Mølleparkvej_4,_9000/",
             "floorPlanAmount": 2
-        },
-        {
-            "coordinates": [
-                57.046642,
-                9.93099
-            ],
-            "address": "Happy street 2",
-            "buildingDefinition": "Appartment building",
-            "usage": "Residents",
-            "height": "114",
-            "specialConsiderations": "Large amount of people",
-            "fireFightingEquipment": {
-                "fireLift": true,
-                "escapeStairs": true,
-                "risers": true,
-                "sprinkler": false,
-                "smokeDetectors": false,
-                "markers": true,
-                "automaticFireDetector": false,
-                "internalAlert": false
-            },
-            "consideration": "Large amount of people",
-            "fullOpPlan": "OperativePDF/MusikkenshusPlaceholder.pdf",
-            "buildingOverview": "buildingOverview/httpdiagramnew.png",
-            "floorPlans": "floorPlans/nearby_adress/",
-            "floorPlanAmount": 1
         },
         {
             "coordinates": [
@@ -206,58 +180,6 @@
             "buildingOverview": "buildingOverview/JomfuAneGadeBuildings.PNG",
             "floorPlans": "floorPlans/Jomfru_Ane_Gade/",
             "floorPlanAmount": 0
-        },
-        {
-            "coordinates": [
-                57.051885,
-                9.92012
-            ],
-            "address": "gadevej 10",
-            "buildingDefinition": "Bolig",
-            "usage": "Bolig",
-            "height": "5",
-            "specialConsiderations": "oil",
-            "fireFightingEquipment": {
-                "fireLift": false,
-                "escapeStairs": false,
-                "risers": true,
-                "sprinkler": false,
-                "smokeDetectors": false,
-                "markers": false,
-                "automaticFireDetector": false,
-                "internalAlert": true
-            },
-            "consideration": "Oil tanks",
-            "fullOpPlan": "OperativePDF/OPtest.txt",
-            "buildingOverview": "buildingOverview/OPtest.txt",
-            "floorPlans": "floorPlans/gadevej_10/",
-            "floorPlanAmount": 1
-        },
-        {
-            "coordinates": [
-                57.051886,
-                9.92012
-            ],
-            "address": "gadevej 10",
-            "buildingDefinition": "Bolig",
-            "usage": "Bolig",
-            "height": "5",
-            "specialConsiderations": "oily",
-            "fireFightingEquipment": {
-                "fireLift": false,
-                "escapeStairs": false,
-                "risers": true,
-                "sprinkler": false,
-                "smokeDetectors": false,
-                "markers": false,
-                "automaticFireDetector": false,
-                "internalAlert": true
-            },
-            "consideration": "Oil tanks",
-            "fullOpPlan": "OperativePDF/OPtest.txt",
-            "buildingOverview": "buildingOverview/OPtest.txt",
-            "floorPlans": "floorPlans/gadevej_10/",
-            "floorPlanAmount": 1
         },
         {
             "coordinates": [
