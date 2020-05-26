@@ -216,7 +216,7 @@
             "buildingDefinition": "Bolig",
             "usage": "Bolig",
             "height": "5",
-            "specialConsiderations": "oily",
+            "specialConsiderations": "oil",
             "fireFightingEquipment": {
                 "fireLift": false,
                 "escapeStairs": false,

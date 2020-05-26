@@ -1,5 +1,42 @@
 {
-                "type": "FeatureCollection",
-                "name": "currentFires",
-                "features": []
-                }
+    "type": "FeatureCollection",
+    "name": "currentFires",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "Buildning fire",
+                "time": "18:45",
+                "automaticAlarm": true,
+                "active": true,
+                "id": 0,
+                "assignedCommanders": []
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.932237,
+                    57.046669
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "Buildning fire",
+                "time": "18:30",
+                "automaticAlarm": false,
+                "active": true,
+                "id": 3,
+                "assignedCommanders": []
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.87168,
+                    57.003145
+                ]
+            }
+        }
+    ]
+}
