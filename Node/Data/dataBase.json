@@ -98,9 +98,9 @@
                 "smokeDetectors": false
             },
             "consideration": "",
-            "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Mølleparkvej4,Aalborg.pdf",
-            "buildingOverview": "MølleParkVejOverview.png",
-            "floorPlans": "floorPlans/Mølleparkvej_4,_9000/",
+            "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Moelleparkvej4,Aalborg.pdf",
+            "buildingOverview": "MoelleParkVejOverview.png",
+            "floorPlans": "floorPlans/Moelleparkvej_4,_9000/",
             "floorPlanAmount": 2
         },
         {
