@@ -556,6 +556,7 @@ function handleOpPlan(request, response){
     });
 
     form.on('end', () => {
+        floorPlanIncrement = 1;
         newOpPlan = updateDatabase(newOpPlan, response);
     });
     
@@ -565,7 +566,7 @@ function handleOpPlan(request, response){
     });
     response.end('\n');
 }
-let floorPlanIncrement = 1;
+
 /* The files are placed in a specified filepath by using and
  * The opPlan Object is updated with its location.
  */
@@ -584,10 +585,9 @@ function handleFiles(name, file, newOpPlan){
         if (!fs.existsSync(dirName)){
             fs.mkdirSync(dirName);
         }
-        file.path = `${dirName}/floor-${floorPlanIncrement}.png`;
+        file.path = `${dirName}/floor-${newOpPlan.floorPlanAmount + 1}.png`;
         newOpPlan.floorPlans = `floorPlans/${folder}/`;
-        newOpPlan.floorPlanAmount = floorPlanIncrement;
-        floorPlanIncrement++;
+        newOpPlan.floorPlanAmount += 1;
     }
     return newOpPlan;
 }

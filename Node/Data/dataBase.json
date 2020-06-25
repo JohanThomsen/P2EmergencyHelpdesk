@@ -53,32 +53,6 @@
         },
         {
             "coordinates": [
-                57.0370887,
-                9.9075064
-            ],
-            "address": "Mølleparkvej 4.",
-            "buildingDefinition": "Hospital",
-            "usage": "Bed and treatment ward",
-            "height": "34",
-            "specialConsiderations": "Building contains oxygen tanks and other flammable materials.",
-            "fireFightingEquipment": {
-                "fireLift": true,
-                "escapeStairs": true,
-                "risers": true,
-                "sprinkler": true,
-                "smokeDetectors": true,
-                "markers": true,
-                "automaticFireDetector": true,
-                "internalAlert": true
-            },
-            "consideration": "Floor 5 is a technology floor with no patients.",
-            "fullOpPlan": "OperativePDF/13.SygehusSyd,Medicinerhuset-Moelleparkvej4,Aalborg.pdf",
-            "buildingOverview": "MoelleParkVejOverview.PNG",
-            "floorPlans": "floorPlans/Moelleparkvej_4./",
-            "floorPlanAmount": 2
-        },
-        {
-            "coordinates": [
                 57.046799,
                 9.93207
             ],
