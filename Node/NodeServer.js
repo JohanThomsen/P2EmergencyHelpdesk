@@ -565,12 +565,11 @@ function handleOpPlan(request, response){
     });
     response.end('\n');
 }
-
+let floorPlanIncrement = 1;
 /* The files are placed in a specified filepath by using and
  * The opPlan Object is updated with its location.
  */
 function handleFiles(name, file, newOpPlan){
-    let floorPlanIncrement = 1;
     if (name === 'fullOpPlan'){
         fileName = file.name.replace(/\s/g, '_');
         file.path = `Node/PublicResources/OperativePDF/${fileName}`;
@@ -578,7 +577,7 @@ function handleFiles(name, file, newOpPlan){
     } else if (name === 'buildingOverview'){
         fileName = file.name.replace(/\s/g, '_');
         file.path = `Node/PublicResources/buildingOverview/${fileName}`;
-        newOpPlan.buildingOverview = `buildingOverview/${fileName}`;
+        newOpPlan.buildingOverview = `${fileName}`;
     } else if (name === 'floorPlans'){
         let folder = newOpPlan.address.replace(/\s/g, '_').replace('æ','ae').replace('ø','oe').replace('å','aa');
         let dirName = `Node/PublicResources/floorPlans/${folder}`;

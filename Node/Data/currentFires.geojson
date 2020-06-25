@@ -5,12 +5,35 @@
         {
             "type": "Feature",
             "properties": {
-                "typeFire": "Buildning fire",
-                "time": "18:45",
+                "typeFire": "Hospital Fire",
+                "time": "9:13",
                 "automaticAlarm": true,
                 "active": true,
                 "id": 0,
-                "assignedCommanders": []
+                "assignedCommanders": [
+                    16
+                ]
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.90761,
+                    57.03713
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "typeFire": "Big Public Fire",
+                "time": "9:14",
+                "automaticAlarm": true,
+                "active": true,
+                "id": 1,
+                "assignedCommanders": [
+                    23,
+                    42
+                ]
             },
             "geometry": {
                 "type": "Point",
@@ -23,18 +46,20 @@
         {
             "type": "Feature",
             "properties": {
-                "typeFire": "Buildning fire",
-                "time": "18:30",
+                "typeFire": "Apartment Fire",
+                "time": "9:14",
                 "automaticAlarm": false,
                 "active": true,
-                "id": 3,
-                "assignedCommanders": []
+                "id": 2,
+                "assignedCommanders": [
+                    54
+                ]
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    9.87168,
-                    57.003145
+                    9.931252,
+                    57.047947
                 ]
             }
         }

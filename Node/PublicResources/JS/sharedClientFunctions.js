@@ -135,6 +135,12 @@ function findEquipmentName(equipment){
         case "smokeDetectors":
             equipmentName = "Smoke Detectors";
             break;
+        case "automaticFireDetector":
+            equipmentName = "Automatic Fire Detector"
+            break;
+        case "internalAlert":
+            equipmentName = "Internal Alert"
+            break;  
     }
     return equipmentName;
 }
@@ -265,7 +271,7 @@ function assignCommander(id, fireCoords, fireID, name, id) {
         } else {
             document.getElementById("commanderWarning").innerHTML = "";
             document.getElementById('assignedCommanders').innerHTML += 
-            `${name} ${id} <br>`
+            `${name}<br>`
         }
     })) 
 }
@@ -296,4 +302,22 @@ function printErrors(errorCode, name){
         default:
             break;
     }
+}
+
+
+
+function demoFlow(){
+         
+    setTimeout(() => {
+        postFire([9.90761, 57.03713], 'Hospital Fire', '9:13', true, true);
+    }, 3000);
+    
+    setTimeout(() => {
+        postFire([9.932237 , 57.046669], 'Big Public Fire', '9:14', true, true);
+    }, 10000);
+
+    setTimeout(() => {
+        postFire([9.931252 , 57.047947], 'Apartment Fire', '9:14', false, true);
+    }, 13000);
+    
 }
